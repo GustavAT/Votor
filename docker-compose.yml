@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  votor:
+    image: ${DOCKER_REGISTRY}votor
+    build:
+      context: .
+      dockerfile: Votor/Dockerfile
