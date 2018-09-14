@@ -8,34 +8,28 @@
 
 @if (showBanner)
 {
-    <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
-                    <span class="sr-only">Toggle cookie consent banner</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
-            </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
-                </p>
-                <div class="navbar-right">
-                    <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
-                    <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
-                </div>
-            </div>
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <p>This web site uses cookies to improve your experience. By using our services, you are accepting the use of cookies.</p>
         </div>
-    </nav>
+        <div class="modal-footer">
+            <a asp-controller="Home" asp-action="Privacy" class="waves-effect waves-green btn-flat">Learn More</a>
+            <a class="modal-close waves-effect waves-light btn cyan darken-1">Got it</a>
+        </div>
+    </div>
+
     <script>
-        (function () {
-            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
-                document.cookie = el.target.dataset.cookieString;
-                document.querySelector("#cookieConsent").classList.add("hidden");
-            }, false);
-        })();
+
+        $(document).ready(function () {
+            $('.modal').modal({
+                dismissible: false,
+                onCloseEnd: acceptCookies
+            });
+            $('.modal').modal("open");
+        });
+
+        function acceptCookies() {
+            document.cookie = "@cookieString";
+        }
     </script>
 }
