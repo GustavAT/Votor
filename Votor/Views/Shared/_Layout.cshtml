@@ -20,26 +20,28 @@
     </environment>
 </head>
 <body>
-
 <nav class="purple darken-2">
     <div class="nav-wrapper container">
-        <a href="#" class="brand-logo">Logo</a>
+        <a href="#" class="brand-logo">Votor</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+            
+            <partial name="_LoginPartial" />
         </ul>
     </div>
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
-    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+    <partial name="_LoginPartial" />
 </ul>
     
-    <div class="container body-content">
+<div class="container body-content">
         @RenderBody()  
     </div>
     
@@ -108,8 +110,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            console.log("test");
             $('.sidenav').sidenav();
+
+            $(".logoutButton").on("click",
+                function() {
+                    $(".logoutForm").submit();
+                });
         });
     </script>
 </body>
