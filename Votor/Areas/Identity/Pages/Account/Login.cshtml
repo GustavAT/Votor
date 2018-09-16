@@ -1,53 +1,63 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
 @model LoginModel
 
+@inject IStringLocalizer<SharedResources> Localizer;
+
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = Localizer["Log in"];
 }
 
-<h2>@ViewData["Title"]</h2>
 <div class="row">
-    <div class="col-md-4">
-        <section>
-            <form method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.UserName"></label>
-                    <input asp-for="Input.UserName" class="form-control" />
-                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
+    <div class="col s12 m8 l6 offset-m2">
+        <form method="post">
+            <h4>@Localizer["Votor-Account"]</h4>
+            <div asp-validation-summary="All" class="text-danger">
+            </div>
+
+            <div class="input-field">
+                <i class="material-icons prefix">person</i>
+                <label asp-for="Input.UserName"></label>
+                <input asp-for="Input.UserName" class="validate" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="validate" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+                <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+                    @Localizer["Log in"]
+                </button>
+            
+            <div class="row">
+                <div class="col s12 m6 l6 xl6">
+                    <p>
                         <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            <input asp-for="Input.RememberMe" class="filled-in purple darken-2" />
+                            <span>@Localizer["Remember me?"]</span>
                         </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                     </p>
                 </div>
-            </form>
-        </section>
+                <div class="col s12 m6 l6 xl6">
+                    <p>
+                        <a asp-page="./ForgotPassword">@Localizer["Forgot your password?"]</a>
+                    </p>
+                </div>
+                <div class="col s12">
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Create a new account"]</a>
+                    </p>
+                </div>
+            </div>
+            
+        </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
+
+    <div class="col s12 m8 l6 offset-m2">
+        <h4>@Localizer["External Login"]</h4>
             <hr />
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
@@ -73,7 +83,6 @@
                     </form>
                 }
             }
-        </section>
     </div>
 </div>
 
