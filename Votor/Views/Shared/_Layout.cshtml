@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Localization
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,70 +21,70 @@
     </environment>
 </head>
 <body>
-<nav class="purple darken-2">
-    <div class="nav-wrapper container">
-        <a href="#" class="brand-logo">Votor</a>
-        <a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <nav class="purple darken-2">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Votor</a>
+            <a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+
+                <partial name="_LoginPartial" />
+            </ul>
+        </div>
+    </nav>
+
+    @*<ul class="sidenav" id="mobile-demo">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
-            
+            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
             <partial name="_LoginPartial" />
-        </ul>
+        </ul>*@
+
+    <partial name="_SideNavPartial" />
+
+    <div class="container body-content">
+        @RenderBody()
     </div>
-</nav>
 
-@*<ul class="sidenav" id="mobile-demo">
-    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-    <partial name="_LoginPartial" />
-</ul>*@
-
-<partial name="_SideNavPartial"/>
-    
-<div class="container body-content">
-        @RenderBody()  
-    </div>
-    
-<footer class="page-footer cyan darken-1">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Company Bio</h5>
-                <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-            </div>
-            <div class="col l3 m6 s12">
-                <h5 class="white-text">Settings</h5>
-                <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <div class="col l3 m6 s12">
-                <h5 class="white-text">Connect</h5>
-                <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright">
+    <footer class="page-footer cyan darken-1">
         <div class="container">
-            &copy; @DateTime.Now.Year Votor
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Company Bio</h5>
+                    <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+                </div>
+                <div class="col l3 m6 s12">
+                    <h5 class="white-text">Settings</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 m6 s12">
+                    <h5 class="white-text">Connect</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-</footer>
-    
-<environment include="Development">
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; @DateTime.Now.Year Votor
+            </div>
+        </div>
+    </footer>
+
+    <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -107,7 +108,19 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
-    
+
     <partial name="_CookieConsentPartial" />
+
+    @*<script type="text/javascript">
+            document.addEventListener("DOMContentLoaded",
+                function () {
+                    jQuery(window).load(function () {
+                        $(".chromeHack-autocomplete").delay(100).hide(0,
+                            function () {
+                                $(this).remove();
+                            });
+                    });
+                });
+        </script>*@
 </body>
 </html>

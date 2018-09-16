@@ -16,13 +16,13 @@
 }
 /* valid color */
 .input-field input[type=text].valid {
-    border-bottom: 1px solid #00c853;
-    box-shadow: 0 1px 0 0 #00c853;
+    border-bottom: 1px solid #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
 }
 /* invalid color */
 .input-field input[type=text].invalid {
-    border-bottom: 1px solid #e53935;
-    box-shadow: 0 1px 0 0 #e53935;
+    border-bottom: 1px solid #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
@@ -35,6 +35,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     box-shadow: 0 1px 0 0 #7b1fa2
 }
 
+input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:not(.browser-default), input.valid[type=text]:not(.browser-default):focus, input.valid[type=password]:not(.browser-default), input.valid[type=password]:not(.browser-default):focus, input.valid[type=email]:not(.browser-default), input.valid[type=email]:not(.browser-default):focus, input.valid[type=url]:not(.browser-default), input.valid[type=url]:not(.browser-default):focus, input.valid[type=time]:not(.browser-default), input.valid[type=time]:not(.browser-default):focus, input.valid[type=date]:not(.browser-default), input.valid[type=date]:not(.browser-default):focus, input.valid[type=datetime]:not(.browser-default), input.valid[type=datetime]:not(.browser-default):focus, input.valid[type=datetime-local]:not(.browser-default), input.valid[type=datetime-local]:not(.browser-default):focus, input.valid[type=tel]:not(.browser-default), input.valid[type=tel]:not(.browser-default):focus, input.valid[type=number]:not(.browser-default), input.valid[type=number]:not(.browser-default):focus, input.valid[type=search]:not(.browser-default), input.valid[type=search]:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
+    border-bottom: 1px solid #7b1fa2;
+    -webkit-box-shadow: 0 1px 0 0 #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
+}
+
 [type="checkbox"].filled-in:checked + span:not(.lever):after {
     top: 0;
     width: 20px;
@@ -42,4 +48,8 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     border: 2px solid #7b1fa2;
     background-color: #7b1fa2;
     z-index: 0;
+}
+
+.text-danger {
+
 }

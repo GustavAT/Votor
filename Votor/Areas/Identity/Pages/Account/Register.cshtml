@@ -11,39 +11,40 @@
 <div class="row">
     <div class="col s12 m8 l6 offset-m2 offset-l3 offset-xl3">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
             <h4>
-                @Localizer["Votor-Account"]
+                @Localizer["Create a new account"]
             </h4>
 
-            <div asp-validation-summary="All" class="text-danger">
+            <div asp-validation-summary="All" class="red-text text-darken-1">
             </div>
 
             <div class="input-field">
                 <i class="material-icons prefix">email</i>
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="validate" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.Email"/>
+                <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
             </div>
 
             <div class="input-field">
                 <i class="material-icons prefix">person</i>
                 <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName" class="validate" />
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                <input asp-for="Input.UserName"/>
+                <span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
             </div>
 
             <div class="input-field">
                 <i class="material-icons prefix">lock</i>
                 <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="validate" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <input asp-for="Input.Password"/>
+                <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
             </div>
 
             <div class="input-field">
                 <i class="material-icons prefix">lock</i>
                 <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="validate" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <input asp-for="Input.ConfirmPassword"/>
+                <span asp-validation-for="Input.ConfirmPassword" class="red-text text-darken-1"></span>
             </div>
 
             <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
