@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Create Event" xml:space="preserve">
+    <value>Event Erstellen</value>
+  </data>
   <data name="Example" xml:space="preserve">
     <value>Beispiel</value>
+  </data>
+  <data name="My Events" xml:space="preserve">
+    <value>Meine Events</value>
+  </data>
+  <data name="Ongoing Events" xml:space="preserve">
+    <value>Laufende Events</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrieren</value>
