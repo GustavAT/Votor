@@ -180,4 +180,10 @@
   <data name="Your profile has been updated" xml:space="preserve">
     <value>Ihr Profil wurde aktualisiert</value>
   </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Passwort aktualisieren</value>
+  </data>
 </root>
