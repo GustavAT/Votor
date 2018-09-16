@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Localization
+@using Remotion.Linq.Parsing.Structure.IntermediateModel
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IStringLocalizer<SharedResources> Localizer;
+
+
+
+<ul class="sidenav" id="votor-sidenav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+    <li>
+        <div class="user-view">
+            @*<div class="background">
+                <img class="responsive-img" src="images/votor_material.png">
+            </div>*@
+            @{
+                var user = await UserManager.GetUserAsync(User);
+            }
+            <a href="#"><img class="circle responsive-img" src="images/votor_material.png"></a>
+            <a href="#"><span class="black-text name">@UserManager.GetUserName(User)</span></a>
+            <a href="#"><span class="black-text email">@await UserManager.GetEmailAsync(user)</span></a>
+        </div>
+    </li>
+
+        <li>
+            <div class="divider"></div>
+        </li>
+
+        // TODO change event controller
+        <li>
+            <a @*asp-area="Identity" asp-page="/Account/Manage/Index" *@ title="Events">
+                <i class="material-icons">event_note</i> @Localizer["My Events"]
+            </a>
+        </li>
+
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="material-icons">person</i> @Localizer["Account"]
+            </a>
+        </li>
+        <li>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-sidenav"></form>
+
+            <a href="#" id="logout-button-sidenav">
+                <i class="material-icons">arrow_forward</i>@Localizer["Logout"]
+            </a>
+
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded",
+                    function () {
+                        $("#logout-button-sidenav").on("click",
+                            function () {
+                                $("#logout-form-sidenav").submit();
+                            });
+                    });
+            </script>
+        </li>
+
+        <li>
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <a class="subheader">@Localizer["Ongoing Events"]</a>
+        </li>
+
+        var hasEvents = true;
+        if (hasEvents)
+        {
+            for (var i = 1; i <= 4; i++)
+            {
+                <li>
+                    <a title="Event-@i">
+                        <i class="material-icons">event</i> Event #@i
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            <li>
+                <a title="Create Event">
+                    <i class="material-icons">create</i> @Localizer["Create Event"]
+                </a>
+            </li>
+        }
+
+
+    }
+    else
+    {
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Register">
+                <i class="material-icons">person_add</i>@Localizer["Register"]
+            </a>
+        </li>
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Login">
+                <i class="material-icons">arrow_forward</i>@Localizer["Login"]
+            </a>
+        </li>
+    }
+</ul>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded",
+        function() {
+            $('.sidenav').sidenav();
+        });
+</script>

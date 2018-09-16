@@ -1,23 +1,49 @@
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Localization
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IStringLocalizer<SharedResources> Localizer;
 
 @if (SignInManager.IsSignedIn(User))
 {
     <li>
-        <a @*asp-area="Identity" asp-page="/Account/Manage/Index"*@ title="Events">Events</a>
+        @{
+// TODO add event controller 
+        }
+        <a @*asp-area="Identity" asp-page="/Account/Manage/Index" *@ title="Events">
+            @Localizer["My Events"]
+        </a>
     </li>
     <li>
-        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account @*@UserManager.GetUserName(User)!*@</a>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            @Localizer["Account"] @*@UserManager.GetUserName(User)!*@
+        </a>
     </li>
     <li>
-        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" class="logoutForm"></form>
-            <a href="#!" class="logoutButton">Logout</a>
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
+        <a href="#" id="logout-button-menu">
+            @Localizer["Logout"]
+        </a>
     </li>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded",
+            function() {
+                $("#logout-button-menu").on("click",
+                    function() {
+                        $("#logout-form-menu").submit();
+                    });
+            });
+        
+    </script>
 }
 else
 {
-    <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-    <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    <li><a asp-area="Identity" asp-page="/Account/Register">
+        @Localizer["Register"]
+    </a></li>
+    <li><a asp-area="Identity" asp-page="/Account/Login">
+        @Localizer["Login"]
+    </a></li>
 }
