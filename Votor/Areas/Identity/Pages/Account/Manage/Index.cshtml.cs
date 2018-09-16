@@ -40,6 +40,10 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
+            public string UserName { get; set; }
+
+            [Required]
             [EmailAddress]
             public string Email { get; set; }
 
@@ -64,6 +68,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                UserName = userName,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -107,7 +112,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
-
+            
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
