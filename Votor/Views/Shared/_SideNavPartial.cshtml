@@ -9,18 +9,21 @@
 
 
 <ul class="sidenav" id="votor-sidenav">
-    @if (!SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User))
     {
-        <li>
-            <div class="user-view">
-                @*<div class="background">
-            <img class="responsive-img" src="images/votor_material.png">
-        </div>*@
-                <a href="#"><img class="circle responsive-img" src="images/votor_material.png"></a>
-                <a href="#"><span class="black-text name">@*@UserManager.GetUserName(User)*@ Username</span></a>
-                <a href="#"><span class="black-text email">@*@UserManager.GetUserName(User)*@ Email</span></a>
-            </div>
-        </li>
+    <li>
+        <div class="user-view">
+            @*<div class="background">
+                <img class="responsive-img" src="images/votor_material.png">
+            </div>*@
+            @{
+                var user = await UserManager.GetUserAsync(User);
+            }
+            <a href="#"><img class="circle responsive-img" src="images/votor_material.png"></a>
+            <a href="#"><span class="black-text name">@UserManager.GetUserName(User)</span></a>
+            <a href="#"><span class="black-text email">@await UserManager.GetEmailAsync(user)</span></a>
+        </div>
+    </li>
 
         <li>
             <div class="divider"></div>

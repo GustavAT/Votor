@@ -5,7 +5,7 @@
 @inject UserManager<IdentityUser> UserManager
 @inject IStringLocalizer<SharedResources> Localizer;
 
-@if (!SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
 {
     <li>
         @{
