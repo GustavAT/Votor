@@ -1,8 +1,37 @@
-﻿@inject SignInManager<IdentityUser> SignInManager
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager;
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+
+    var user = await UserManager.GetUserAsync(User);
+    var isEmailConfirmed = user != null && await UserManager.IsEmailConfirmedAsync(user);
 }
-<ul class="nav nav-pills nav-stacked">
+
+
+<div class="collection">
+    <a class="collection-item purple-text" asp-page="./Index">
+        @Localizer["Profile"]
+        @if (isEmailConfirmed)
+        {
+            <span class="new badge purple darken-2" data-badge-caption="">@Localizer["Verified"]</span>
+        }
+        else
+        {
+            <span class="new badge red darken-1" data-badge-caption="">@Localizer["Not verified"]</span>
+        }
+    </a>
+    <a class="collection-item purple-text" asp-page="./ChangePassword">@Localizer["Password"]</a>
+    @if (hasExternalLogins)
+    {
+        <a class="collection-item purple-text" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
+    }
+    <a class="collection-item purple-text" asp-page="./PersonalData">@Localizer["Personal data"]</a>
+</div>
+
+@* // TODO validate if needed *@
+@*<ul class="nav nav-pills nav-stacked">
     <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">Profile</a></li>
     <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
     @if (hasExternalLogins)
@@ -11,4 +40,4 @@
     }
     <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="@ManageNavPages.PersonalDataNavClass(ViewContext)"><a asp-page="./PersonalData">Personal data</a></li>
-</ul>
+</ul>*@

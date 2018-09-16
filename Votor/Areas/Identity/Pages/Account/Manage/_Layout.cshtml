@@ -1,19 +1,20 @@
-﻿@{ 
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer;
+
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage your account</h2>
+<div class="row">
+    <div class="col s12 m8 l6 offset-m2">
+        <h4>
+            @Localizer["Manage account"]
+        </h4>
+        <partial name="_ManageNav" />
+    </div>
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
+    <div class="col s12 m8 l6 offset-m2">
+        @RenderBody()
     </div>
 </div>
 
