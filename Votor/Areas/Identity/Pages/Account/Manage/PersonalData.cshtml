@@ -1,24 +1,36 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
 @model PersonalDataModel
+@inject IStringLocalizer<SharedResources> Localizer
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = Localizer["Personal data"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
 <h4>@ViewData["Title"]</h4>
 
+<p>
+    @Localizer["Your account contains personal data that you have given us. This page allows you to download or delete that data."]
+</p>
+<p>
+    <strong>@Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]</strong>
+</p>
+
+
 <div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
+    <div class="col s12">
         <form asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-default" type="submit">Download</button>
+            <button class="btn waves-effect waves-light purple darken-2" type="submit" style="width: 100%;">
+                @Localizer["Download data"]
+            </button>
         </form>
-        <p>
-            <a asp-page="DeletePersonalData" class="btn btn-default">Delete</a>
-        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <a asp-page="DeletePersonalData" class="btn waves-effect waves-light red darken-1" style="width: 100%;">
+            @Localizer["Delete account"]
+        </a>
     </div>
 </div>
 
