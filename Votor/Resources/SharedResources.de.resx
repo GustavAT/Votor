@@ -186,11 +186,17 @@
   <data name="Update password" xml:space="preserve">
     <value>Passwort aktualisieren</value>
   </data>
+  <data name="A link to reset your password has been sent. Please check your inbox." xml:space="preserve">
+    <value>Ein Link zum Zurücksetzen Ihres Passwortes wurde ihnen gesenden. Bitte prüfen Sie Ihren Posteingang.</value>
+  </data>
   <data name="A user with this login already exists." xml:space="preserve">
     <value>Ein Benutzer mit diesem Login existiert bereits.</value>
   </data>
   <data name="An unknown failure has occurred." xml:space="preserve">
     <value>Ein unbekannter Fehler ist aufgetreten.</value>
+  </data>
+  <data name="Click here to log in" xml:space="preserve">
+    <value>Weiter zum Login</value>
   </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Passwort bestätigen</value>
@@ -213,6 +219,9 @@
   <data name="Email '{0}' is invalid." xml:space="preserve">
     <value>Email '{0}' ist ungültig.</value>
   </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>Passwort-Vergessen Bestätigung</value>
+  </data>
   <data name="Incorrect password." xml:space="preserve">
     <value>Falsches Passwort.</value>
   </data>
@@ -224,6 +233,9 @@
   </data>
   <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
     <value>Optimistischer Concurrency Fehler, Objekt wurde modifiziert.</value>
+  </data>
+  <data name="Password recovery" xml:space="preserve">
+    <value>Passwort-Wiederherstellung</value>
   </data>
   <data name="Passwords must be at least {0} characters." xml:space="preserve">
     <value>Passwort muss mindestens {0} Zeichen beinhalten.</value>
@@ -240,11 +252,23 @@
   <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
     <value>Passwort muss mindestens einen Großbuchstaben beinhalten ('A'-'Z').</value>
   </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>Passwort zurücksetzen</value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value>Passwort-Reset Bestätigung</value>
+  </data>
   <data name="Role name '{0}' is already taken." xml:space="preserve">
     <value>Rollenname '{0}' ist bereits vergeben.</value>
   </data>
   <data name="Role name '{0}' is invalid." xml:space="preserve">
     <value>Rollenname '{0}' ist ungültig.</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Absenden</value>
   </data>
   <data name="The password and confirmation password do not match." xml:space="preserve">
     <value>Das Passwort und Bestätigen-Passwort stimmen nicht überein.</value>
@@ -254,7 +278,6 @@
   </data>
   <data name="The {0} field is required." xml:space="preserve">
     <value>Das {0} Feld ist erforderlich.</value>
-    <comment>0 ... Field name</comment>
   </data>
   <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
     <value>Das {0} muss mindestens {2} und maximal {1} Zeichen lang sein.</value>
@@ -282,5 +305,8 @@
   </data>
   <data name="Your account contains personal data that you have given us. This page allows you to download or delete that data." xml:space="preserve">
     <value>Ihr Account beinhaltet perönliche Daten, die Sie uns gegeben haben. Diese Seite erlaubt Ihnen Ihre Daten herunterzuladen oder zu löschen.</value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value>Ihr Passwort wurde zurückgesetzt.</value>
   </data>
 </root>

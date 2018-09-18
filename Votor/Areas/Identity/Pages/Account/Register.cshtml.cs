@@ -45,7 +45,7 @@ namespace Votor.Areas.Identity.Pages.Account
             public string UserName { get; set; }
 
             [Required(ErrorMessage = "The {0} field is required.")]
-            [EmailAddress(ErrorMessage = "The {0} field is not a valid e-mail address.")]
+            [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
