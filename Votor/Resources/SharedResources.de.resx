@@ -186,6 +186,15 @@
   <data name="Update password" xml:space="preserve">
     <value>Passwort aktualisieren</value>
   </data>
+  <data name="A user with this login already exists." xml:space="preserve">
+    <value>Ein Benutzer mit diesem Login existiert bereits.</value>
+  </data>
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Ein unbekannter Fehler ist aufgetreten.</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>Passwort bestätigen</value>
+  </data>
   <data name="Delete account" xml:space="preserve">
     <value>Account löschen</value>
   </data>
@@ -194,6 +203,82 @@
   </data>
   <data name="Download data" xml:space="preserve">
     <value>Daten herunterladen</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Email '{0}' is already taken." xml:space="preserve">
+    <value>Email '{0}' ist bereits vergeben.</value>
+  </data>
+  <data name="Email '{0}' is invalid." xml:space="preserve">
+    <value>Email '{0}' ist ungültig.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Falsches Passwort.</value>
+  </data>
+  <data name="Invalid token." xml:space="preserve">
+    <value>Falscher Token.</value>
+  </data>
+  <data name="Lockout is not enabled for this user." xml:space="preserve">
+    <value>Lockout ist für diesen Benutzer nicht freigeschalten.</value>
+  </data>
+  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
+    <value>Optimistischer Concurrency Fehler, Objekt wurde modifiziert.</value>
+  </data>
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>Passwort muss mindestens {0} Zeichen beinhalten.</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Passwort muss minstestens eine Zahl beinhalten ('0'-'9').</value>
+  </data>
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>Passwort muss mindestens einen Kleinbuchstaben beinhalten ('a'-'z').</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Passwort muss mindestens ein Sonderzeichen beinhalten.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Passwort muss mindestens einen Großbuchstaben beinhalten ('A'-'Z').</value>
+  </data>
+  <data name="Role name '{0}' is already taken." xml:space="preserve">
+    <value>Rollenname '{0}' ist bereits vergeben.</value>
+  </data>
+  <data name="Role name '{0}' is invalid." xml:space="preserve">
+    <value>Rollenname '{0}' ist ungültig.</value>
+  </data>
+  <data name="The password and confirmation password do not match." xml:space="preserve">
+    <value>Das Passwort und Bestätigen-Passwort stimmen nicht überein.</value>
+  </data>
+  <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
+    <value>Das {0} Feld ist keine gültige Email-Adresse.</value>
+  </data>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>Das {0} Feld ist erforderlich.</value>
+    <comment>0 ... Field name</comment>
+  </data>
+  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
+    <value>Das {0} muss mindestens {2} und maximal {1} Zeichen lang sein.</value>
+  </data>
+  <data name="User already has a password set." xml:space="preserve">
+    <value>Benutzer hat bereits ein Passwort gesetzt.</value>
+  </data>
+  <data name="User already in role '{0}'." xml:space="preserve">
+    <value>Benutzer ist bereits in der Rolle '{0}'.</value>
+  </data>
+  <data name="User is not in role '{0}'." xml:space="preserve">
+    <value>Benutzer ist nicht in der Rolle '{0}'.</value>
+  </data>
+  <data name="User Name '{0}' is already taken." xml:space="preserve">
+    <value>Benutzername '{0}' ist bereits vergeben.</value>
+  </data>
+  <data name="User name '{0}' is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>Benutzername {0} ist ungültig, dieser darf nur Buchstaben und Zahlen beinhalten.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="Wrong username or password!" xml:space="preserve">
+    <value>Falscher Benutzername oder Passwort!</value>
   </data>
   <data name="Your account contains personal data that you have given us. This page allows you to download or delete that data." xml:space="preserve">
     <value>Ihr Account beinhaltet perönliche Daten, die Sie uns gegeben haben. Diese Seite erlaubt Ihnen Ihre Daten herunterzuladen oder zu löschen.</value>
