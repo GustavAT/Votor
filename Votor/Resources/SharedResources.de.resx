@@ -186,4 +186,16 @@
   <data name="Update password" xml:space="preserve">
     <value>Passwort aktualisieren</value>
   </data>
+  <data name="Delete account" xml:space="preserve">
+    <value>Account löschen</value>
+  </data>
+  <data name="Deleting your account removes all data stored on our servers. Your account cannot be recovered!" xml:space="preserve">
+    <value>Das Löschen Ihres Accounts entfernt alle Daten von unseren Servern. Diese Aktion kann nicht rückgängig gemacht werden!</value>
+  </data>
+  <data name="Download data" xml:space="preserve">
+    <value>Daten herunterladen</value>
+  </data>
+  <data name="Your account contains personal data that you have given us. This page allows you to download or delete that data." xml:space="preserve">
+    <value>Ihr Account beinhaltet perönliche Daten, die Sie uns gegeben haben. Diese Seite erlaubt Ihnen Ihre Daten herunterzuladen oder zu löschen.</value>
+  </data>
 </root>
