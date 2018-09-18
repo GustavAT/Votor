@@ -19,7 +19,7 @@
             @{
                 var user = await UserManager.GetUserAsync(User);
             }
-            <a href="#"><img class="circle responsive-img" src="images/votor_material.png"></a>
+            <a href="#"><img class="circle responsive-img" src="~/images/votor_material.png"></a>
             <a href="#"><span class="black-text name">@UserManager.GetUserName(User)</span></a>
             <a href="#"><span class="black-text email">@await UserManager.GetEmailAsync(user)</span></a>
         </div>
