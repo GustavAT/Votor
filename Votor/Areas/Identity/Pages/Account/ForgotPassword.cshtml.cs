@@ -28,7 +28,7 @@ namespace Votor.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "The {0} field is required.")]
             [EmailAddress]
             public string Email { get; set; }
         }
