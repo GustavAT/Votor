@@ -10,26 +10,30 @@
 }
 
 
-<div class="collection">
-    <a class="collection-item purple-text" asp-page="./Index">
-        @Localizer["Profile"]
-        @if (isEmailConfirmed)
-        {
-            <span class="new badge purple darken-2" data-badge-caption="">@Localizer["Verified"]</span>
-        }
-        else
-        {
-            <span class="new badge red darken-1" data-badge-caption="">@Localizer["Not verified"]</span>
-        }
-    </a>
-    <a class="collection-item purple-text" asp-page="./ChangePassword">@Localizer["Password"]</a>
-    @if (hasExternalLogins)
-    {
-        <a class="collection-item purple-text" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
-    }
-    <a class="collection-item purple-text" asp-page="./PersonalData">@Localizer["Personal data"]</a>
+<div class="card">
+    <div class="card-content">
+        
+        <div class="collection" style="border: none">
+            <a class="collection-item purple-text" asp-page="./Index">
+                @Localizer["Profile"]
+                @if (isEmailConfirmed)
+                {
+                    <span class="new badge purple darken-2" data-badge-caption="">@Localizer["Verified"]</span>
+                }
+                else
+                {
+                    <span class="new badge red darken-1" data-badge-caption="">@Localizer["Not verified"]</span>
+                }
+            </a>
+            <a class="collection-item purple-text" asp-page="./ChangePassword">@Localizer["Password"]</a>
+            @if (hasExternalLogins)
+            {
+                <a class="collection-item purple-text" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
+            }
+            <a class="collection-item purple-text" asp-page="./PersonalData">@Localizer["Personal data"]</a>
+        </div>
+    </div>
 </div>
-
 @* // TODO validate if needed *@
 @*<ul class="nav nav-pills nav-stacked">
     <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">Profile</a></li>

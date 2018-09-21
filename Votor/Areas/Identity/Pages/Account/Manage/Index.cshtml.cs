@@ -46,7 +46,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             [DataType(DataType.Text)]
             public string UserName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "The {0} field is required.")]
             [EmailAddress]
             public string Email { get; set; }
 

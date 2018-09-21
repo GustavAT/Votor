@@ -7,28 +7,35 @@
     ViewData["ActivePage"] = ManageNavPages.DeletePersonalData;
 }
 
-<h4>@ViewData["Title"]</h4>
-
 <div class="card red darken-1">
     <div class="card-content white-text">
-        @Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]
+        <b>@Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]</b>
     </div>
 </div>
 
-<form id="delete-user" method="post" class="form-group">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    @if (Model.RequirePassword)
-    {
-        <div class="input-field">
-            <label asp-for="Input.Password"></label>
-            <input asp-for="Input.Password" />
-            <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
-        </div>
-    }
-    <button class="btn waves-effect waves-light red darken-1" style="width: 100%;" type="submit">
-        @Localizer["Delete account"]
-    </button>
-</form>
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">
+            @ViewData["Title"]
+        </span>
+        
+        <form id="delete-user" method="post" class="form-group">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @if (Model.RequirePassword)
+            {
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password"/>
+                    <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
+                </div>
+            }
+            <button class="btn waves-effect waves-light red darken-1" style="width: 100%;" type="submit">
+                @Localizer["Delete account"]
+            </button>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
