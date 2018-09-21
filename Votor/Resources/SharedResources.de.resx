@@ -330,4 +330,43 @@
   <data name="Accociate" xml:space="preserve">
     <value>Verknüpfen</value>
   </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>Neues Passwort bestätigen</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>Neues Passwort</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>Passwort setzen</value>
+  </data>
+  <data name="You do not have a local password for this site. Set a password to log in without an external login." xml:space="preserve">
+    <value>Sie haben kein lokales Passwort für diese Seite. Legen Sie ein Passwort fest, um sich auch ohne externen Login einzuloggen.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>Ihr Passwort wurde gesetzt.</value>
+  </data>
+  <data name="Add external login" xml:space="preserve">
+    <value>Externen Login hinzufügen</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>Aktuelles Passwort</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>Registrierte Logins</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>Diesen {0} Login von Ihrem Account entfernen</value>
+  </data>
+  <data name="The external login &lt;b&gt;{0}&lt;/b&gt; was added." xml:space="preserve">
+    <value>Der externe Login wurde hinzugefügt.</value>
+  </data>
+  <data name="The external login &lt;b&gt;{0}&lt;/b&gt; was removed." xml:space="preserve">
+    <value>Der externe Login wurde entfernt.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>Ihr Passwort wurde geändert.</value>
+  </data>
 </root>

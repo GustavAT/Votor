@@ -5,19 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Votor.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
+        private readonly IHtmlLocalizer<SharedResources> _htmlLocalizer;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public ExternalLoginsModel(
+            IHtmlLocalizer<SharedResources> htmlLocalizer,
+            IStringLocalizer<SharedResources> localizer,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
+            _localizer = localizer;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -25,6 +32,8 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
         public IList<AuthenticationScheme> OtherLogins { get; set; }
+
+        public AuthenticationScheme GoogleLogin { get; set; }
 
         public bool ShowRemoveButton { get; set; }
 
@@ -43,6 +52,8 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
+            GoogleLogin = (await _signInManager.GetExternalAuthenticationSchemesAsync())
+                .FirstOrDefault(x => x.Name == "Google");
             ShowRemoveButton = user.PasswordHash != null || CurrentLogins.Count > 1;
             return Page();
         }
@@ -63,7 +74,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
+            StatusMessage = _localizer["The external login <b>{0}</b> was removed.", loginProvider];
             return RedirectToPage();
         }
 
@@ -101,7 +112,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            StatusMessage = _localizer["The external login <b>{0}</b> was added.", info.ProviderDisplayName];
             return RedirectToPage();
         }
     }

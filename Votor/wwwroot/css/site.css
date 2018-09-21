@@ -5,6 +5,16 @@
     text-transform: none;
 }
 
+.logo-button {
+    height: 30px;
+    float: left;
+    margin-top: 3px;
+}
+
+.logo-title {
+    margin-left: 10px;
+}
+
 /* Sticky footer at bottom */
 
 body {

@@ -7,30 +7,38 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h4>@ViewData["Title"]</h4>
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">@ViewData["Title"]</span>
+        <p>
+            @Localizer["Your account contains personal data that you have given us. This page allows you to download or delete that data."]
+        </p>
+        
+        <br />
 
-<p>
-    @Localizer["Your account contains personal data that you have given us. This page allows you to download or delete that data."]
-</p>
-<p>
-    <strong>@Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]</strong>
-</p>
+        <p>
+            <strong>@Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]</strong>
+        </p>
+        
+        <br />
 
+        <div class="row">
+            <div class="col s12">
+                <form asp-page="DownloadPersonalData" method="post" class="form-group">
+                    <button class="btn waves-effect waves-light purple darken-2" type="submit" style="width: 100%;">
+                        @Localizer["Download data"]
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a asp-page="DeletePersonalData" class="btn waves-effect waves-light red darken-1" style="width: 100%;">
+                    @Localizer["Delete account"]
+                </a>
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col s12">
-        <form asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn waves-effect waves-light purple darken-2" type="submit" style="width: 100%;">
-                @Localizer["Download data"]
-            </button>
-        </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col s12">
-        <a asp-page="DeletePersonalData" class="btn waves-effect waves-light red darken-1" style="width: 100%;">
-            @Localizer["Delete account"]
-        </a>
     </div>
 </div>
 

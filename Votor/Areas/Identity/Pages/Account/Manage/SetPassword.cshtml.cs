@@ -6,18 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Votor.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
+        private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public SetPasswordModel(
+            IStringLocalizer<SharedResources> localizer,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
+            _localizer = localizer;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -30,7 +34,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "The {0} field is required.")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
@@ -38,7 +42,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Compare("NewPassword", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -84,7 +88,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your password has been set.";
+            StatusMessage = _localizer["Your password has been set."];
 
             return RedirectToPage();
         }

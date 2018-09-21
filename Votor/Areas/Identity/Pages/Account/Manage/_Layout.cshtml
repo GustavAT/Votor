@@ -3,17 +3,15 @@
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = @Localizer["Manage account"];
 }
 
 <div class="row">
-    <div class="col s12 m8 l6 offset-m2">
-        <h4>
-            @Localizer["Manage account"]
-        </h4>
+    <div class="col s12 m8 l8 offset-m2 offset-l2">
         <partial name="_ManageNav" />
     </div>
 
-    <div class="col s12 m8 l6 offset-m2">
+    <div class="col s12 m8 l8 offset-m2 offset-l2">
         @RenderBody()
     </div>
 </div>
