@@ -1,30 +1,53 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
 @model ExternalLoginModel
+@inject IStringLocalizer<SharedResources> Localizer
+@inject IHtmlLocalizer<SharedResources> HtmlLocalizer
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["Register"];
 }
 
-<h2>@ViewData["Title"]</h2>
-<h4>Associate your @Model.LoginProvider account.</h4>
-<hr />
-
-<p class="text-info">
-    You've successfully authenticated with <strong>@Model.LoginProvider</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
-
 <div class="row">
-    <div class="col-md-4">
-        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <div class="col s12 m8 offset-m2">
+        
+        <div class="card">
+            <div class="card-content">
+
+
+                <span class="card-title">
+                    @Localizer["Accociate your {0} account", @Model.LoginProvider]
+                </span>
+
+                <p class="text-info">
+                    @HtmlLocalizer["You've successfully authenticated with <b>{0}</b>.", @Model.LoginProvider]
+                    @Localizer["Please check your data below and click Accociate to finish the process."]
+                </p>
+                <br />
+                <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                    <div asp-validation-summary="All" class="red-text text-darken-1"></div>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">email</i>
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" />
+                        <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">person</i>
+                        <label asp-for="Input.UserName"></label>
+                        <input asp-for="Input.UserName" />
+                        <span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
+                    </div>
+
+                    <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+                        @Localizer["Accociate"]
+                    </button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+        </div>
     </div>
 </div>
 

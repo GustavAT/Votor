@@ -9,86 +9,117 @@
 }
 
 <div class="row">
-    <div class="col s12 m8 l6 offset-m2">
-        <form method="post" autocomplete="off">
-            
-            <h4>
-                @Localizer["Votor-Account"]
-            </h4>
+    <div class="col s12 m8 l8 offset-m2 offset-l2">
 
-            <div asp-validation-summary="All" class="red-text text-darken-1">
-            </div>
+        @if (Model.ExternalLogins.Any())
+        {
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">@Localizer["Existing account"]</span>
+                    
+                    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        @if (Model.GoogleLogin != null)
+                        {
+                            <button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
+                                @Model.GoogleLogin.DisplayName
+                            </button>
+                        }
+                    </form>
 
-            <div class="input-field">
-                <i class="material-icons prefix">person</i>
-                <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName"/>
-                <span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
-            </div>
-            <div class="input-field">
-                <i class="material-icons prefix">lock</i>
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" />
-                <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
-            </div>
-
-            <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
-                @Localizer["Log in"]
-            </button>
-
-            <div class="row">
-                <div class="col s12 m6 l6 xl6">
-                    <p>
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" class="filled-in purple darken-2" autocomplete="off"/>
-                            <span>@Localizer["Remember me?"]</span>
-                        </label>
-                    </p>
-                </div>
-                <div class="col s12 m6 l6 xl6">
-                    <p>
-                        <a asp-page="./ForgotPassword">@Localizer["Forgot your password?"]</a>
-                    </p>
-                </div>
-                <div class="col s12">
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Create a new account"]</a>
-                    </p>
                 </div>
             </div>
+        }
 
-        </form>
-    </div>
+        <div class="card">
+            <div class="card-content">
+                
+                <span class="card-title">@Localizer["Votor account"]</span>
 
-    <div class="col s12 m8 l6 offset-m2">
-        <h4>
-            @Localizer["External Login"]
-        </h4>
-        @{
-            if ((Model.ExternalLogins?.Count ?? 0) == 0)
-            {
-                <div>
-                    <p>
-                        There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                        for details on setting up this ASP.NET application to support logging in via external services.
-                    </p>
-                </div>
-            }
-            else
-            {
-                <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                    <div>
+                <form method="post" autocomplete="off">
+
+
+                    <div asp-validation-summary="All" class="red-text text-darken-1">
+                    </div>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">person</i>
+                        <label asp-for="Input.UserName"></label>
+                        <input asp-for="Input.UserName"/>
+                        <span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password"/>
+                        <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
+                    </div>
+
+                    <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+                        @Localizer["Log in"]
+                    </button>
+                    
+                    <br />
+                    
+                    <div class="input-field">
                         <p>
-                            @foreach (var provider in Model.ExternalLogins)
-                            {
-                                <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                            }
+                            <label asp-for="Input.RememberMe">
+                                <input asp-for="Input.RememberMe" class="filled-in purple darken-2" autocomplete="off"/>
+                                <span>@Localizer["Remember me?"]</span>
+                            </label>
                         </p>
                     </div>
+
+                    <div class="row input-field">
+                        <div class="col s12">
+                            <p>
+                                <a asp-page="./ForgotPassword">@Localizer["Forgot your password?"]</a>
+                            </p>
+                        </div>
+                        <div class="col s12">
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Create a new account"]</a>
+                            </p>
+                        </div>
+                    </div>
+
                 </form>
-            }
-        }
+            </div>
+        </div>
     </div>
+    
+    @*@if (Model.ExternalLogins.Any())
+    {
+
+        <div class="col s12 m8 l6 offset-m2">
+            <h4>
+                @Localizer["External Login"]
+            </h4>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </div>
+    }*@
 </div>
 
 @*@section Scripts {

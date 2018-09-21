@@ -1,4 +1,11 @@
-﻿/* Sticky footer at bottom */
+﻿/* Social buttons */
+
+.btn-google-plus {
+    background-color: #dd4b39 !important;
+    text-transform: none;
+}
+
+/* Sticky footer at bottom */
 
 body {
     display: flex;

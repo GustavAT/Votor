@@ -309,4 +309,25 @@
   <data name="Your password has been reset." xml:space="preserve">
     <value>Ihr Passwort wurde zurückgesetzt.</value>
   </data>
+  <data name="You've successfully authenticated with &lt;b&gt;{0}&lt;/b&gt;." xml:space="preserve">
+    <value>Sie haben sich erfolgreich mit &lt;b&gt;{0}&lt;/b&gt; authentifiziert.</value>
+  </data>
+  <data name="Accociate your {0} account" xml:space="preserve">
+    <value>Verknüpfen Sie ihren {0} Account</value>
+  </data>
+  <data name="Existing account" xml:space="preserve">
+    <value>Bestehender Account</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>Mit Ihrem {0} Account einloggen</value>
+  </data>
+  <data name="Please check your data below and click Accociate to finish the process." xml:space="preserve">
+    <value>Bitte überprüfen Sie ihre Daten und klicken Sie auf Verknüpfen, um den Vorgang abzuschließen.</value>
+  </data>
+  <data name="Votor account" xml:space="preserve">
+    <value>Votor Account</value>
+  </data>
+  <data name="Accociate" xml:space="preserve">
+    <value>Verknüpfen</value>
+  </data>
 </root>
