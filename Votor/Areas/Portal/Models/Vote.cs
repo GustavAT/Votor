@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Votor.Areas.Portal.Models
 {
     public class Vote
     {
         public Guid ID { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
         public bool IsCompleted { get; set; }
 
         public Guid EventID { get; set; }
