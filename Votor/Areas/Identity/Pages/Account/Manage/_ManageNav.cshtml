@@ -9,62 +9,66 @@
     var isEmailConfirmed = user != null && await UserManager.IsEmailConfirmedAsync(user);
 }
 
-<ul id="nav-mobile" class="sidenav sidenav-fixed">
-    <li>
-        <a class="waves-effect" asp-area="Portal" asp-page="Dashboard">
-            @Localizer["Dashboard"]
-        </a>
-    </li>
-    <li>
-        <a class="waves-effect" asp-page="./Index">
-            @Localizer["Profile"]
-            @if (isEmailConfirmed)
+
+<div class="container">
+    <ul id="sidenav" class="sidenav sidenav-fixed">
+        <li>
+            <a class="waves-effect" asp-area="Portal" asp-page="Dashboard">
+                @Localizer["Dashboard"]
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./Index">
+                @Localizer["Profile"]
+                @if (isEmailConfirmed)
+                {
+                    <span class="new badge purple darken-2" data-badge-caption="">
+                        @Localizer["Verified"]
+                    </span>
+                }
+                else
+                {
+                    <span class="new badge red darken-1" data-badge-caption="">
+                        @Localizer["Not verified"]
+                    </span>
+                }
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./ChangePassword">
+                @Localizer["Password"]
+            </a>
+        </li>
+        <li>
+            @if (hasExternalLogins)
             {
-                <span class="new badge purple darken-2" data-badge-caption="">
-                    @Localizer["Verified"]
-                </span>
+                <a class="waves-effect" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
             }
-            else
-            {
-                <span class="new badge red darken-1" data-badge-caption="">
-                    @Localizer["Not verified"]
-                </span>
-            }
-        </a>
-    </li>
-    <li>
-        <a class="waves-effect" asp-page="./ChangePassword">
-            @Localizer["Password"]
-        </a>
-    </li>
-    <li>
-        @if (hasExternalLogins)
-        {
-            <a class="waves-effect" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
-        }
-    </li>
-    <li>
-        <a class="waves-effect" asp-page="./PersonalData">
-            @Localizer["Personal data"]
-        </a>
-    </li>
-    <li>
-        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
-        <a href="#" id="logout-button-menu">
-            @Localizer["Logout"]
-        </a>
-        <script type="text/javascript">
-            document.addEventListener("DOMContentLoaded",
-                function() {
-                    $("#logout-button-menu").on("click",
-                        function() {
-                            $("#logout-form-menu").submit();
-                        });
-                });
-        
-        </script>
-    </li>
-</ul>
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./PersonalData">
+                @Localizer["Personal data"]
+            </a>
+        </li>
+        <li>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
+            <a href="#" id="logout-button-menu">
+                @Localizer["Logout"]
+            </a>
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded",
+                    function () {
+                        $("#logout-button-menu").on("click",
+                            function () {
+                                $("#logout-form-menu").submit();
+                            });
+                    });
+
+            </script>
+        </li>
+    </ul>
+</div>
+
 
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded",

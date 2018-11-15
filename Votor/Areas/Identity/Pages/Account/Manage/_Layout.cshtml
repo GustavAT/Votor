@@ -19,69 +19,73 @@
     
     <style type="text/css">
 
-        main, header, footer {
-            padding-left: 300px;
-        }
+        
     </style>
 </head>
 <body>
-    <header style="margin-bottom: 10px;">
-        <nav class="white">
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger hide-on-large-only light-blue-text">
-                <i style="font-size: 32px;" class="material-icons">menu</i>
-            </a>
-            <a href="#" style="margin-left: 20px;" class="brand-logo light-blue-text">@ViewBag.Title</a>
+    <header style="margin-bottom: 15px;">
+        <nav class="top-nav white">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="row">
+                        <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger hide-on-large-only light-blue-text">
+                            <i style="font-size: 32px;" class="material-icons">menu</i>
+                        </a>
+                        <a href="#" style="margin-left: 20px;" class="brand-logo light-blue-text">@ViewBag.Title</a>
+                    </div>
+                </div>
+            </div>
         </nav>
         <partial name="_ManageNav" />
     </header>
 
-<main>
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                @RenderBody()
-
-            </div>
-            </div>
-    </div>
-</main>
-    
-<!-- todo move footer to partial view -->
-<footer class="page-footer light-blue darken-2">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Company Bio</h5>
-                <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-            </div>
-            <div class="col l3 m6 s6">
-                <h5 class="white-text">Settings</h5>
-                <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <div class="col l3 m6 s6">
-                <h5 class="white-text">Connect</h5>
-                <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright">
+    <main>
         <div class="container">
-            &copy; @DateTime.Now.Year Votor
+            <div class="row">
+                <div class="col s12">
+                    @RenderBody()
+
+                </div>
+            </div>
         </div>
-    </div>
-</footer>
+    </main>
+
+    <!-- todo move footer to partial view -->
+    <footer class="page-footer light-blue darken-2">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Company Bio</h5>
+                    <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+                </div>
+                <div class="col l3 m6 s6">
+                    <h5 class="white-text">Settings</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 m6 s6">
+                    <h5 class="white-text">Connect</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; @DateTime.Now.Year Votor
+            </div>
+        </div>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
