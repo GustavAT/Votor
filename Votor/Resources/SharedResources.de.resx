@@ -369,4 +369,7 @@
   <data name="Your password has been changed." xml:space="preserve">
     <value>Ihr Passwort wurde geändert.</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
 </root>

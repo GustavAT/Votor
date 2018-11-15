@@ -4,50 +4,44 @@
 @model IndexModel
 @{
     ViewData["Title"] = Localizer["Profile"];
+    ViewBag.Title = ViewData["Title"];
 }
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 
-<div class="card">
-
-    <div class="card-content">
-        <span class="card-title">@ViewData["Title"]</span>
-
-        <form id="profile-form" method="post">
+<form id="profile-form" method="post">
         
-            <div asp-validation-summary="All" class="red-text text-darken-1">
-            </div>
+    <div asp-validation-summary="All" class="red-text text-darken-1">
+    </div>
 
-            <div class="input-field">
-                <i class="material-icons prefix">person</i>
-                <label asp-for="Username"></label>
-                <input asp-for="Username" disabled />
-            </div>
+    <div class="input-field">
+        <i class="material-icons prefix">person</i>
+        <label asp-for="Username"></label>
+        <input asp-for="Username" disabled />
+    </div>
 
-            <div class="input-field">
-                <i class="material-icons prefix">email</i>
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" />
-                <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
-            </div>
+    <div class="input-field">
+        <i class="material-icons prefix">email</i>
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" />
+        <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
+    </div>
 
-            <div class="input-field">
-                @if (!Model.IsEmailConfirmed)
-                {
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn purple darken-2" style="width: 100%;">
-                        @Localizer["Send verification email"]
-                    </button>
-
-                }
-            </div>
-
-            <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
-                @Localizer["Save"]
+    <div class="input-field">
+        @if (!Model.IsEmailConfirmed)
+        {
+            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn purple darken-2" style="width: 100%;">
+                @Localizer["Send verification email"]
             </button>
 
-        </form>
+        }
     </div>
-</div>
+
+    <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+        @Localizer["Save"]
+    </button>
+
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
