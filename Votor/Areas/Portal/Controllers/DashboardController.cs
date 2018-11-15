@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,19 +18,16 @@ namespace Votor.Areas.Portal.Controllers
     {
         private VotorContext _context;
         private UserManager<IdentityUser> _userManager;
-
+        
         public DashboardController(VotorContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View("Dashboard", new EventListModel
-            {
-                Events = LoadEvents()
-            });
+            return View("Dashboard", await InitEventListModel());
         }
 
         [HttpPost]
@@ -56,27 +54,43 @@ namespace Votor.Areas.Portal.Controllers
                 });
             }
 
-            return View("Dashboard", new EventListModel
-            {
-                Events = LoadEvents()
-            });
+            return View("Dashboard", await InitEventListModel());
         }
 
-        private List<Event> LoadEvents()
+        /// <summary>
+        /// Load all events of currently logged in user.
+        /// </summary>
+        /// <returns>All events of currently logged in user</returns>
+        private async Task<EventListModel> InitEventListModel()
         {
-            return _context.Events.AsNoTracking().ToList();
+            var user = await _userManager.GetUserAsync(User);
+            var userId = Util.ParseGuid(user?.Id);
+
+            var events = _context.Events
+                .Where(x => x.UserID == userId)
+                .AsNoTracking().ToList();
+            
+            return new EventListModel
+            {
+                Events = events.Where(x => !x.StartDate.HasValue).ToList(),
+                Active = events.Where(x => x.StartDate.HasValue && !x.EndDate.HasValue).ToList(),
+                Finished = events.Where(x => x.StartDate.HasValue && x.EndDate.HasValue).ToList()
+            };
         }
     }
 
     public class EventListModel
     {
         public List<Event> Events { get; set; } = new List<Event>();
+        public List<Event> Active { get; set; } = new List<Event>();
+        public List<Event> Finished { get; set; } = new List<Event>();
     }
 
     public class CreateEventModel
     {
         [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Display(Name = "Event Name")]
         public string Name { get; set; }
-        public string Test { get; set; }
     }
 }

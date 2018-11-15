@@ -1,0 +1,13 @@
+﻿@model List<Votor.Areas.Portal.Models.Event>
+
+@if (@Model.Count == 0)
+{
+    <p> @Localizer["No events"]</p>
+}
+else
+{
+    foreach (var item in @Model)
+    {
+        <p> @item.Name </p>
+    }
+}

@@ -1,9 +1,12 @@
 ﻿@model Votor.Areas.Portal.Controllers.CreateEventModel;
 
+@Html.ValidationSummary(false, "", new { @class = "danger"})
 
 @using (Html.BeginForm("CreateEvent", "Dashboard", FormMethod.Post)) {
-    @Html.ValidationSummary(false, "", new { @class = "danger"})
+
+    @Html.ValidationMessageFor(model => model.Name);
+    @Html.LabelFor(model => model.Name);
     @Html.TextBoxFor(model => model.Name);
-    <input type="text" asp-for="@Model.Test"/>
-    <button type="submit">Submit</button>                                
+    
+    <button type="submit">@Localizer["Create"]</button>                                
 }

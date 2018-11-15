@@ -372,4 +372,19 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="Active Events" xml:space="preserve">
+    <value>Aktive Events</value>
+  </data>
+  <data name="Event Name" xml:space="preserve">
+    <value>Eventname</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="Finished Events" xml:space="preserve">
+    <value>Abgeschlossene Events</value>
+  </data>
+  <data name="No events" xml:space="preserve">
+    <value>Keine Events</value>
+  </data>
 </root>

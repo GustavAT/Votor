@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,19 +14,8 @@ namespace Votor.Areas.Portal.Controllers
     [Authorize]
     public class EventController : Controller
     {
-        //// GET: /<controller>/
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Edit(Guid id)
-        //{
-        //    return View("");
-        //}
-
         private VotorContext _context;
-
+        
         public EventController(VotorContext context)
         {
             _context = context;

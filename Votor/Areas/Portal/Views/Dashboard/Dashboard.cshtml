@@ -3,11 +3,23 @@
 
 @{
     ViewBag.Title = Localizer["Dashboard"];
-    //Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2>@Localizer["Dashboard"]</h2>
 
-<p> Count: @Model.Events.Count </p>
 
-@{await Html.RenderPartialAsync("_CreateEventPartial", new CreateEventModel {Name="te"});}
+@{await Html.RenderPartialAsync("_CreateEventPartial", new CreateEventModel());}
+
+<hr />
+
+<p> @Localizer["Events"] (@Model.Events.Count)</p>
+
+@{await Html.RenderPartialAsync("_ShowEventList", @Model.Events);}
+
+<p> @Localizer["Active Events"] (@Model.Active.Count)</p>
+
+@{await Html.RenderPartialAsync("_ShowEventList", @Model.Active);}
+
+<p> @Localizer["Finished Events"] (@Model.Finished.Count)</p>
+
+@{await Html.RenderPartialAsync("_ShowEventList", @Model.Finished);}
