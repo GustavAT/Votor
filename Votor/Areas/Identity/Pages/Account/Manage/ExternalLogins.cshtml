@@ -4,16 +4,17 @@
 @inject IStringLocalizer<SharedResources> Localizer
 @{
     ViewData["Title"] = Localizer["Registered Logins"];
+    ViewBag.Title = ViewData["Title"];
 }
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 
-<div class="card">
-    <div class="card-content">
         
         @if (Model.CurrentLogins?.Count > 0)
         {
-            <span class="card-title">@ViewData["Title"]</span>
+            <h5>
+                @ViewData["Title"]
+            </h5>
 
             <table>
                 <tbody>
@@ -45,9 +46,9 @@
         }
         @if (Model.OtherLogins?.Count > 0)
         {
-            <span class="card-title">
+            <h5>
                 @Localizer["Add external login"]
-            </span>
+            </h5>
             
             <form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
                 @if (Model.GoogleLogin != null)
@@ -59,7 +60,3 @@
                 }
             </form>
         }
-
-
-    </div>
-</div>

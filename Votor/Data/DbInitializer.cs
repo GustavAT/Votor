@@ -6,7 +6,7 @@ namespace Votor.Data
     {
         public static void Initialize(VotorContext context)
         {
-            context.Database.EnsureDeleted();
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
         }
     }

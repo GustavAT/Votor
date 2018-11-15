@@ -1,21 +1,106 @@
 ﻿@using Microsoft.Extensions.Localization
-@inject IStringLocalizer<SharedResources> Localizer;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Votor</title>
 
-@{
-    Layout = "/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = @Localizer["Manage account"];
-}
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    
+    <style type="text/css">
 
-<div class="row">
-    <div class="col s12 m8 l8 offset-m2 offset-l2">
+        main, header, footer {
+            padding-left: 300px;
+        }
+    </style>
+</head>
+<body>
+    <header style="margin-bottom: 10px;">
+        <nav class="white">
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger hide-on-large-only light-blue-text">
+                <i style="font-size: 32px;" class="material-icons">menu</i>
+            </a>
+            <a href="#" style="margin-left: 20px;" class="brand-logo light-blue-text">@ViewBag.Title</a>
+        </nav>
         <partial name="_ManageNav" />
-    </div>
+    </header>
 
-    <div class="col s12 m8 l8 offset-m2 offset-l2">
-        @RenderBody()
-    </div>
-</div>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                @RenderBody()
 
-@section Scripts {
+            </div>
+            </div>
+    </div>
+</main>
+    
+<!-- todo move footer to partial view -->
+<footer class="page-footer light-blue darken-2">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Company Bio</h5>
+                <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+            </div>
+            <div class="col l3 m6 s6">
+                <h5 class="white-text">Settings</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+            <div class="col l3 m6 s6">
+                <h5 class="white-text">Connect</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; @DateTime.Now.Year Votor
+        </div>
+    </div>
+</footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/materialize.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/materialize.min.js" asp-append-version="true"></script>
+    </environment>
+
     @RenderSection("Scripts", required: false)
-}
+
+    <partial name="_CookieConsentPartial" />
+</body>
+</html>

@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Areas\Portal\Controllers\" />
+    <Folder Include="Areas\Portal\Pages\Event\" />
     <Folder Include="Areas\Portal\Views\" />
   </ItemGroup>
 
