@@ -1,0 +1,20 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+
+<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})"
+      method="post" id="logout-form-sidenav">
+</form>
+
+<a href="#" id="logout-button-sidenav">
+    <i class="material-icons">arrow_forward</i>@Localizer["Logout"]
+</a>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded",
+        function () {
+            $("#logout-button-sidenav").on("click",
+                function () {
+                    $("#logout-form-sidenav").submit();
+                });
+        });
+</script>

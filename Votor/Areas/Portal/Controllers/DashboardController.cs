@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +47,7 @@ namespace Votor.Areas.Portal.Controllers
                 _context.Events.Add(newEvent);
                 _context.SaveChanges();
 
-                return RedirectToAction("EditEvent", "Event", new
+                return RedirectToAction("Edit", "Event", new
                 {
                     id = newEvent.ID
                 });

@@ -5,9 +5,6 @@
     ViewBag.Title = Localizer["Dashboard"];
 }
 
-<h2>@Localizer["Dashboard"]</h2>
-
-
 @{await Html.RenderPartialAsync("_CreateEventPartial", new CreateEventModel());}
 
 <hr />

@@ -187,7 +187,7 @@
     <value>Passwort aktualisieren</value>
   </data>
   <data name="A link to reset your password has been sent. Please check your inbox." xml:space="preserve">
-    <value>Ein Link zum Zurücksetzen Ihres Passwortes wurde ihnen gesenden. Bitte prüfen Sie Ihren Posteingang.</value>
+    <value>Ein Link zum Zurücksetzen Ihres Passworts wurde ihnen gesenden. Bitte prüfen Sie Ihren Posteingang.</value>
   </data>
   <data name="A user with this login already exists." xml:space="preserve">
     <value>Ein Benutzer mit diesem Login existiert bereits.</value>
@@ -386,5 +386,20 @@
   </data>
   <data name="No events" xml:space="preserve">
     <value>Keine Events</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Fragen</value>
   </data>
 </root>

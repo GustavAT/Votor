@@ -31,7 +31,7 @@
 
         // TODO change event controller
         <li>
-            <a @*asp-area="Identity" asp-page="/Account/Manage/Index" *@ title="Events">
+            <a asp-area="Portal" asp-controller="Dashboard" asp-action="Index" title="Events">
                 <i class="material-icons">event_note</i> @Localizer["My Events"]
             </a>
         </li>
@@ -42,7 +42,9 @@
             </a>
         </li>
         <li>
-            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-sidenav"></form>
+            @* todo: change to _LogoutPartial.cshtml *@
+
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})" method="post" id="logout-form-sidenav"></form>
 
             <a href="#" id="logout-button-sidenav">
                 <i class="material-icons">arrow_forward</i>@Localizer["Logout"]
@@ -50,9 +52,9 @@
 
             <script type="text/javascript">
                 document.addEventListener("DOMContentLoaded",
-                    function () {
+                    function() {
                         $("#logout-button-sidenav").on("click",
-                            function () {
+                            function() {
                                 $("#logout-form-sidenav").submit();
                             });
                     });
