@@ -1,0 +1,21 @@
+﻿@using Votor.Areas.Portal.Controllers
+@model EditEventModel
+
+
+
+@foreach (var option in Model.Options)
+{
+    <div>
+        @option.Name
+        <a asp-controller="Event" asp-action="RemoveOption" asp-route-optionId="@option.Id" asp-route-eventId="@option.EventId"
+            class="btn waves-effect waves-light purple darken-2 btn-small">
+            <i class="material-icons left">delete</i>@Localizer["Remove"]
+        </a>
+    </div>
+}
+
+@{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
+   {
+       EventId = Model.EventModel.Id,
+       Name = string.Empty
+   }); }

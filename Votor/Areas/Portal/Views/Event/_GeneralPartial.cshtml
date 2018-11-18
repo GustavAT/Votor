@@ -1,0 +1,51 @@
+﻿@model Votor.Areas.Portal.Controllers.EditEventModel
+
+@using (Html.BeginForm("Edit", "Event", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.EventModel.Id)
+
+    <div class="input-field">
+        <i class="material-icons prefix">event</i>
+
+        @Html.LabelFor(model => model.EventModel.Name)
+        @Html.TextBoxFor(model => model.EventModel.Name)
+        @Html.ValidationMessageFor(model => model.EventModel.Name, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <div class="input-field">
+        <i class="material-icons prefix">mode_edit</i>
+
+        @Html.LabelFor(model => model.EventModel.Description)
+        @Html.TextAreaFor(model => model.EventModel.Description, new
+        {
+            @class = "materialize-textarea"
+        })
+        @Html.ValidationMessageFor(model => model.EventModel.Description, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <div class="input-field">
+        <p>
+            <label asp-for="EventModel.IsPublic">
+                @Html.CheckBoxFor(model => model.EventModel.IsPublic, new
+                {
+                    @class = "filled-in purple darken-2"
+                })
+                <span>@Html.DisplayNameFor(model => model.EventModel.IsPublic)</span>
+            </label>
+        </p>
+
+
+        @Html.ValidationMessageFor(model => model.EventModel.IsPublic, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <button type="submit" class="btn waves-effect waves-light purple darken-2">@Localizer["Save"]</button>
+}

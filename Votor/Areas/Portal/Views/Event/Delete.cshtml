@@ -1,0 +1,13 @@
+﻿@model Votor.Areas.Portal.Controllers.EventModel
+
+<p>@Localizer["Delete {0}?", Model.Name]</p>
+
+<a asp-controller="Dashboard" asp-action="Index"
+   class="btn waves-effect waves-light grey darken-2 btn-small">
+    <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+</a>
+
+<a asp-controller="Event" asp-action="Delete" asp-route-eventId="@Model.Id"
+   class="btn waves-effect waves-light deep-orange accent-3 btn-small">
+    <i class="material-icons left">delete_forever</i>@Localizer["Delete"]
+</a>

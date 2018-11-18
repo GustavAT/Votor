@@ -21,4 +21,13 @@
     <Folder Include="Areas\Portal\Pages\Event\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Areas\Portal\Views\Event\_AddOptionPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Portal\Views\Event\_OptionsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

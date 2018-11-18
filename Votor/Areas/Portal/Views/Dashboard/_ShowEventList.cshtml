@@ -18,7 +18,8 @@ else
                 class="btn waves-effect waves-light purple darken-2 btn-small">
                 <i class="material-icons left">edit</i>@Localizer["Edit"]
             </a>
-            <a class="btn waves-effect waves-light purple darken-2 btn-small">
+            <a asp-controller="Event" asp-action="DeleteWithPromt" asp-route-eventId="@item.ID"
+                class="btn waves-effect waves-light deep-orange accent-3 btn-small">
                 <i class="material-icons left">delete</i>@Localizer["Delete"]
             </a>
         </div>

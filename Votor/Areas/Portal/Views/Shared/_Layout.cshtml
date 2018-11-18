@@ -108,6 +108,23 @@
         <script src="~/js/materialize.min.js" asp-append-version="true"></script>
     </environment>
     @RenderSection("Scripts", required: false)
-    <partial name="_CookieConsentPartial" />
+<partial name="_CookieConsentPartial" />
+
+<script type="text/javascript">
+
+    @if (!string.IsNullOrEmpty(ViewBag.Section))
+    {
+        <text>
+            $(document).ready(function() {
+
+                var anchor = document.getElementById("@ViewBag.Section");
+                anchor.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            });
+        </text>
+    }
+</script>
 </body>
 </html>

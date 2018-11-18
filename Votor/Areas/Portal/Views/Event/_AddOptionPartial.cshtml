@@ -1,0 +1,22 @@
+﻿@model Votor.Areas.Portal.Controllers.OptionModel
+
+<h4>@Localizer["Options"]</h4>
+
+@using (Html.BeginForm("AddOption", "Event", FormMethod.Post))
+{
+    <div class="input-field">
+        <i class="material-icons prefix">format_list_bulleted</i>
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.EventId)
+
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <button type="submit" class="btn waves-effect waves-light purple darken-2">@Localizer["Add"]</button>
+}
