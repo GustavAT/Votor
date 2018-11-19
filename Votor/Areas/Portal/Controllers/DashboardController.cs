@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -29,8 +28,26 @@ namespace Votor.Areas.Portal.Controllers
             return View("Dashboard", await InitEventListModel());
         }
 
+        public async Task<IActionResult> Events()
+        {
+            var events = await InitEventListModel();
+            return View("Events", events.Events);
+        }
+
+        public async Task<IActionResult> Active()
+        {
+            var events = await InitEventListModel();
+            return View("Active", events.Active);
+        }
+
+        public async Task<IActionResult> Finished()
+        {
+            var events = await InitEventListModel();
+            return View("Finished", events.Finished);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(CreateEventModel model)
+        public async Task<IActionResult> CreateEvent(EventModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             var userId = Util.ParseGuid(user?.Id);
@@ -39,7 +56,7 @@ namespace Votor.Areas.Portal.Controllers
             {
                 var newEvent = new Event
                 {
-                    Name = model.Name,
+                    Name = model.EventName,
                     IsPublic = true,
                     UserID = userId.Value
                 };
@@ -83,13 +100,5 @@ namespace Votor.Areas.Portal.Controllers
         public List<Event> Events { get; set; } = new List<Event>();
         public List<Event> Active { get; set; } = new List<Event>();
         public List<Event> Finished { get; set; } = new List<Event>();
-    }
-
-    public class CreateEventModel
-    {
-        [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [Display(Name = "Event Name")]
-        public string Name { get; set; }
     }
 }

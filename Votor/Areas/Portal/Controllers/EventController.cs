@@ -48,7 +48,7 @@ namespace Votor.Areas.Portal.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EventModel eventModel)
         {
-            var target = await GetEventById(eventModel.Id);
+            var target = await GetEventById(eventModel.EventId);
 
             // Event not found or invalid user
             if (target == null) return RedirectToAction("Index", "Dashboard");
@@ -65,9 +65,9 @@ namespace Votor.Areas.Portal.Controllers
                     target.Description = eventModel.Description;
                 }
 
-                if (target.Name != eventModel.Name)
+                if (target.Name != eventModel.EventName)
                 {
-                    target.Name = eventModel.Name;
+                    target.Name = eventModel.EventName;
                 }
 
                 _context.SaveChanges();
@@ -76,7 +76,7 @@ namespace Votor.Areas.Portal.Controllers
             }
 
             ViewBag.Section = "general";
-            return View("Edit", await InitEditEventModel(eventModel.Id));
+            return View("Edit", await InitEditEventModel(eventModel.EventId));
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace Votor.Areas.Portal.Controllers
             {
                 var question = new Question
                 {
-                    Text = questionModel.Text,
+                    Text = questionModel.Question,
                     EventID = questionModel.EventId
                 };
 
@@ -119,7 +119,7 @@ namespace Votor.Areas.Portal.Controllers
             {
                 var option = new Option
                 {
-                    Name = optionModel.Name,
+                    Name = optionModel.Option,
                     EventID = optionModel.EventId
                 };
 
@@ -156,8 +156,8 @@ namespace Votor.Areas.Portal.Controllers
 
             return View("Delete", new EventModel
             {
-                Id = target.ID,
-                Name = target.Name
+                EventId = target.ID,
+                EventName = target.Name
             });
         }
         
@@ -197,9 +197,10 @@ namespace Votor.Areas.Portal.Controllers
                 {
                     var token = new Token
                     {
-                        Name = tokenModel.Name,
+                        Name = tokenModel.Token,
                         Weight = tokenModel.Weight,
-                        EventID = tokenModel.EventId
+                        EventID = tokenModel.EventId,
+                        OptionID = tokenModel.RestrictionId
                     };
 
                     // todo: token restriction
@@ -211,6 +212,18 @@ namespace Votor.Areas.Portal.Controllers
 
             ViewBag.Section = "tokens";
             return View("Edit", await InitEditEventModel(tokenModel.EventId));
+        }
+
+        
+        public async Task<IActionResult> RemoveToken(string token, Guid eventId)
+        {
+            var tokens = _context.Tokens.Where(x => x.EventID == eventId && x.Name == token);
+
+            _context.Tokens.RemoveRange(tokens);
+            _context.SaveChanges();
+
+            ViewBag.Section = "tokens";
+            return View("Edit", await InitEditEventModel(eventId));
         }
 
         #region helper
@@ -234,7 +247,7 @@ namespace Votor.Areas.Portal.Controllers
 
             return questions.Select(x => new QuestionModel
             {
-                Text = x.Text,
+                Question = x.Text,
                 Id = x.ID,
                 EventId = x.EventID
             }).ToList();
@@ -247,22 +260,22 @@ namespace Votor.Areas.Portal.Controllers
 
             return options.Select(x => new OptionModel
             {
-                Name = x.Name,
+                Option = x.Name,
                 Id = x.ID,
                 EventId = x.EventID
             }).ToList();
         }
 
-        public List<TokenModel> GetTokensByEventId(Guid id)
+        public List<TokenModel> GetTokensByEventId(Guid id, List<OptionModel> options)
         {
             var groupedTokens = _context.Tokens.Where(x => x.EventID == id)
-                .AsNoTracking().GroupBy(x => x.Name);
+                .Include(x => x.Option).AsNoTracking().GroupBy(x => x.Name);
 
             var tokens = new List<TokenModel>();
             foreach (var token in groupedTokens)
             {
                 var count = token.Count();
-
+                
                 var restrictionId = token.FirstOrDefault()?.OptionID;
                 var restriction = token.FirstOrDefault()?.Option?.Name;
                 var weight = token.FirstOrDefault()?.Weight ?? 1d;
@@ -270,11 +283,12 @@ namespace Votor.Areas.Portal.Controllers
                 tokens.Add(new TokenModel
                 {
                     EventId = id,
-                    Name = token.Key,
+                    Token = token.Key,
                     Count = count,
                     RestrictionId = restrictionId,
                     Restriction = restriction,
-                    Weight = weight
+                    Weight = weight,
+                    Options = options
                 });
 
             }
@@ -288,17 +302,19 @@ namespace Votor.Areas.Portal.Controllers
 
             if (source == null) return null;
 
+            var options = GetOptionsByEventId(eventId);
             var model = new EditEventModel
             {
                 EventModel = new EventModel
                 {
-                    Id = source.ID,
-                    Name = source.Name,
+                    EventId = source.ID,
+                    EventName = source.Name,
                     Description = source.Description,
                     IsPublic = source.IsPublic
                 },
                 Questions = GetQuestionsByEventId(eventId),
-                Options = GetOptionsByEventId(eventId)
+                Options = options,
+                Tokens = GetTokensByEventId(eventId, options)
             };
 
             return model;
@@ -320,17 +336,20 @@ namespace Votor.Areas.Portal.Controllers
 
     public class EventModel
     {
-        public Guid Id { get; set; }
+        public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        public string Name { get; set; }
+        [Display(Name = "Event")]
+        public string EventName { get; set; }
 
-        [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Public")]
         public bool IsPublic { get; set; }
     }
 
@@ -340,9 +359,10 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        public string Text { get; set; }
+        [Display(Name = "Question")]
+        public string Question { get; set; }
     }
 
     public class OptionModel
@@ -351,9 +371,10 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        public string Name { get; set; }
+        [Display(Name = "Option")]
+        public string Option { get; set; }
     }
 
     public class TokenModel
@@ -361,15 +382,24 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
         
         public Guid? RestrictionId { get; set; }
+
+        [Display(Name = "Restriction")]
         public string Restriction { get; set; }
 
+        [Range(1, 50, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Display(Name = "Count")]
         public int Count { get; set; }
         
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        public string Name { get; set; }
+        [Display(Name = "Token")]
+        public string Token { get; set; }
 
+        [Range(0.1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Display(Name = "Weight")]
         public double Weight { get; set; }
+
+        public List<OptionModel> Options { get; set; }
     }
 }

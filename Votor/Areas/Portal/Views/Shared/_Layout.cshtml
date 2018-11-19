@@ -115,16 +115,21 @@
     @if (!string.IsNullOrEmpty(ViewBag.Section))
     {
         <text>
-            $(document).ready(function() {
+    $(document).ready(function() {
 
-                var anchor = document.getElementById("@ViewBag.Section");
-                anchor.scrollIntoView({
-                    behavior: "smooth"
-                });
+        var anchor = document.getElementById("@ViewBag.Section");
+        anchor.scrollIntoView({
+            behavior: "smooth"
+        });
 
-            });
+    });
         </text>
     }
+
+    document.addEventListener("DOMContentLoaded",
+        function() {
+            $("select").formSelect();
+        });
 </script>
 </body>
 </html>

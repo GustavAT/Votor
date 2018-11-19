@@ -22,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Portal\Views\Dashboard\Finished.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Portal\Views\Dashboard\Active.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Portal\Views\Event\_AddOptionPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

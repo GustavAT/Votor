@@ -2,14 +2,14 @@
 
 @using (Html.BeginForm("Edit", "Event", FormMethod.Post))
 {
-    @Html.HiddenFor(model => model.EventModel.Id)
+    @Html.HiddenFor(model => model.EventModel.EventId)
 
     <div class="input-field">
         <i class="material-icons prefix">event</i>
 
-        @Html.LabelFor(model => model.EventModel.Name)
-        @Html.TextBoxFor(model => model.EventModel.Name)
-        @Html.ValidationMessageFor(model => model.EventModel.Name, "", new
+        @Html.LabelFor(model => model.EventModel.EventName)
+        @Html.TextBoxFor(model => model.EventModel.EventName)
+        @Html.ValidationMessageFor(model => model.EventModel.EventName, "", new
         {
             @class = "red-text text-darken-1"
         })

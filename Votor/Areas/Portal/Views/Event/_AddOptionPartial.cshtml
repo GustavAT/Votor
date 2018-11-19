@@ -1,7 +1,5 @@
 ﻿@model Votor.Areas.Portal.Controllers.OptionModel
 
-<h4>@Localizer["Options"]</h4>
-
 @using (Html.BeginForm("AddOption", "Event", FormMethod.Post))
 {
     <div class="input-field">
@@ -10,9 +8,9 @@
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.EventId)
 
-        @Html.LabelFor(model => model.Name)
-        @Html.TextBoxFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name, "", new
+        @Html.LabelFor(model => model.Option)
+        @Html.TextBoxFor(model => model.Option)
+        @Html.ValidationMessageFor(model => model.Option, "", new
         {
             @class = "red-text text-darken-1"
         })

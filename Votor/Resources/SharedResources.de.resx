@@ -279,8 +279,8 @@
   <data name="The {0} field is required." xml:space="preserve">
     <value>Das {0} Feld ist erforderlich.</value>
   </data>
-  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
-    <value>Das {0} muss mindestens {2} und maximal {1} Zeichen lang sein.</value>
+  <data name="The {0} field must be at least {2} and at max {1} characters long." xml:space="preserve">
+    <value>Das {0} Feld muss mindestens {2} und maximal {1} Zeichen lang sein.</value>
   </data>
   <data name="User already has a password set." xml:space="preserve">
     <value>Benutzer hat bereits ein Passwort gesetzt.</value>
@@ -375,8 +375,8 @@
   <data name="Active Events" xml:space="preserve">
     <value>Aktive Events</value>
   </data>
-  <data name="Event Name" xml:space="preserve">
-    <value>Eventname</value>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
   </data>
   <data name="Events" xml:space="preserve">
     <value>Events</value>
@@ -413,5 +413,47 @@
   </data>
   <data name="The event {0} was deleted!" xml:space="preserve">
     <value>Das Event {0} wurde gelöscht!</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Anzahl</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="No options" xml:space="preserve">
+    <value>Keine Optionen</value>
+  </data>
+  <data name="No questions" xml:space="preserve">
+    <value>Keine Fragen</value>
+  </data>
+  <data name="No restriction" xml:space="preserve">
+    <value>Keine Einschränkung</value>
+  </data>
+  <data name="No tokens" xml:space="preserve">
+    <value>Keine Tokens</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Öffentlich</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Frage</value>
+  </data>
+  <data name="Restriction" xml:space="preserve">
+    <value>Einschränkung</value>
+  </data>
+  <data name="The {0} field must be between {1} and  {2}." xml:space="preserve">
+    <value>Das {0} Feld muss zwischen {1} und {2} liegen.</value>
+  </data>
+  <data name="Token" xml:space="preserve">
+    <value>Token</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Gewichtung</value>
   </data>
 </root>

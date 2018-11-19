@@ -1,0 +1,49 @@
+﻿@model Votor.Areas.Portal.Controllers.TokenModel
+
+@using (Html.BeginForm("AddToken", "Event", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.EventId)
+
+    <div class="input-field">
+        <i class="material-icons prefix">vpn_key</i>
+
+
+        @Html.LabelFor(model => model.Token)
+        @Html.TextBoxFor(model => model.Token)
+        @Html.ValidationMessageFor(model => model.Token, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+    <div class="input-field">
+        @Html.LabelFor(model => model.Count)
+        @Html.TextBoxFor(model => model.Count)
+        @Html.ValidationMessageFor(model => model.Count, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+    <div class="input-field">
+        @Html.LabelFor(model => model.Weight)
+        @Html.TextBoxFor(model => model.Weight)
+        @Html.ValidationMessageFor(model => model.Weight, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+    <div class="input-field">
+
+        <select asp-for="@Model.RestrictionId" asp-items="@(new SelectList(Model.Options, "Id", "Option"))">
+            <option value="">@Localizer["No restriction"]</option>
+        </select>
+        @Html.LabelFor(model => model.Restriction)
+
+        @Html.ValidationMessageFor(model => model.Restriction, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+
+    <button type="submit" class="btn waves-effect waves-light purple darken-2">@Localizer["Add"]</button>
+}

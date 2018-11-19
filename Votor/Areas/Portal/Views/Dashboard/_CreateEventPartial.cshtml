@@ -1,4 +1,4 @@
-﻿@model Votor.Areas.Portal.Controllers.CreateEventModel;
+﻿@model Votor.Areas.Portal.Controllers.EventModel;
 
 @Html.ValidationSummary(false, "", new { @class = "red-text text-darken-1" })
 
@@ -7,9 +7,9 @@
     <div class="input-field">
         <i class="material-icons prefix">event</i>
 
-        @Html.LabelFor(model => model.Name)
-        @Html.TextBoxFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name, "", new
+        @Html.LabelFor(model => model.EventName)
+        @Html.TextBoxFor(model => model.EventName)
+        @Html.ValidationMessageFor(model => model.EventName, "", new
         {
             @class = "red-text text-darken-1"
         })

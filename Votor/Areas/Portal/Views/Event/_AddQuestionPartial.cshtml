@@ -10,9 +10,9 @@
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.EventId)
 
-        @Html.LabelFor(model => model.Text)
-        @Html.TextBoxFor(model => model.Text)
-        @Html.ValidationMessageFor(model => model.Text, "", new
+        @Html.LabelFor(model => model.Question)
+        @Html.TextBoxFor(model => model.Question)
+        @Html.ValidationMessageFor(model => model.Question, "", new
         {
             @class = "red-text text-darken-1"
         })
