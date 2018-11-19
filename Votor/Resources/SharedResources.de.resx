@@ -417,6 +417,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Aktionen</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
   <data name="Count" xml:space="preserve">
     <value>Anzahl</value>
   </data>
@@ -440,6 +443,9 @@
   </data>
   <data name="Public" xml:space="preserve">
     <value>Öffentlich</value>
+  </data>
+  <data name="Public link for voting" xml:space="preserve">
+    <value>Öffentlicher Link </value>
   </data>
   <data name="Question" xml:space="preserve">
     <value>Frage</value>

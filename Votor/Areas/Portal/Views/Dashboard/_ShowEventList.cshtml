@@ -24,11 +24,11 @@ else
 
                 </td>
                 <td>
-                    <a @*asp-controller="Event" asp-action="Details" *@
+                    <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.ID"
                         class="btn waves-effect waves-light purple darken-2 btn-small">
                         <i class="material-icons left">info_outline</i>@Localizer["Details"]
                     </a>
-                    <a asp-controller="Event" asp-action="Edit" asp-route-id="@item.ID"
+                    <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@item.ID"
                        class="btn waves-effect waves-light purple darken-2 btn-small">
                         <i class="material-icons left">edit</i>@Localizer["Edit"]
                     </a>

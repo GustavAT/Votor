@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,9 +33,9 @@ namespace Votor.Areas.Portal.Controllers
             _localizer = localizer;
         }
 
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid eventId)
         {
-            var editEvent = await InitEditEventModel(id);
+            var editEvent = await InitEditEventModel(eventId);
 
             // Event not found or invalid user
             if (editEvent == null)
@@ -191,13 +193,18 @@ namespace Votor.Areas.Portal.Controllers
 
         public async Task<IActionResult> AddToken(TokenModel tokenModel)
         {
-            if (ModelState.IsValid)
+            var tokenName = tokenModel.Token;
+
+            var existing = await _context.Tokens
+                .AnyAsync(x => x.EventID == tokenModel.EventId && x.Name == tokenName);
+
+            if (ModelState.IsValid && !existing)
             {
                 for (var i = tokenModel.Count; i-- > 0;)
                 {
                     var token = new Token
                     {
-                        Name = tokenModel.Token,
+                        Name = tokenName,
                         Weight = tokenModel.Weight,
                         EventID = tokenModel.EventId,
                         OptionID = tokenModel.RestrictionId
@@ -224,6 +231,18 @@ namespace Votor.Areas.Portal.Controllers
 
             ViewBag.Section = "tokens";
             return View("Edit", await InitEditEventModel(eventId));
+        }
+
+        public async Task<IActionResult> Details(Guid eventId)
+        {
+            var targetEvent = await GetEventById(eventId);
+
+            if (targetEvent == null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            return View("Details", await InitEditEventModel(eventId));
         }
 
         #region helper
@@ -310,7 +329,8 @@ namespace Votor.Areas.Portal.Controllers
                     EventId = source.ID,
                     EventName = source.Name,
                     Description = source.Description,
-                    IsPublic = source.IsPublic
+                    IsPublic = source.IsPublic,
+                    PublicUrl = GeneratePublicUrl(eventId)
                 },
                 Questions = GetQuestionsByEventId(eventId),
                 Options = options,
@@ -318,6 +338,22 @@ namespace Votor.Areas.Portal.Controllers
             };
 
             return model;
+        }
+
+        private string GeneratePublicUrl(Guid eventId)
+        {
+            var request = HttpContext.Request;
+            var uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = request.Scheme;
+            uriBuilder.Host = request.Host.Host;
+            //uriBuilder.Path = UrlHelperExtensions.Action(Url, "Index", "VoteController", new
+            //{
+            //    Area = "Vote",
+            //    Id = eventId
+            //});
+            uriBuilder.Path = UrlHelperExtensions.Action(Url, "Details", "Event", eventId);
+
+            return uriBuilder.ToString();
         }
 
         #endregion
@@ -351,6 +387,9 @@ namespace Votor.Areas.Portal.Controllers
 
         [Display(Name = "Public")]
         public bool IsPublic { get; set; }
+
+        [DataType(DataType.Url)]
+        public string PublicUrl { get; set; }
     }
 
     public class QuestionModel

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
@@ -45,12 +47,11 @@ namespace Votor.Areas.Portal.Controllers
             var events = await InitEventListModel();
             return View("Finished", events.Finished);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> CreateEvent(EventModel model)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = Util.ParseGuid(user?.Id);
+            var userId = await GetUserId();
 
             if (ModelState.IsValid && userId.HasValue)
             {
@@ -73,6 +74,8 @@ namespace Votor.Areas.Portal.Controllers
             return View("Dashboard", await InitEventListModel());
         }
 
+        #region helper
+
         /// <summary>
         /// Load all events of currently logged in user.
         /// </summary>
@@ -93,6 +96,20 @@ namespace Votor.Areas.Portal.Controllers
                 Finished = events.Where(x => x.StartDate.HasValue && x.EndDate.HasValue).ToList()
             };
         }
+
+        private async Task<Guid?> GetUserId()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return Util.ParseGuid(user?.Id);
+        }
+
+        private async Task<Event> GetEventById(Guid id)
+        {
+            var userId = await GetUserId();
+            return _context.Events.FirstOrDefault(x => x.ID == id && x.UserID == userId);
+        }
+
+        #endregion
     }
 
     public class EventListModel

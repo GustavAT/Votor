@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Http
+@model Votor.Areas.Portal.Controllers.EditEventModel
+
+@{
+    ViewBag.Title = $"{Localizer["Details"]} - {Model.EventModel.EventName}";
+}
+
+<div id="general">
+    @Model.EventModel.Description
+</div>
+<div id="questions">
+    <table>
+        @foreach(var question in Model.Questions)
+        {
+            <tr>
+                <th>
+                    @question.Question
+                </th>
+            </tr>
+        }
+    </table>
+</div>
+<div id="options">
+    <table>
+        @foreach (var question in Model.Options)
+        {
+            <tr>
+                <th>
+                    @question.Option
+                </th>
+            </tr>
+        }
+    </table>
+</div>
+<div id="tokens">
+    @if (Model.EventModel.IsPublic && !string.IsNullOrEmpty(Model.EventModel.PublicUrl))
+    {
+        <div class="input-field">
+            @Html.LabelFor(model => model.EventModel.IsPublic)
+            @Html.TextBoxFor(model => model.EventModel.PublicUrl, new
+            {
+                @readonly = true
+            })
+            
+            <button class="btn waves-effect waves-light purple darken-2">
+                <i class="material-icons left">content_copy</i>@Localizer["Copy"]
+            </button>
+        </div>
+    }
+
+    <hr />
+
+    <table>
+        @foreach (var token in Model.Tokens)
+        {
+            <tr>
+                <th>
+                    @token.Token
+                </th>
+                <th>
+                    @token.Count
+                </th>
+                <th>
+                    @token.Weight
+                </th>
+            </tr>
+        }
+    </table>
+</div>
