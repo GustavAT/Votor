@@ -1,0 +1,71 @@
+﻿@using Votor.Areas.Portal.Controllers
+@model Votor.Areas.Portal.Controllers.EditEventModel
+
+
+@if (Model.Tokens.Count == 0)
+{
+    <p> @Localizer["No tokens"]</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>
+                @Localizer["Token"]
+            </th>
+            <th>
+                @Localizer["Count"]
+            </th>
+            <th>
+                @Localizer["Weight"]
+            </th>
+            <th>
+                @Localizer["Restriction"]
+            </th>
+            <th>
+                @Localizer["Actions"]
+            </th>
+        </tr>
+
+        @foreach (var token in Model.Tokens)
+        {
+            <tr>
+                <td>
+                    @token.Token
+                </td>
+                <td>
+                    @token.Count
+                </td>
+                <td>
+                    @token.Weight
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(token.Restriction))
+                    {
+                        @token.Restriction
+                    }
+                    else
+                    {
+                        @Localizer["No restriction"]
+                    }
+                </td>
+                <td>
+
+                    <a asp-controller="Event" asp-action="RemoveToken" asp-route-token="@token.Token" asp-route-eventId="@token.EventId"
+                       class="btn waves-effect waves-light deep-orange accent-3 btn-small">
+                        <i class="material-icons left">delete</i>@Localizer["Remove"]
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@{ await Html.RenderPartialAsync("_AddTokenPartial", new TokenModel
+    {
+        EventId = Model.EventModel.EventId,
+        Token = string.Empty,
+        Count = 5,
+        Weight = 1,
+        Options = Model.Options
+    }); }

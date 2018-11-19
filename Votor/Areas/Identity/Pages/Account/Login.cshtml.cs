@@ -30,6 +30,7 @@ namespace Votor.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [BindProperty]
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public AuthenticationScheme GoogleLogin { get; set; }

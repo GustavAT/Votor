@@ -1,0 +1,19 @@
+﻿@model Votor.Areas.Portal.Controllers.EventModel;
+
+@Html.ValidationSummary(false, "", new { @class = "red-text text-darken-1" })
+
+@using (Html.BeginForm("CreateEvent", "Dashboard", FormMethod.Post))
+{
+    <div class="input-field">
+        <i class="material-icons prefix">event</i>
+
+        @Html.LabelFor(model => model.EventName)
+        @Html.TextBoxFor(model => model.EventName)
+        @Html.ValidationMessageFor(model => model.EventName, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <button type="submit" class="btn waves-effect waves-light purple darken-2">@Localizer["Create"]</button>
+}

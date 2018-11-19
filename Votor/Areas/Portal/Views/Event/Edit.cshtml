@@ -1,0 +1,27 @@
+﻿@model Votor.Areas.Portal.Controllers.EditEventModel
+@{
+    ViewData["Title"] = $"{Localizer["Edit"]} - {Model.EventModel.EventName}";
+}
+
+
+<div id="general">
+    @{ await Html.RenderPartialAsync("_GeneralPartial", Model);}
+</div>
+
+<hr />
+
+<div id="questions">
+    @{ await Html.RenderPartialAsync("_QuestionsPartial", Model);}
+</div>
+
+<hr/>
+
+<div id="options">
+    @{ await Html.RenderPartialAsync("_OptionsPartial", Model);}
+</div>
+
+<hr/>
+
+<div id="tokens">
+    @{ await Html.RenderPartialAsync("_TokensPartial", Model);}
+</div>

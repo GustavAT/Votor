@@ -18,9 +18,22 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\Portal\Controllers\" />
     <Folder Include="Areas\Portal\Pages\Event\" />
-    <Folder Include="Areas\Portal\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Portal\Views\Dashboard\Finished.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Portal\Views\Dashboard\Active.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Portal\Views\Event\_AddOptionPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Portal\Views\Event\_OptionsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>
