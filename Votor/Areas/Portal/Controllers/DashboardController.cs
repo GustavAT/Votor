@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
@@ -47,6 +46,37 @@ namespace Votor.Areas.Portal.Controllers
             var events = await InitEventListModel();
             return View("Finished", events.Finished);
         }
+
+        public async Task<IActionResult> ActivateEvent(Guid eventId)
+        {
+            var target = await GetEventById(eventId);
+
+            if (CanActivate(target))
+            {
+                target.StartDate = DateTime.UtcNow;
+                _context.SaveChanges();
+            }
+
+            return View("Dashboard", await InitEventListModel());
+        }
+
+        public async Task<IActionResult> FinishEvent(Guid eventId)
+        {
+            var target = await GetEventById(eventId);
+
+            if (CanFinish(target))
+            {
+                target.EndDate = DateTime.UtcNow;
+                _context.SaveChanges();
+            }
+
+            return View("Dashboard", await InitEventListModel());
+        }
+
+        public async Task<IActionResult> GenerateQrCodes(Guid eventId, string token)
+        {
+            return View("Dashboard", await InitEventListModel());
+        }
         
         [HttpPost]
         public async Task<IActionResult> CreateEvent(EventModel model)
@@ -85,16 +115,59 @@ namespace Votor.Areas.Portal.Controllers
             var user = await _userManager.GetUserAsync(User);
             var userId = Util.ParseGuid(user?.Id);
 
-            var events = _context.Events
+            var allEvents = _context.Events
                 .Where(x => x.UserID == userId)
-                .AsNoTracking().ToList();
+                .Include(x => x.Options)
+                .Include(x => x.Questions)
+                .Include(x => x.Tokens)
+                .AsNoTracking()
+                .ToList();
+
+            var source = new List<DashboardEventModel>();
+            foreach (var record in allEvents)
+            {
+                source.Add(new DashboardEventModel
+                {
+                    Id = record.ID,
+                    Name = record.Name,
+                    StartDate = record.StartDate,
+                    EndDate = record.EndDate,
+                    CanActivate = CanActivate(record),
+                    CanEdit = CanEdit(record),
+                    CanFinish = CanFinish(record)
+                });
+            }
             
+            var events = source.Where(x => !x.StartDate.HasValue).ToList();
+            var active = source.Where(x => x.StartDate.HasValue && !x.EndDate.HasValue).ToList();
+            var finished = source.Where(x => x.StartDate.HasValue && x.EndDate.HasValue).ToList();
+
+
             return new EventListModel
             {
-                Events = events.Where(x => !x.StartDate.HasValue).ToList(),
-                Active = events.Where(x => x.StartDate.HasValue && !x.EndDate.HasValue).ToList(),
-                Finished = events.Where(x => x.StartDate.HasValue && x.EndDate.HasValue).ToList()
+                Events = events,
+                Active = active,
+                Finished = finished
             };
+        }
+
+        public static bool CanEdit(Event e)
+        {
+            return !e.StartDate.HasValue && !e.EndDate.HasValue; // not started
+        }
+
+        public static bool CanActivate(Event e)
+        {
+            return !e.StartDate.HasValue // not started
+                   && !e.EndDate.HasValue // not finished
+                   && e.Questions.Any() // at least 1 question
+                   && e.Options.Any() // at least 1 option
+                   && (e.IsPublic || e.Tokens.Any()); // public or at least 1 token for private events
+        }
+
+        public static bool CanFinish(Event e)
+        {
+            return e.StartDate.HasValue && !e.EndDate.HasValue; // started but not finished
         }
 
         private async Task<Guid?> GetUserId()
@@ -106,7 +179,11 @@ namespace Votor.Areas.Portal.Controllers
         private async Task<Event> GetEventById(Guid id)
         {
             var userId = await GetUserId();
-            return _context.Events.FirstOrDefault(x => x.ID == id && x.UserID == userId);
+            return _context.Events.Where(x => x.ID == id && x.UserID == userId)
+                .Include(x => x.Options)
+                .Include(x => x.Questions)
+                .Include(x => x.Tokens)
+                .FirstOrDefault();
         }
 
         #endregion
@@ -114,8 +191,19 @@ namespace Votor.Areas.Portal.Controllers
 
     public class EventListModel
     {
-        public List<Event> Events { get; set; } = new List<Event>();
-        public List<Event> Active { get; set; } = new List<Event>();
-        public List<Event> Finished { get; set; } = new List<Event>();
+        public List<DashboardEventModel> Events { get; set; } = new List<DashboardEventModel>();
+        public List<DashboardEventModel> Active { get; set; } = new List<DashboardEventModel>();
+        public List<DashboardEventModel> Finished { get; set; } = new List<DashboardEventModel>();
+    }
+
+    public class DashboardEventModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public bool CanEdit { get; set; }
+        public bool CanActivate { get; set; }
+        public bool CanFinish { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

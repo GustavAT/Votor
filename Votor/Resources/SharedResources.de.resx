@@ -462,4 +462,13 @@
   <data name="Weight" xml:space="preserve">
     <value>Gewichtung</value>
   </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Aktivieren</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+  <data name="Download QR-codes" xml:space="preserve">
+    <value>QR-Codes herunterladen</value>
+  </data>
 </root>

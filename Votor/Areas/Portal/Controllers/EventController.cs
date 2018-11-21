@@ -141,6 +141,10 @@ namespace Votor.Areas.Portal.Controllers
             };
             _context.Options.Attach(option);
             _context.Options.Remove(option);
+
+            var tokens = _context.Tokens.Where(x => x.OptionID == optionId);
+            _context.RemoveRange(tokens);
+            
             _context.SaveChanges();
 
             ViewBag.Section = "options";
@@ -242,7 +246,23 @@ namespace Votor.Areas.Portal.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            return View("Details", await InitEditEventModel(eventId));
+            var tokens = _context.Tokens
+                .Where(x => x.EventID == targetEvent.ID)
+                .Include(x => x.Option)
+                .AsNoTracking()
+                .GroupBy(x => x.Name);
+
+            var model = new EventDetailModel
+            {
+                Id = targetEvent.ID,
+                Name = targetEvent.Name,
+                Description = targetEvent.Description,
+                PublicUrl = GeneratePublicUrl(targetEvent.ID),
+                Tokens = tokens.AsEnumerable().Select(TokenDetailModel.Create).ToList()
+            };
+
+
+            return View("Details", model);
         }
 
         #region helper
@@ -357,6 +377,36 @@ namespace Votor.Areas.Portal.Controllers
         }
 
         #endregion
+    }
+
+    public class EventDetailModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        [Display(Name = "Public")]
+        public string PublicUrl { get; set; }
+
+        public List<TokenDetailModel> Tokens { get; set; }
+    }
+
+    public class TokenDetailModel
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+        public double Weight { get; set; }
+        public string Restriction { get; set; }
+
+        public static TokenDetailModel Create(IGrouping<string, Token> tokens)
+        {
+            return new TokenDetailModel
+            {
+                Name = tokens.Key,
+                Count = tokens.Count(),
+                Weight = tokens.FirstOrDefault()?.Weight ?? 1d,
+                Restriction = tokens.FirstOrDefault()?.Option.Name
+            };
+        }
     }
 
     public class EditEventModel

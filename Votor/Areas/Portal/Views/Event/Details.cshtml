@@ -1,68 +1,85 @@
 ﻿@using Microsoft.AspNetCore.Http
-@model Votor.Areas.Portal.Controllers.EditEventModel
+@model Votor.Areas.Portal.Controllers.EventDetailModel
 
 @{
-    ViewBag.Title = $"{Localizer["Details"]} - {Model.EventModel.EventName}";
+    ViewBag.Title = $"{Localizer["Details"]} - {Model.Name}";
 }
 
 <div id="general">
-    @Model.EventModel.Description
-</div>
-<div id="questions">
-    <table>
-        @foreach(var question in Model.Questions)
-        {
-            <tr>
-                <th>
-                    @question.Question
-                </th>
-            </tr>
-        }
-    </table>
-</div>
-<div id="options">
-    <table>
-        @foreach (var question in Model.Options)
-        {
-            <tr>
-                <th>
-                    @question.Option
-                </th>
-            </tr>
-        }
-    </table>
+    @Model.Description
 </div>
 <div id="tokens">
-    @if (Model.EventModel.IsPublic && !string.IsNullOrEmpty(Model.EventModel.PublicUrl))
+    @if (!string.IsNullOrEmpty(Model.PublicUrl))
     {
         <div class="input-field">
-            @Html.LabelFor(model => model.EventModel.IsPublic)
-            @Html.TextBoxFor(model => model.EventModel.PublicUrl, new
+            @Html.LabelFor(model => model.PublicUrl)
+            @Html.TextBoxFor(model => model.PublicUrl, new
             {
                 @readonly = true
             })
             
-            <button class="btn waves-effect waves-light purple darken-2">
+            <button class="btn waves-effect waves-light btn-small" onclick="copyToClipboard();">
                 <i class="material-icons left">content_copy</i>@Localizer["Copy"]
             </button>
+            
+            <script>
+                function copyToClipboard() {
+                    var elem = $("#PublicUrl");
+                    if (elem) {
+                        elem.select();
+                        document.execCommand("copy");
+                    }
+                }
+            </script>
+
+            <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
+               class="btn waves-effect waves-light btn-small">
+                @Localizer["Download QR-codes"]
+            </a>
         </div>
     }
 
     <hr />
 
     <table>
+        <tr>
+            <th>
+                @Localizer["Name"]
+            </th>
+            <th>
+                @Localizer["Count"]
+            </th>
+            <th>
+                @Localizer["Weight"]
+            </th>
+            <th>
+                @Localizer["Restriction"]
+            </th>
+            <th>
+                @Localizer["Actions"]
+            </th>
+        </tr>
         @foreach (var token in Model.Tokens)
         {
             <tr>
-                <th>
-                    @token.Token
-                </th>
-                <th>
+                <td>
+                    @token.Name
+                </td>
+                <td>
                     @token.Count
-                </th>
-                <th>
+                </td>
+                <td>
                     @token.Weight
-                </th>
+                </td>
+                <td>
+                    @token.Restriction
+                </td>
+                <td>
+                    <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
+                       asp-route-token="@token.Name" class="btn waves-effect waves-light btn-small">
+                        @Localizer["Download QR-codes"]
+                    </a>
+                </td>
             </tr>
         }
     </table>
