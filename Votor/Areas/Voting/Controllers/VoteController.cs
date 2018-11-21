@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
 
-namespace Votor.Areas.Vote.Controllers
+namespace Votor.Areas.Voting.Controllers
 {
+    [Area("Voting")]
     public class VoteController : Controller
     {
         private VotorContext _context;
@@ -16,6 +17,7 @@ namespace Votor.Areas.Vote.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index(Guid id)
         {
             var targetEvent = GetActiveEventById(id);
@@ -29,7 +31,7 @@ namespace Votor.Areas.Vote.Controllers
                 if (token == null || targetEvent == null)
                 {
                     // todo return vote not found
-                    return View();
+                    return View("NotFound");
                 }
                 
                 // token vote
@@ -39,7 +41,7 @@ namespace Votor.Areas.Vote.Controllers
                 // public vote
             }
 
-            return View();
+            return View("Index");
         }
 
         public Event GetActiveEventById(Guid eventId)

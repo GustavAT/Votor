@@ -366,13 +366,11 @@ namespace Votor.Areas.Portal.Controllers
             var uriBuilder = new UriBuilder();
             uriBuilder.Scheme = request.Scheme;
             uriBuilder.Host = request.Host.Host;
-            //uriBuilder.Path = UrlHelperExtensions.Action(Url, "Index", "VoteController", new
-            //{
-            //    Area = "Vote",
-            //    Id = eventId
-            //});
-            uriBuilder.Path = UrlHelperExtensions.Action(Url, "Details", "Event", eventId);
-
+            if (request.Host.Port.HasValue)
+            {
+                uriBuilder.Port = request.Host.Port.Value;
+            }
+            uriBuilder.Path = $"/Vote/{eventId}";
             return uriBuilder.ToString();
         }
 

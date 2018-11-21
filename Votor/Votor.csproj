@@ -19,8 +19,8 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Areas\Portal\Pages\Event\" />
-    <Folder Include="Areas\Vote\Data\" />
-    <Folder Include="Areas\Vote\Models\" />
+    <Folder Include="Areas\Voting\Data\" />
+    <Folder Include="Areas\Voting\Models\" />
   </ItemGroup>
 
   <ItemGroup>
