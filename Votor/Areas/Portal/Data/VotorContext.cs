@@ -14,7 +14,8 @@ namespace Votor.Areas.Portal.Data
         public DbSet<Option> Options { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Token> Tokens { get; set; }
-        public DbSet<Models.Vote> Votes { get; set; }
+        public DbSet<Vote> Votes { get; set; }
+        public DbSet<Choice> Choices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,12 +23,16 @@ namespace Votor.Areas.Portal.Data
             modelBuilder.Entity<Option>().ToTable("Option");
             modelBuilder.Entity<Question>().ToTable("Question");
 
-            modelBuilder.Entity<Token>().ToTable("Token");
+            var tokenTable = modelBuilder.Entity<Token>().ToTable("Token");
 
-            modelBuilder.Entity<Models.Vote>().ToTable("Vote")
-                .HasOne(x => x.Token)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
+            var voteTable = modelBuilder.Entity<Vote>().ToTable("Vote");
+            voteTable.HasMany(x => x.Choices).WithOne().OnDelete(DeleteBehavior.SetNull);
+
+            var choiceTable = modelBuilder.Entity<Choice>().ToTable("Choice");
+            choiceTable.HasOne(x => x.Option).WithMany().OnDelete(DeleteBehavior.Restrict);
+            choiceTable.HasOne(x => x.Question).WithMany().OnDelete(DeleteBehavior.Restrict);
+            choiceTable.HasOne(x => x.Vote).WithMany().OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
