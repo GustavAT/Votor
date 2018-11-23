@@ -20,20 +20,40 @@ else if (Model.Token.HasValue)
     <p> Token Vote @Model.Token.Value</p>
 }
 
-<br/><br/>
-
-<p>@Localizer["Options"]</p>
-
-@foreach (var option in Model.Options)
-{
-    <p> @option.Option </p>
-}
-
-<p> Choices</p>
-
+<br />
 @foreach (var item in Model.Choices)
 {
     <p>@item.Question</p>
     <p>@item.Option</p>
-    <br/>
+    <br />
 }
+<br />
+
+<p> Choices</p>
+
+@using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.VoteId)
+    @Html.HiddenFor(model => model.EventId)
+
+    <table>
+        <tr>
+            <th>
+                @Localizer["Question"]
+            </th>
+            <th>
+                @Localizer["Option"]
+            </th>
+        </tr>
+
+        @for (var i = 0; i < Model.Choices.Count; i++)
+        {
+            <tr>
+                @Html.EditorFor(model => model.Choices[i])
+            </tr>
+        }
+    </table>
+
+    <button type="submit">@Localizer["Save"]</button>
+}
+

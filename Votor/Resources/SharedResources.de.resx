@@ -474,4 +474,7 @@
   <data name="Vote" xml:space="preserve">
     <value>Abstimmung</value>
   </data>
+  <data name="Choose option ..." xml:space="preserve">
+    <value>Option wählen ...</value>
+  </data>
 </root>

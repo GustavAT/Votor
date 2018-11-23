@@ -23,7 +23,7 @@ namespace Votor.Areas.Voting.Controllers
         }
 
         [HttpGet]
-        public <async Task<IActionResult> Index(Guid id)
+        public async Task<IActionResult> Index(Guid id)
         {
             var targetEvent = GetActiveEventById(id);
             Token token;
@@ -101,7 +101,7 @@ namespace Votor.Areas.Voting.Controllers
         public IActionResult SaveVoting(VoteModel voteModel, bool? complete = false)
         {
             var choices = _context.Choices
-                .Where(x => x.VoteID == voteModel.Id)
+                .Where(x => x.VoteID == voteModel.VoteId)
                 .ToList();
 
             foreach (var choiceModel in voteModel.Choices)
@@ -211,14 +211,14 @@ namespace Votor.Areas.Voting.Controllers
 
             return new VoteModel
             {
-                Id = vote.ID,
+                VoteId = vote.ID,
                 Token = vote.TokenID,
                 PublicToken = vote.CookieID,
                 Completed = vote.IsCompleted,
 
                 Choices = InitChoiceModel(vote),
 
-                Options = InitOptionModel(vote),
+                //Options = InitOptionModel(vote),
 
                 EventId = vote.EventID,
                 EventName = vote.Event.Name,
@@ -241,7 +241,8 @@ namespace Votor.Areas.Voting.Controllers
                 Option = x.Option?.Name ?? string.Empty,
                 OptionId = x.OptionID,
                 Question = x.Question.Text,
-                QuestionId = x.QuestionID
+                QuestionId = x.QuestionID,
+                Options = InitOptionModel(vote)
             }).ToList();
         }
 
@@ -267,7 +268,7 @@ namespace Votor.Areas.Voting.Controllers
 
     public class VoteModel
     {
-        public Guid Id { get; set; }
+        public Guid VoteId { get; set; }
         public bool Completed { get; set; }
         
         public Guid? Token { get; set; }
@@ -280,9 +281,6 @@ namespace Votor.Areas.Voting.Controllers
 
         // actual selected options for questions
         public List<ChoiceModel> Choices { get; set; }
-
-        // list of available options (restriction)
-        public List<OptionModel> Options { get; set; }
     }
 
     public class ChoiceModel
@@ -292,5 +290,7 @@ namespace Votor.Areas.Voting.Controllers
         public string Question { get; set; }
         public Guid? OptionId { get; set; }
         public string Option { get; set; }
+
+        public List<OptionModel> Options { get; set; }
     }
 }

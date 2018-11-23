@@ -1,0 +1,19 @@
+﻿@model Votor.Areas.Voting.Controllers.ChoiceModel
+@inject IStringLocalizer<SharedResources> Localizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@Html.HiddenFor(model => model.Id)
+
+<td>
+    @Model.Question
+</td>
+<td>
+    <div class="input-field">
+        
+        <select asp-for="@Model.OptionId" asp-items="@(new SelectList(Model.Options, "Id", "Option"))">
+            <option value="@Localizer["Choose option ..."]"></option>
+        </select>
+        
+        @Html.LabelFor(model => model.Option)
+    </div>
+</td>
