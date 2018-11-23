@@ -56,6 +56,9 @@
                 @Localizer["Restriction"]
             </th>
             <th>
+
+            </th>
+            <th>
                 @Localizer["Actions"]
             </th>
         </tr>
@@ -74,6 +77,16 @@
                 <td>
                     @token.Restriction
                 </td>
+                <td>
+                    <ul>
+                        @foreach (var url in token.TokenUrls)
+                        {
+                            <li>
+                                @url
+                            </li>
+                        }
+                    </ul>
+</td>
                 <td>
                     <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
                        asp-route-token="@token.Name" class="btn waves-effect waves-light btn-small">

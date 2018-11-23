@@ -1,7 +1,39 @@
-﻿
+﻿@model Votor.Areas.Voting.Controllers.VoteModel
+
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = Localizer["Vote"];
 }
 
 <h2>Index</h2>
+<p>@Model.EventName</p>
 
+<p>@Model.EventDescription</p>
+
+<p>@Model.Completed</p>
+
+@if (Model.PublicToken.HasValue)
+{
+    <p> Public Vote @Model.PublicToken.Value</p>
+}
+else if (Model.Token.HasValue)
+{
+    <p> Token Vote @Model.Token.Value</p>
+}
+
+<br/><br/>
+
+<p>@Localizer["Options"]</p>
+
+@foreach (var option in Model.Options)
+{
+    <p> @option.Option </p>
+}
+
+<p> Choices</p>
+
+@foreach (var item in Model.Choices)
+{
+    <p>@item.Question</p>
+    <p>@item.Option</p>
+    <br/>
+}

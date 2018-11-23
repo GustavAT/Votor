@@ -22,17 +22,9 @@ namespace Votor.Areas.Portal.Data
             modelBuilder.Entity<Event>().ToTable("Event");
             modelBuilder.Entity<Option>().ToTable("Option");
             modelBuilder.Entity<Question>().ToTable("Question");
-
-            var tokenTable = modelBuilder.Entity<Token>().ToTable("Token");
-
-            var voteTable = modelBuilder.Entity<Vote>().ToTable("Vote");
-            voteTable.HasMany(x => x.Choices).WithOne().OnDelete(DeleteBehavior.SetNull);
-
-            var choiceTable = modelBuilder.Entity<Choice>().ToTable("Choice");
-            choiceTable.HasOne(x => x.Option).WithMany().OnDelete(DeleteBehavior.Restrict);
-            choiceTable.HasOne(x => x.Question).WithMany().OnDelete(DeleteBehavior.Restrict);
-            choiceTable.HasOne(x => x.Vote).WithMany().OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<Token>().ToTable("Token");
+            modelBuilder.Entity<Vote>().ToTable("Vote");
+            modelBuilder.Entity<Choice>().ToTable("Choice");
         }
     }
 }

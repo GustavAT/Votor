@@ -471,4 +471,7 @@
   <data name="Download QR-codes" xml:space="preserve">
     <value>QR-Codes herunterladen</value>
   </data>
+  <data name="Vote" xml:space="preserve">
+    <value>Abstimmung</value>
+  </data>
 </root>

@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -252,13 +250,29 @@ namespace Votor.Areas.Portal.Controllers
                 .AsNoTracking()
                 .GroupBy(x => x.Name);
 
+            var tokenModels = new List<TokenDetailModel>();
+
+            foreach (var grouping in tokens)
+            {
+                var view = new TokenDetailModel
+                {
+                    Name = grouping.Key,
+                    Count = tokens.Count(),
+                    Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
+                    Restriction = grouping.FirstOrDefault()?.Option?.Name,
+                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID)).ToList()
+                };
+
+                tokenModels.Add(view);
+            }
+
             var model = new EventDetailModel
             {
                 Id = targetEvent.ID,
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
-                PublicUrl = GeneratePublicUrl(targetEvent.ID),
-                Tokens = tokens.AsEnumerable().Select(TokenDetailModel.Create).ToList()
+                PublicUrl = GenerateVotingUrl(targetEvent.ID),
+                Tokens = tokenModels
             };
 
 
@@ -349,8 +363,7 @@ namespace Votor.Areas.Portal.Controllers
                     EventId = source.ID,
                     EventName = source.Name,
                     Description = source.Description,
-                    IsPublic = source.IsPublic,
-                    PublicUrl = GeneratePublicUrl(eventId)
+                    IsPublic = source.IsPublic
                 },
                 Questions = GetQuestionsByEventId(eventId),
                 Options = options,
@@ -360,17 +373,15 @@ namespace Votor.Areas.Portal.Controllers
             return model;
         }
 
-        private string GeneratePublicUrl(Guid eventId)
+        private string GenerateVotingUrl(Guid id)
         {
             var request = HttpContext.Request;
-            var uriBuilder = new UriBuilder();
-            uriBuilder.Scheme = request.Scheme;
-            uriBuilder.Host = request.Host.Host;
+            var uriBuilder = new UriBuilder {Scheme = request.Scheme, Host = request.Host.Host};
             if (request.Host.Port.HasValue)
             {
                 uriBuilder.Port = request.Host.Port.Value;
             }
-            uriBuilder.Path = $"/Vote/{eventId}";
+            uriBuilder.Path = $"/Vote/{id}";
             return uriBuilder.ToString();
         }
 
@@ -394,17 +405,7 @@ namespace Votor.Areas.Portal.Controllers
         public int Count { get; set; }
         public double Weight { get; set; }
         public string Restriction { get; set; }
-
-        public static TokenDetailModel Create(IGrouping<string, Token> tokens)
-        {
-            return new TokenDetailModel
-            {
-                Name = tokens.Key,
-                Count = tokens.Count(),
-                Weight = tokens.FirstOrDefault()?.Weight ?? 1d,
-                Restriction = tokens.FirstOrDefault()?.Option.Name
-            };
-        }
+        public List<string> TokenUrls { get; set; }
     }
 
     public class EditEventModel
@@ -435,9 +436,6 @@ namespace Votor.Areas.Portal.Controllers
 
         [Display(Name = "Public")]
         public bool IsPublic { get; set; }
-
-        [DataType(DataType.Url)]
-        public string PublicUrl { get; set; }
     }
 
     public class QuestionModel
