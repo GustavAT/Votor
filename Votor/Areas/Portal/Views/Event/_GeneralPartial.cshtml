@@ -34,7 +34,7 @@
             <label asp-for="EventModel.IsPublic">
                 @Html.CheckBoxFor(model => model.EventModel.IsPublic, new
                 {
-                    @class = "filled-in purple darken-2"
+                    @class = "filled-in @ViewBag.mainColor"
                 })
                 <span>@Html.DisplayNameFor(model => model.EventModel.IsPublic)</span>
             </label>
@@ -47,5 +47,5 @@
         })
     </div>
 
-    <button type="submit" class="btn waves-effect waves-light purple darken-2">@Localizer["Save"]</button>
+    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Save"]</button>
 }

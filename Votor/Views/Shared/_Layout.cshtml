@@ -6,24 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Votor</title>
 
-    <environment include="Development">
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
-        <link rel="stylesheet" href="~/css/materialize.min.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-        asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-        asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
+	<environment include="Development">
+		@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+		<link rel="stylesheet" href="~/css/materialize.min.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/base.css" />
+		<link rel="stylesheet" href="~/css/site.css" />
+	</environment>
+	<environment exclude="Development">
+		@*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+		asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+		asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+		<link rel="stylesheet" href="~/css/base.css" />
+		<link rel="stylesheet" href="~/css/site.css" />
+	</environment>
 </head>
 <body>
 <header>
-<nav class="purple darken-2" style="margin-bottom: 10px;">
+<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
     <div class="nav-wrapper container">
         <a href="#" class="brand-logo">@ViewData["Title"]</a>
         <a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -44,7 +46,7 @@
     @RenderBody()
 </main>
 
-<footer class="page-footer cyan darken-1">
+<footer class="page-footer @ViewBag.secondaryColor">
     <div class="container">
         <div class="row">
             <div class="col l6 s12">

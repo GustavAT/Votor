@@ -19,29 +19,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@Localizer["Dashboard"] - @ViewBag.Title</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/materialize.min.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
+	<environment include="Development">
+		<link rel="stylesheet" href="~/css/materialize.min.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/base.css" />
+		<link rel="stylesheet" href="~/css/portal.css" />
 
-    <style type="text/css">
+	</environment>
+	<environment exclude="Development">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+		<link rel="stylesheet" href="~/css/base.css" />
+		<link rel="stylesheet" href="~/css/portal.css" />
+	</environment>
+
+    @*<style type="text/css">
 
 
         main, header, footer {
             padding-left: 300px;
         }
-    </style>
+    </style>*@
 </head>
 <body>
     <header style="margin-bottom: 10px;">
         <nav class="white">
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger hide-on-large-only light-blue-text">
+            <a href="#" id = "nav-mobile" data-target="nav-mobile" class="sidenav-trigger hide-on-large-only light-blue-text">
                 <i style="font-size: 32px;" class="material-icons">menu</i>
             </a>
             <a href="#" style="margin-left: 20px;" class="brand-logo light-blue-text">@ViewBag.Title</a>
