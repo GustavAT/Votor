@@ -1,10 +1,9 @@
-﻿@model Votor.Areas.Voting.Controllers.VoteModel
+﻿@model Controllers.VoteModel
 
 @{
     ViewBag.Title = Localizer["Vote"];
 }
 
-<h2>Index</h2>
 <p>@Model.EventName</p>
 
 <p>@Model.EventDescription</p>
@@ -21,21 +20,12 @@ else if (Model.Token.HasValue)
 }
 
 <br />
-@foreach (var item in Model.Choices)
-{
-    <p>@item.Question</p>
-    <p>@item.Option</p>
-    <br />
-}
-<br />
+
 
 <p> Choices</p>
 
-@using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+@if (Model.Completed)
 {
-    @Html.HiddenFor(model => model.VoteId)
-    @Html.HiddenFor(model => model.EventId)
-
     <table>
         <tr>
             <th>
@@ -46,14 +36,52 @@ else if (Model.Token.HasValue)
             </th>
         </tr>
 
-        @for (var i = 0; i < Model.Choices.Count; i++)
+        @foreach (var item in Model.Choices)
         {
             <tr>
-                @Html.EditorFor(model => model.Choices[i])
+                <td>@item.Question</td>
+                <td>@item.Option</td>
             </tr>
         }
     </table>
+}
+else
+{
+    using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.VoteId)
+        @Html.HiddenFor(model => model.EventId)
+        @Html.HiddenFor(model => model.Completed)
 
-    <button type="submit">@Localizer["Save"]</button>
+        <table>
+            <tr>
+                <th>
+                    @Localizer["Question"]
+                </th>
+                <th>
+                    @Localizer["Option"]
+                </th>
+            </tr>
+
+            @for (var i = 0; i < Model.Choices.Count; i++)
+            {
+                <tr>
+                    @Html.EditorFor(model => model.Choices[i])
+                </tr>
+            }
+        </table>
+
+        <button type="submit" class="btn waves-effect waves-light">@Localizer["Save"]</button>
+
+        <input type="button" class="btn waves-effect waves-light"
+               value="@Localizer["Complete"]" onclick="completeVote();"/>
+
+        <script>
+            function completeVote() {
+                $("#Completed").val("True");
+                $("form").submit();
+            }
+        </script>
+    }
 }
 

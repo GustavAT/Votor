@@ -22,8 +22,14 @@ namespace Votor.Areas.Voting.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Vote for an event
+        /// Id = token id of an active/inactive event or event-id (active/inactive)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Index(Guid id)
+        public IActionResult Index(Guid id)
         {
             var targetEvent = GetActiveEventById(id);
             Token token;
@@ -33,14 +39,33 @@ namespace Votor.Areas.Voting.Controllers
             if (targetEvent == null)
             {
                 token = GetTokenById(id);
-                targetEvent = GetActiveEventById(token?.EventID ?? Guid.NewGuid());
 
-                if (token == null || targetEvent == null)
+                if (token == null)
                 {
-                    // todo return vote not found
-                    return View("NotFound");
+                    var finishedEvent = GetFinishedEventById(id);
+
+                    if (finishedEvent == null)
+                    {
+                        return View("NotFound");
+                    }
+
+                    return View("Result", finishedEvent.ID);
                 }
-                
+
+                targetEvent = GetActiveEventById(token.EventID);
+
+                if (targetEvent == null)
+                {
+                    var finishedEvent = GetFinishedEventById(token.EventID);
+
+                    if (finishedEvent == null)
+                    {
+                        return View("NotFound");
+                    }
+                    
+                    return View("Result", finishedEvent.ID);
+                }
+
                 // token vote
 
                 targetVote = _context.Votes
@@ -69,11 +94,11 @@ namespace Votor.Areas.Voting.Controllers
                         .Where(x => x.CookieID == tokenId.Value)
                         .AsNoTracking().FirstOrDefault();
                 }
-                
+
                 if (targetVote == null)
                 {
                     // No token, token expired, no vote for token
-                    
+
                     // init cookie
                     publicTokenId = Guid.NewGuid();
                     SetPublicToken(publicTokenId.Value);
@@ -97,9 +122,13 @@ namespace Votor.Areas.Voting.Controllers
 
             return View("NotFound");
         }
-        
-        public IActionResult SaveVoting(VoteModel voteModel, bool? complete = false)
+
+        public IActionResult SaveVoting(VoteModel voteModel)
         {
+            var targetEvent = GetActiveEventById(voteModel.EventId);
+
+            if (targetEvent == null) return View("NotFound");
+
             var choices = _context.Choices
                 .Where(x => x.VoteID == voteModel.VoteId)
                 .ToList();
@@ -115,7 +144,19 @@ namespace Votor.Areas.Voting.Controllers
 
             _context.SaveChanges();
 
-            return View("Index", voteModel);
+            if (voteModel.Completed)
+            {
+                var vote = _context.Votes
+                    .FirstOrDefault(x => x.ID == voteModel.VoteId);
+
+                if (vote != null)
+                {
+                    vote.IsCompleted = true;
+                    _context.SaveChanges();
+                }
+            }
+
+            return View("Index", InitVoteModel(voteModel.VoteId));
         }
 
         private Event GetActiveEventById(Guid eventId)
@@ -124,6 +165,16 @@ namespace Votor.Areas.Voting.Controllers
                 .Where(x => x.ID == eventId && x.IsPublic
                                             && x.StartDate.HasValue
                                             && !x.EndDate.HasValue)
+                .Include(x => x.Questions)
+                .AsNoTracking().FirstOrDefault();
+        }
+
+        private Event GetFinishedEventById(Guid eventId)
+        {
+            return _context.Events
+                .Where(x => x.ID == eventId && x.IsPublic
+                                            && x.StartDate.HasValue
+                                            && x.EndDate.HasValue)
                 .Include(x => x.Questions)
                 .AsNoTracking().FirstOrDefault();
         }

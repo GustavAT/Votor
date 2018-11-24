@@ -24,7 +24,7 @@ else
 
                 </td>
                 <td>
-                    @if (item.CanFinish)
+                    @if (!item.CanEdit)
                     {
                         <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
                            class="btn waves-effect waves-light btn-small">

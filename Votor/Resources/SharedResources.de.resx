@@ -474,7 +474,10 @@
   <data name="Vote" xml:space="preserve">
     <value>Abstimmung</value>
   </data>
-  <data name="Choose option ..." xml:space="preserve">
-    <value>Option wählen ...</value>
+  <data name="Select option" xml:space="preserve">
+    <value>Option wählen</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Abschließen</value>
   </data>
 </root>
