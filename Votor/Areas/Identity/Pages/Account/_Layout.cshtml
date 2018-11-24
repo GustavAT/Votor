@@ -7,16 +7,12 @@
 	<title>@ViewData["Title"] - Votor</title>
 
 	<environment include="Development">
-		@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
 		<link rel="stylesheet" href="~/css/materialize.min.css" />
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="~/css/base.css" />
 		<link rel="stylesheet" href="~/css/site.css" />
 	</environment>
 	<environment exclude="Development">
-		@*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-			asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-			asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
 		<link rel="stylesheet" href="~/css/base.css" />
@@ -27,13 +23,9 @@
 	<header>
 		<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
 			<div class="nav-wrapper container">
-				<a href="#" class="brand-logo">@ViewData["Title"]</a>
+				<a href="#" class="brand-logo">Account</a>
 				<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					@*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-						<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
-
 					<partial name="_LoginPartial" />
 				</ul>
 			</div>
@@ -46,41 +38,7 @@
 		@RenderBody()
 	</main>
 
-	<footer class="page-footer @ViewBag.secondaryColor">
-		<div class="container">
-			<div class="row">
-				<div class="col l6 s12">
-					<h5 class="white-text">Company Bio</h5>
-					<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-				</div>
-				<div class="col l3 m6 s6">
-					<h5 class="white-text">Settings</h5>
-					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
-						<li><a class="white-text" href="#!">Link 3</a></li>
-						<li><a class="white-text" href="#!">Link 4</a></li>
-					</ul>
-				</div>
-				<div class="col l3 m6 s6">
-					<h5 class="white-text">Connect</h5>
-					<ul>
-						<li><a class="white-text" href="#!">Link 1</a></li>
-						<li><a class="white-text" href="#!">Link 2</a></li>
-						<li><a class="white-text" href="#!">Link 3</a></li>
-						<li><a class="white-text" href="#!">Link 4</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="footer-copyright">
-			<div class="container">
-				&copy; @DateTime.Now.Year Votor
-			</div>
-		</div>
-	</footer>
+	<partial name="_AccountFooterPartial" />
 
 	<environment include="Development">
 		<script src="~/lib/jquery/dist/jquery.js"></script>

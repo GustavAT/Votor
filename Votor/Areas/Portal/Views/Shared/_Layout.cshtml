@@ -1,18 +1,4 @@
-﻿@*<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@Localizer["Dashboard"] - @ViewBag.Title</title>
-</head>
-<body>
-    <div>
-        @RenderBody()
-    </div>
-</body>
-</html>*@
-
-@using Microsoft.Extensions.Localization
+﻿@using Microsoft.Extensions.Localization
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,21 +19,14 @@
 		<link rel="stylesheet" href="~/css/portal.css" />
 	</environment>
 
-    @*<style type="text/css">
-
-
-        main, header, footer {
-            padding-left: 300px;
-        }
-    </style>*@
 </head>
 <body>
     <header style="margin-bottom: 10px;">
-        <nav class="white">
-            <a href="#" id = "nav-mobile" data-target="nav-mobile" class="sidenav-trigger hide-on-large-only light-blue-text">
+        <nav class="@ViewBag.mainColor">
+            <a href="#" data-target="votor-sidenav" class="sidenav-trigger hide-on-large-only">
                 <i style="font-size: 32px;" class="material-icons">menu</i>
             </a>
-            <a href="#" style="margin-left: 20px;" class="brand-logo light-blue-text">@ViewBag.Title</a>
+            <a href="#" style="margin-left: 20px;" class="brand-logo">@ViewBag.Title</a>
         </nav>
         <partial name="_SideNavPartial" />
     </header>
@@ -61,41 +40,8 @@
         </div>
     </main>
 
-    <!-- todo move footer to partial view -->
-    <footer class="page-footer light-blue darken-2">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Company Bio</h5>
-                    <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-                </div>
-                <div class="col l3 m6 s6">
-                    <h5 class="white-text">Settings</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                        <li><a class="white-text" href="#!">Link 2</a></li>
-                        <li><a class="white-text" href="#!">Link 3</a></li>
-                        <li><a class="white-text" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-                <div class="col l3 m6 s6">
-                    <h5 class="white-text">Connect</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                        <li><a class="white-text" href="#!">Link 2</a></li>
-                        <li><a class="white-text" href="#!">Link 3</a></li>
-                        <li><a class="white-text" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                &copy; @DateTime.Now.Year Votor
-            </div>
-        </div>
-    </footer>
+    <partial name="_PortalFooter"/>
+    
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
