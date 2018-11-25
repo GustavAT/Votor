@@ -27,6 +27,9 @@
     <Content Update="Areas\Identity\Pages\Account\_LoginNav.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Identity\Pages\Account\_ManageSideNav.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Portal\Views\Dashboard\Finished.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
