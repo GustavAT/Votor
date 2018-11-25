@@ -3,88 +3,88 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager;
 @{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+	var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 
-    var user = await UserManager.GetUserAsync(User);
-    var isEmailConfirmed = user != null && await UserManager.IsEmailConfirmedAsync(user);
+	var user = await UserManager.GetUserAsync(User);
+	var isEmailConfirmed = user != null && await UserManager.IsEmailConfirmedAsync(user);
 }
 
 
 <div class="container">
-    <ul id="sidenav" class="sidenav sidenav-fixed">
-        <li>
-            <a class="waves-effect" asp-area="Portal" asp-page="Dashboard">
-                @Localizer["Dashboard"]
-            </a>
-        </li>
-        <li>
-            <a class="waves-effect" asp-page="./Index">
-                @Localizer["Profile"]
-                @if (isEmailConfirmed)
-                {
-                    <span class="new badge @ViewBag.mainColor" data-badge-caption="">
-                        @Localizer["Verified"]
-                    </span>
-                }
-                else
-                {
-                    <span class="new badge red darken-1" data-badge-caption="">
-                        @Localizer["Not verified"]
-                    </span>
-                }
-            </a>
-        </li>
-        <li>
-            <a class="waves-effect" asp-page="./ChangePassword">
-                @Localizer["Password"]
-            </a>
-        </li>
-        <li>
-            @if (hasExternalLogins)
-            {
-                <a class="waves-effect" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
-            }
-        </li>
-        <li>
-            <a class="waves-effect" asp-page="./PersonalData">
-                @Localizer["Personal data"]
-            </a>
-        </li>
-        <li>
-            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
-            <a href="#" id="logout-button-menu">
-                @Localizer["Logout"]
-            </a>
-            <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded",
-                    function () {
-                        $("#logout-button-menu").on("click",
-                            function () {
-                                $("#logout-form-menu").submit();
-                            });
-                    });
+	<ul id="votor-sidenav" class="sidenav sidenav-fixed">
+		<li>
+			<a class="waves-effect" asp-area="Portal" asp-page="Dashboard">
+				@Localizer["Dashboard"]
+			</a>
+		</li>
+		<li>
+			<a class="waves-effect" asp-page="./Index">
+				@Localizer["Profile"]
+				@if (isEmailConfirmed)
+				{
+					<span class="new badge @ViewBag.mainColor" data-badge-caption="">
+						@Localizer["Verified"]
+					</span>
+				}
+				else
+				{
+					<span class="new badge red darken-1" data-badge-caption="">
+						@Localizer["Not verified"]
+					</span>
+				}
+			</a>
+		</li>
+		<li>
+			<a class="waves-effect" asp-page="./ChangePassword">
+				@Localizer["Password"]
+			</a>
+		</li>
+		<li>
+			@if (hasExternalLogins)
+			{
+				<a class="waves-effect" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
+			}
+		</li>
+		<li>
+			<a class="waves-effect" asp-page="./PersonalData">
+				@Localizer["Personal data"]
+			</a>
+		</li>
+		<li>
+			<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
+			<a href="#" id="logout-button-menu">
+				@Localizer["Logout"]
+			</a>
+			<script type="text/javascript">
+				document.addEventListener("DOMContentLoaded",
+					function () {
+						$("#logout-button-menu").on("click",
+							function () {
+								$("#logout-form-menu").submit();
+							});
+					});
 
-            </script>
-        </li>
-    </ul>
+			</script>
+		</li>
+	</ul>
 </div>
 
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded",
-        function () {
-            $('.sidenav').sidenav();
-        });
+	document.addEventListener("DOMContentLoaded",
+		function () {
+			$('.sidenav').sidenav();
+		});
 </script>
 
 @* // TODO validate if needed *@
 @*<ul class="nav nav-pills nav-stacked">
-    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">Profile</a></li>
-    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a id="external-login" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="@ManageNavPages.PersonalDataNavClass(ViewContext)"><a asp-page="./PersonalData">Personal data</a></li>
-</ul>*@
+		<li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">Profile</a></li>
+		<li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
+		@if (hasExternalLogins)
+		{
+			<li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a id="external-login" asp-page="./ExternalLogins">External logins</a></li>
+		}
+		<li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+		<li class="@ManageNavPages.PersonalDataNavClass(ViewContext)"><a asp-page="./PersonalData">Personal data</a></li>
+	</ul>*@

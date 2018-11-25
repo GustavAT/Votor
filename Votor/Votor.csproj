@@ -24,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Identity\Pages\Account\_LoginNav.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Portal\Views\Dashboard\Finished.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -34,6 +37,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Portal\Views\Event\_OptionsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_SiteFooter.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

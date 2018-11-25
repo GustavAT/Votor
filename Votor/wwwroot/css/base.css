@@ -82,3 +82,8 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
     background-color: #7b1fa2;
     z-index: 0;
 }
+
+/* Additional Stylings for Header*/
+.brand-margin {
+	margin-left: 20px;
+}

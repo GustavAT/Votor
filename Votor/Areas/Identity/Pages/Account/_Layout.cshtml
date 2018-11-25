@@ -1,4 +1,8 @@
 ﻿@using Microsoft.Extensions.Localization
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,34 +14,70 @@
 		<link rel="stylesheet" href="~/css/materialize.min.css" />
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="~/css/base.css" />
-		<link rel="stylesheet" href="~/css/site.css" />
+		<link rel="stylesheet" href="~/css/identity.css" />
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<link rel="stylesheet" href="~/css/identity.manage.css" />
+		}
+		else
+		{
+			<link rel="stylesheet" href="~/css/identity.login.css" />
+		}
 	</environment>
 	<environment exclude="Development">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
 		<link rel="stylesheet" href="~/css/base.css" />
-		<link rel="stylesheet" href="~/css/site.css" />
+		<link rel="stylesheet" href="~/css/identity.css" />
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<link rel="stylesheet" href="~/css/identity.manage.css" />
+		}
+		else
+		{
+			<link rel="stylesheet" href="~/css/identity.login.css" />
+		}
 	</environment>
 </head>
 <body>
-	<header>
-		<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
-			<div class="nav-wrapper container">
-				<a href="#" class="brand-logo">Account</a>
-				<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<partial name="_LoginPartial" />
-				</ul>
+	@if (SignInManager.IsSignedIn(User))
+	{
+
+		<header>
+			<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
+				<a href="#" class="brand-logo brand-margin">Account</a>
+				<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>				
+			</nav>
+			<partial name="~/Areas/Identity/Pages/Account/_ManageNav.cshtml" />
+		</header>		
+	}
+	else
+	{
+		<header>
+			<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
+				<div class="nav-wrapper container">
+					<a href="#" class="brand-logo brand-margin">Account</a>
+					<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+							<partial name="~/Areas/Identity/Pages/Account/_LoginNav.cshtml" />
+					</ul>
+				</div>
+			</nav>
+			<ul class="sidenav" id="votor-sidenav">
+				<partial name="~/Areas/Identity/Pages/Account/_LoginNav.cshtml" />
+			</ul>
+		</header>
+	}
+	
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					@RenderBody()
+				</div>
 			</div>
-		</nav>
-	</header>
-
-	<partial name="_SideNavPartial" />
-
-	<main class="container body-content">
-		@RenderBody()
+		</div>		
 	</main>
-
 	<partial name="_AccountFooterPartial" />
 
 	<environment include="Development">
