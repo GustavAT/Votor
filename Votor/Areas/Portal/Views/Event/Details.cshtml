@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@model Votor.Areas.Portal.Controllers.EventDetailModel
+
+@{
+    ViewBag.Title = $"{Localizer["Details"]} - {Model.Name}";
+}
+
+<div id="general">
+    @Model.Description
+</div>
+<div id="tokens">
+    @if (!string.IsNullOrEmpty(Model.PublicUrl))
+    {
+        <div class="input-field">
+            @Html.LabelFor(model => model.PublicUrl)
+            @Html.TextBoxFor(model => model.PublicUrl, new
+            {
+                @readonly = true
+            })
+            
+            <button class="btn waves-effect waves-light btn-small" onclick="copyToClipboard();">
+                <i class="material-icons left">content_copy</i>@Localizer["Copy"]
+            </button>
+            
+            <script>
+                function copyToClipboard() {
+                    var elem = $("#PublicUrl");
+                    if (elem) {
+                        elem.select();
+                        document.execCommand("copy");
+                    }
+                }
+            </script>
+
+            <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
+               class="btn waves-effect waves-light btn-small">
+                @Localizer["Download QR-codes"]
+            </a>
+        </div>
+    }
+
+    <hr />
+
+    <table>
+        <tr>
+            <th>
+                @Localizer["Name"]
+            </th>
+            <th>
+                @Localizer["Count"]
+            </th>
+            <th>
+                @Localizer["Weight"]
+            </th>
+            <th>
+                @Localizer["Restriction"]
+            </th>
+            <th>
+
+            </th>
+            <th>
+                @Localizer["Actions"]
+            </th>
+        </tr>
+        @foreach (var token in Model.Tokens)
+        {
+            <tr>
+                <td>
+                    @token.Name
+                </td>
+                <td>
+                    @token.Count
+                </td>
+                <td>
+                    @token.Weight
+                </td>
+                <td>
+                    @token.Restriction
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var url in token.TokenUrls)
+                        {
+                            <li>
+                                @url
+                            </li>
+                        }
+                    </ul>
+</td>
+                <td>
+                    <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
+                       asp-route-token="@token.Name" class="btn waves-effect waves-light btn-small">
+                        @Localizer["Download QR-codes"]
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

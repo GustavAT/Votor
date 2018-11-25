@@ -31,9 +31,9 @@ namespace Votor.Areas.Portal.Controllers
             _localizer = localizer;
         }
 
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid eventId)
         {
-            var editEvent = await InitEditEventModel(id);
+            var editEvent = await InitEditEventModel(eventId);
 
             // Event not found or invalid user
             if (editEvent == null)
@@ -139,6 +139,10 @@ namespace Votor.Areas.Portal.Controllers
             };
             _context.Options.Attach(option);
             _context.Options.Remove(option);
+
+            var tokens = _context.Tokens.Where(x => x.OptionID == optionId);
+            _context.RemoveRange(tokens);
+            
             _context.SaveChanges();
 
             ViewBag.Section = "options";
@@ -191,13 +195,18 @@ namespace Votor.Areas.Portal.Controllers
 
         public async Task<IActionResult> AddToken(TokenModel tokenModel)
         {
-            if (ModelState.IsValid)
+            var tokenName = tokenModel.Token;
+
+            var existing = await _context.Tokens
+                .AnyAsync(x => x.EventID == tokenModel.EventId && x.Name == tokenName);
+
+            if (ModelState.IsValid && !existing)
             {
                 for (var i = tokenModel.Count; i-- > 0;)
                 {
                     var token = new Token
                     {
-                        Name = tokenModel.Token,
+                        Name = tokenName,
                         Weight = tokenModel.Weight,
                         EventID = tokenModel.EventId,
                         OptionID = tokenModel.RestrictionId
@@ -224,6 +233,50 @@ namespace Votor.Areas.Portal.Controllers
 
             ViewBag.Section = "tokens";
             return View("Edit", await InitEditEventModel(eventId));
+        }
+
+        public async Task<IActionResult> Details(Guid eventId)
+        {
+            var targetEvent = await GetEventById(eventId);
+
+            if (targetEvent == null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            var tokens = _context.Tokens
+                .Where(x => x.EventID == targetEvent.ID)
+                .Include(x => x.Option)
+                .AsNoTracking()
+                .GroupBy(x => x.Name);
+
+            var tokenModels = new List<TokenDetailModel>();
+
+            foreach (var grouping in tokens)
+            {
+                var view = new TokenDetailModel
+                {
+                    Name = grouping.Key,
+                    Count = tokens.Count(),
+                    Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
+                    Restriction = grouping.FirstOrDefault()?.Option?.Name,
+                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID)).ToList()
+                };
+
+                tokenModels.Add(view);
+            }
+
+            var model = new EventDetailModel
+            {
+                Id = targetEvent.ID,
+                Name = targetEvent.Name,
+                Description = targetEvent.Description,
+                PublicUrl = GenerateVotingUrl(targetEvent.ID),
+                Tokens = tokenModels
+            };
+
+
+            return View("Details", model);
         }
 
         #region helper
@@ -320,7 +373,39 @@ namespace Votor.Areas.Portal.Controllers
             return model;
         }
 
+        private string GenerateVotingUrl(Guid id)
+        {
+            var request = HttpContext.Request;
+            var uriBuilder = new UriBuilder {Scheme = request.Scheme, Host = request.Host.Host};
+            if (request.Host.Port.HasValue)
+            {
+                uriBuilder.Port = request.Host.Port.Value;
+            }
+            uriBuilder.Path = $"/Vote/{id}";
+            return uriBuilder.ToString();
+        }
+
         #endregion
+    }
+
+    public class EventDetailModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        [Display(Name = "Public")]
+        public string PublicUrl { get; set; }
+
+        public List<TokenDetailModel> Tokens { get; set; }
+    }
+
+    public class TokenDetailModel
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+        public double Weight { get; set; }
+        public string Restriction { get; set; }
+        public List<string> TokenUrls { get; set; }
     }
 
     public class EditEventModel

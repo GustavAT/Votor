@@ -417,6 +417,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Aktionen</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
   <data name="Count" xml:space="preserve">
     <value>Anzahl</value>
   </data>
@@ -441,6 +444,9 @@
   <data name="Public" xml:space="preserve">
     <value>Öffentlich</value>
   </data>
+  <data name="Public link for voting" xml:space="preserve">
+    <value>Öffentlicher Link </value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Frage</value>
   </data>
@@ -455,5 +461,23 @@
   </data>
   <data name="Weight" xml:space="preserve">
     <value>Gewichtung</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Aktivieren</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+  <data name="Download QR-codes" xml:space="preserve">
+    <value>QR-Codes herunterladen</value>
+  </data>
+  <data name="Vote" xml:space="preserve">
+    <value>Abstimmung</value>
+  </data>
+  <data name="Select option" xml:space="preserve">
+    <value>Option wählen</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Abschließen</value>
   </data>
 </root>
