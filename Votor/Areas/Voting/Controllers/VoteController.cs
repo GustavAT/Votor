@@ -155,8 +155,11 @@ namespace Votor.Areas.Voting.Controllers
                     _context.SaveChanges();
                 }
             }
-
-            return View("Index", InitVoteModel(voteModel.VoteId));
+            
+            return RedirectToAction("Index", new
+            {
+                id = voteModel.PublicToken.HasValue ? voteModel.EventId : voteModel.Token
+            });
         }
 
         private Event GetActiveEventById(Guid eventId)
