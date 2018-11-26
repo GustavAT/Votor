@@ -87,3 +87,9 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
 .brand-margin {
 	margin-left: 20px;
 }
+
+body{
+    background-image:url("../images/pattern_triangles.png");
+    background-size: 200px;
+    background-repeat:repeat;
+}

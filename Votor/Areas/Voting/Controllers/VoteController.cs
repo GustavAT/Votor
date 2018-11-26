@@ -91,7 +91,7 @@ namespace Votor.Areas.Voting.Controllers
                     var tokenId = publicTokenId;
 
                     targetVote = _context.Votes
-                        .Where(x => x.CookieID == tokenId.Value)
+                        .Where(x => x.CookieID == tokenId.Value && x.EventID == id)
                         .AsNoTracking().FirstOrDefault();
                 }
 

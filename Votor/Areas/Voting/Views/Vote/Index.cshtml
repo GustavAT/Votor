@@ -1,49 +1,50 @@
 ﻿@model Controllers.VoteModel
 
 @{
-    ViewBag.Title = Localizer["Vote"];
+    ViewBag.Title = $"{Localizer["Vote"]} {"-"} {Model.EventName}";
 }
 
-<p>@Model.EventName</p>
+<div class="card @ViewBag.cardColor">
+    <div class="card-content @ViewBag.cardTextColor">
+        <p>@Model.EventDescription</p>
+        <p>@Model.Completed</p>
+    </div>
+    <div class="card-action">
+        <div class="right">
+            <input type="button" class="btn waves-effect waves-light"
+                   value="@Localizer["Complete"]" onclick="completeVote();" />
+        </div>
+    </div>
+</div>
 
-<p>@Model.EventDescription</p>
-
-<p>@Model.Completed</p>
-
-@if (Model.PublicToken.HasValue)
-{
-    <p> Public Vote @Model.PublicToken.Value</p>
-}
-else if (Model.Token.HasValue)
-{
-    <p> Token Vote @Model.Token.Value</p>
-}
-
-<br />
-
-
-<p> Choices</p>
 
 @if (Model.Completed)
 {
-    <table>
-        <tr>
-            <th>
-                @Localizer["Question"]
-            </th>
-            <th>
-                @Localizer["Option"]
-            </th>
-        </tr>
+    @foreach (var item in Model.Choices)
+    {
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content @ViewBag.cardTextColor">
+                <table>
+                    <tr>
+                        <th>
+                            @Localizer["Question"]
+                        </th>
+                        <th>
+                            @Localizer["Option"]
+                        </th>
+                    </tr>
 
-        @foreach (var item in Model.Choices)
-        {
-            <tr>
-                <td>@item.Question</td>
-                <td>@item.Option</td>
-            </tr>
-        }
-    </table>
+
+                    <tr>
+                        <td>@item.Question</td>
+                        <td>@item.Option</td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+    }
 }
 else
 {
@@ -53,28 +54,34 @@ else
         @Html.HiddenFor(model => model.EventId)
         @Html.HiddenFor(model => model.Completed)
 
-        <table>
-            <tr>
-                <th>
-                    @Localizer["Question"]
-                </th>
-                <th>
-                    @Localizer["Option"]
-                </th>
-            </tr>
+        @for (var i = 0; i < Model.Choices.Count; i++)
+        {
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content @ViewBag.cardTextColor">
+                <table>
+                    <tr>
+                        <th>
+                            @Localizer["Question"]
+                        </th>
+                        <th>
+                            @Localizer["Option"]
+                        </th>
+                    </tr>
 
-            @for (var i = 0; i < Model.Choices.Count; i++)
-            {
-                <tr>
-                    @Html.EditorFor(model => model.Choices[i])
-                </tr>
-            }
-        </table>
 
-        <button type="submit" class="btn waves-effect waves-light">@Localizer["Save"]</button>
+                    <tr>
+                        @Html.EditorFor(model => model.Choices[i])
+                    </tr>
 
-        <input type="button" class="btn waves-effect waves-light"
-               value="@Localizer["Complete"]" onclick="completeVote();"/>
+                </table>
+            </div>
+            <div class="card-action pull-right">
+                <button type="submit" class="btn waves-effect waves-light pull-right">@Localizer["Save"]</button>
+            </div>
+        </div>
+        }
+
+                    
 
         <script>
             function completeVote() {
