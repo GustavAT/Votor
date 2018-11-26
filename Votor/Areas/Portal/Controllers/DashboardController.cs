@@ -158,11 +158,32 @@ namespace Votor.Areas.Portal.Controllers
 
         public static bool CanActivate(Event e)
         {
-            return !e.StartDate.HasValue // not started
-                   && !e.EndDate.HasValue // not finished
-                   && e.Questions.Any() // at least 1 question
-                   && e.Options.Any() // at least 1 option
-                   && (e.IsPublic || e.Tokens.Any()); // public or at least 1 token for private events
+            // event started
+            if (e.StartDate.HasValue) return false;
+
+            // event finished
+            if (e.EndDate.HasValue) return false;
+
+            // no questions
+            if (!e.Questions.Any()) return false;
+
+            // no options
+            if (!e.Options.Any()) return false;
+
+            // public voting: ok
+            if (e.IsPublic) return true;
+
+            // no tokens and private
+            if (!e.Tokens.Any()) return false;
+
+            var firstOption = e.Options.FirstOrDefault();
+            if (firstOption == null) return false;
+
+            // more than one option: ok
+            if (e.Options.Count != 1) return true;
+
+            // only one option and restricted by token
+            return !e.Tokens.All(x => x.OptionID.HasValue && x.OptionID.Value == firstOption.ID);
         }
 
         public static bool CanFinish(Event e)
