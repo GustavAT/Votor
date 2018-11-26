@@ -83,7 +83,7 @@ namespace Votor.Areas.Voting.Controllers
                 // public vote
 
                 // check if a cookie is set
-                var publicTokenId = GetPublicToken();
+                var publicTokenId = GetPublicToken(id);
 
                 if (publicTokenId.HasValue)
                 {
@@ -101,7 +101,7 @@ namespace Votor.Areas.Voting.Controllers
 
                     // init cookie
                     publicTokenId = Guid.NewGuid();
-                    SetPublicToken(publicTokenId.Value);
+                    SetPublicToken(publicTokenId.Value, id);
 
                     // create new vote with public id
                     targetVote = InitializeNewVote(targetEvent, publicTokenId);
@@ -187,15 +187,15 @@ namespace Votor.Areas.Voting.Controllers
             return _context.Tokens.Where(x => x.ID == tokenId).AsNoTracking().FirstOrDefault();
         }
 
-        private Guid? GetPublicToken()
+        private Guid? GetPublicToken(Guid eventId)
         {
-            var cookie = Request.Cookies["Token"];
+            var cookie = Request.Cookies[$"{eventId}"];
             return Util.ParseGuid(cookie);
         }
 
-        private void SetPublicToken(Guid tokenId)
+        private void SetPublicToken(Guid tokenId, Guid eventId)
         {
-            Response.Cookies.Append("Token", $"{tokenId}", new CookieOptions
+            Response.Cookies.Append($"{eventId}", $"{tokenId}", new CookieOptions
             {
                 Expires = DateTime.UtcNow.AddMinutes(3600),
                 HttpOnly = true,
