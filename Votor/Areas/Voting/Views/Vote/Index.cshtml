@@ -1,0 +1,87 @@
+﻿@model Controllers.VoteModel
+
+@{
+    ViewBag.Title = Localizer["Vote"];
+}
+
+<p>@Model.EventName</p>
+
+<p>@Model.EventDescription</p>
+
+<p>@Model.Completed</p>
+
+@if (Model.PublicToken.HasValue)
+{
+    <p> Public Vote @Model.PublicToken.Value</p>
+}
+else if (Model.Token.HasValue)
+{
+    <p> Token Vote @Model.Token.Value</p>
+}
+
+<br />
+
+
+<p> Choices</p>
+
+@if (Model.Completed)
+{
+    <table>
+        <tr>
+            <th>
+                @Localizer["Question"]
+            </th>
+            <th>
+                @Localizer["Option"]
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Choices)
+        {
+            <tr>
+                <td>@item.Question</td>
+                <td>@item.Option</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.VoteId)
+        @Html.HiddenFor(model => model.EventId)
+        @Html.HiddenFor(model => model.Completed)
+
+        <table>
+            <tr>
+                <th>
+                    @Localizer["Question"]
+                </th>
+                <th>
+                    @Localizer["Option"]
+                </th>
+            </tr>
+
+            @for (var i = 0; i < Model.Choices.Count; i++)
+            {
+                <tr>
+                    @Html.EditorFor(model => model.Choices[i])
+                </tr>
+            }
+        </table>
+
+        <button type="submit" class="btn waves-effect waves-light">@Localizer["Save"]</button>
+
+        <input type="button" class="btn waves-effect waves-light"
+               value="@Localizer["Complete"]" onclick="completeVote();"/>
+
+        <script>
+            function completeVote() {
+                $("#Completed").val("True");
+                $("form").submit();
+            }
+        </script>
+    }
+}
+

@@ -1,0 +1,89 @@
+﻿/* Social buttons */
+
+.btn-google-plus {
+    background-color: #dd4b39 !important;
+    text-transform: none;
+}
+
+.logo-button {
+    height: 30px;
+    float: left;
+    margin-top: 3px;
+}
+
+.logo-title {
+    margin-left: 10px;
+}
+
+/* Sticky footer at bottom */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* Materialize CSS overrides */
+
+/* form input fields */
+
+.input-field label {
+    color: #7b1fa2;
+}
+
+.input-field label span {
+    color: black;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #7b1fa2;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #7b1fa2;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #7b1fa2;
+    -webkit-box-shadow: 0 1px 0 0 #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2
+}
+
+input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:not(.browser-default), input.valid[type=text]:not(.browser-default):focus, input.valid[type=password]:not(.browser-default), input.valid[type=password]:not(.browser-default):focus, input.valid[type=email]:not(.browser-default), input.valid[type=email]:not(.browser-default):focus, input.valid[type=url]:not(.browser-default), input.valid[type=url]:not(.browser-default):focus, input.valid[type=time]:not(.browser-default), input.valid[type=time]:not(.browser-default):focus, input.valid[type=date]:not(.browser-default), input.valid[type=date]:not(.browser-default):focus, input.valid[type=datetime]:not(.browser-default), input.valid[type=datetime]:not(.browser-default):focus, input.valid[type=datetime-local]:not(.browser-default), input.valid[type=datetime-local]:not(.browser-default):focus, input.valid[type=tel]:not(.browser-default), input.valid[type=tel]:not(.browser-default):focus, input.valid[type=number]:not(.browser-default), input.valid[type=number]:not(.browser-default):focus, input.valid[type=search]:not(.browser-default), input.valid[type=search]:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
+    border-bottom: 1px solid #7b1fa2;
+    -webkit-box-shadow: 0 1px 0 0 #7b1fa2;
+    box-shadow: 0 1px 0 0 #7b1fa2;
+}
+
+[type="checkbox"].filled-in:checked + span:not(.lever):after {
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #7b1fa2;
+    background-color: #7b1fa2;
+    z-index: 0;
+}
+
+/* Additional Stylings for Header*/
+.brand-margin {
+	margin-left: 20px;
+}

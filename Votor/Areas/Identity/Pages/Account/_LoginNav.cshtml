@@ -1,0 +1,24 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+
+
+
+<li>
+	<a asp-area="Identity" asp-page="/Account/Login/Register">
+		@Localizer["Register"]
+	</a>
+</li>
+<li>
+	<a asp-area="Identity" asp-page="/Account/Login/Login">
+		@Localizer["Login"]
+	</a>
+</li>
+
+
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded",
+		function () {
+			$('.sidenav').sidenav();
+		});
+</script>
+

@@ -55,7 +55,7 @@
                         <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
                     </div>
 
-                    <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+                    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
                         @Localizer["Log in"]
                     </button>
                     
@@ -64,7 +64,7 @@
                     <div class="input-field">
                         <p>
                             <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe" class="filled-in purple darken-2" autocomplete="off"/>
+                                <input asp-for="Input.RememberMe" class="filled-in @ViewBag.mainColor" autocomplete="off"/>
                                 <span>@Localizer["Remember me?"]</span>
                             </label>
                         </p>

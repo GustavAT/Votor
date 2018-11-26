@@ -1,5 +1,5 @@
 ﻿@using Votor.Areas.Portal.Controllers
-@model  List<Votor.Areas.Portal.Models.Event>
+@model List<Votor.Areas.Portal.Controllers.DashboardEventModel>
 
 @{
     ViewBag.Title = Localizer["Events"];
@@ -11,4 +11,4 @@
 
 <h3> @Localizer["Events"] (@Model.Count)</h3>
 
-@{await Html.RenderPartialAsync("_ShowEventList", @Model);}
+@{await Html.RenderPartialAsync("_ShowEventList", Model);}

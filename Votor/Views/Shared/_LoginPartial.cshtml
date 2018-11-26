@@ -9,41 +9,51 @@
 {
     <li>
         @{
-// TODO add event controller 
+            // TODO add event controller
         }
         <a asp-area="Portal" asp-controller="Dashboard" asp-action="Index" title="Events">
             @Localizer["Dashboard"]
         </a>
     </li>
     <li>
-        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Account Mangamenet">
             @Localizer["Account"] @*@UserManager.GetUserName(User)!*@
         </a>
     </li>
     <li>
-        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
-        <a href="#" id="logout-button-menu">
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" class="logout-form-menu"></form>
+        <a href="#" class="logout-button-menu">
             @Localizer["Logout"]
         </a>
     </li>
 
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded",
-            function() {
-                $("#logout-button-menu").on("click",
-                    function() {
-                        $("#logout-form-menu").submit();
-                    });
+		document.addEventListener("DOMContentLoaded",
+			function () {
+				$(".logout-button-menu").on("click",
+					function () {
+						$(".logout-form-menu").submit();
+					});
             });
-        
-    </script>
+        </script>
 }
 else
 {
-    <li><a asp-area="Identity" asp-page="/Account/Register">
-        @Localizer["Register"]
-    </a></li>
-    <li><a asp-area="Identity" asp-page="/Account/Login">
-        @Localizer["Login"]
-    </a></li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Login/Register">
+            @Localizer["Register"]
+        </a>
+    </li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Login/Login">
+            @Localizer["Login"]
+        </a>
+    </li>
 }
+
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded",
+		function () {
+			$('.sidenav').sidenav();
+		});
+</script>

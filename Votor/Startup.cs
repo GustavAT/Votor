@@ -141,12 +141,30 @@ namespace Votor
             
             app.UseMvc(routes =>
             {
+                //routes.MapAreaRoute(
+                //    "voting_route",
+                //    "Voting",
+                //    "abc/{id?}",
+                //    new
+                //    {
+                //        controller = "VoteController",
+                //        action = "Index"
+                //    });
+
+                routes.MapRoute("voting_route",
+                    "Vote/{*id}",
+                    new
+                    {
+                        area = "Voting",
+                        controller = "Vote",
+                        action = "Index"
+                    });
+
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
-                //routes.MapRoute(
-                //    name: "portal",
-                //    template: "Portal/{controller=Dashboard}/{action=Index}/{id?}");
+                    template: "{area:exists}/{controller}/{action=Index}/{id?}");
+
+                
 
                 routes.MapRoute(
                     name: "default",

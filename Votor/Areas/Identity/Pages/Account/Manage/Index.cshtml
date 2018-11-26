@@ -30,14 +30,14 @@
     <div class="input-field">
         @if (!Model.IsEmailConfirmed)
         {
-            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn purple darken-2" style="width: 100%;">
+            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn @ViewBag.mainColor" style="width: 100%;">
                 @Localizer["Send verification email"]
             </button>
 
         }
     </div>
 
-    <button type="submit" class="btn waves-effect waves-light purple darken-2" style="width: 100%;">
+    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
         @Localizer["Save"]
     </button>
 
