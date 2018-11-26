@@ -1,7 +1,10 @@
 ﻿
 @{
-    ViewData["Title"] = "NotFound";
+    ViewBag.Title = @Localizer["Oops, looks like the event your are looking does not exist."];
 }
 
-<h2>NotFound</h2>
+
+<img src="~/images/vote_not_found.png" width="650" alt="@Localizer["Sad Potatoe"]"/>
+
+<a asp-controller="Home" asp-action="Index" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Back to homepage"]</a>
 

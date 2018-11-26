@@ -480,4 +480,10 @@
   <data name="Complete" xml:space="preserve">
     <value>Abschließen</value>
   </data>
+  <data name="Back to homepage" xml:space="preserve">
+    <value>Zurück zur Startseite</value>
+  </data>
+  <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
+    <value>Hoppla, das Event, nach dem Du suchst existiert nicht.</value>
+  </data>
 </root>

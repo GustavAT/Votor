@@ -171,7 +171,12 @@ namespace Votor.Areas.Portal.Controllers
 
             if (target != null)
             {
-                var votes = _context.Votes.Where(x => x.EventID == eventId);
+                var votes = _context.Votes.Where(x => x.EventID == eventId)
+                    .Include(x => x.Choices);
+
+                var choices = votes.SelectMany(x => x.Choices);
+
+                _context.RemoveRange(choices);
                 _context.RemoveRange(votes);
 
                 var tokens = _context.Tokens.Where(x => x.EventID == eventId);
@@ -182,7 +187,7 @@ namespace Votor.Areas.Portal.Controllers
 
                 var questions = _context.Questions.Where(x => x.EventID == eventId);
                 _context.RemoveRange(questions);
-
+                
                 _context.Remove(target);
 
                 _context.SaveChanges();
