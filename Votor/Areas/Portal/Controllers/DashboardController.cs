@@ -72,11 +72,6 @@ namespace Votor.Areas.Portal.Controllers
 
             return View("Dashboard", await InitEventListModel());
         }
-
-        public async Task<IActionResult> GenerateQrCodes(Guid eventId, string token)
-        {
-            return View("Dashboard", await InitEventListModel());
-        }
         
         [HttpPost]
         public async Task<IActionResult> CreateEvent(EventModel model)

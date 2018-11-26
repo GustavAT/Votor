@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -265,7 +266,7 @@ namespace Votor.Areas.Portal.Controllers
                     Count = tokens.Count(),
                     Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
                     Restriction = grouping.FirstOrDefault()?.Option?.Name,
-                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID)).ToList()
+                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID, HttpContext)).ToList()
                 };
 
                 tokenModels.Add(view);
@@ -276,7 +277,7 @@ namespace Votor.Areas.Portal.Controllers
                 Id = targetEvent.ID,
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
-                PublicUrl = GenerateVotingUrl(targetEvent.ID),
+                PublicUrl = GenerateVotingUrl(targetEvent.ID, HttpContext),
                 Tokens = tokenModels
             };
 
@@ -378,9 +379,9 @@ namespace Votor.Areas.Portal.Controllers
             return model;
         }
 
-        private string GenerateVotingUrl(Guid id)
+        public static string GenerateVotingUrl(Guid id, HttpContext context)
         {
-            var request = HttpContext.Request;
+            var request = context.Request;
             var uriBuilder = new UriBuilder {Scheme = request.Scheme, Host = request.Host.Host};
             if (request.Host.Port.HasValue)
             {

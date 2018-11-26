@@ -1,0 +1,31 @@
+﻿@model Votor.Areas.Portal.Controllers.QrCodeModel
+@{
+    Layout = "";
+}
+
+@if (Model.PublicQrCode != null)
+{
+    <p>@Model.EventName</p>
+    <p>@Model.PublicQrCode.Name</p>
+    <p>@Model.PublicQrCode.QrCode</p>
+}
+
+<hr />
+
+@{
+    var groups = Model.Tokens.GroupBy(x => x.Name);
+
+    foreach (var group in groups)
+    {
+
+        <p>@Model.EventName</p>
+        <p>@group.Key</p>
+
+        foreach (var token in group)
+        {
+            <p>@token.QrCode</p>
+        }
+    }
+
+    <hr/>
+}
