@@ -15,8 +15,8 @@ namespace Votor.Areas.Portal.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private VotorContext _context;
-        private UserManager<IdentityUser> _userManager;
+        private readonly VotorContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
         
         public DashboardController(VotorContext context, UserManager<IdentityUser> userManager)
         {
@@ -72,11 +72,6 @@ namespace Votor.Areas.Portal.Controllers
 
             return View("Dashboard", await InitEventListModel());
         }
-
-        public async Task<IActionResult> GenerateQrCodes(Guid eventId, string token)
-        {
-            return View("Dashboard", await InitEventListModel());
-        }
         
         [HttpPost]
         public async Task<IActionResult> CreateEvent(EventModel model)
@@ -97,7 +92,7 @@ namespace Votor.Areas.Portal.Controllers
 
                 return RedirectToAction("Edit", "Event", new
                 {
-                    id = newEvent.ID
+                    eventId = newEvent.ID
                 });
             }
 
@@ -158,11 +153,32 @@ namespace Votor.Areas.Portal.Controllers
 
         public static bool CanActivate(Event e)
         {
-            return !e.StartDate.HasValue // not started
-                   && !e.EndDate.HasValue // not finished
-                   && e.Questions.Any() // at least 1 question
-                   && e.Options.Any() // at least 1 option
-                   && (e.IsPublic || e.Tokens.Any()); // public or at least 1 token for private events
+            // event started
+            if (e.StartDate.HasValue) return false;
+
+            // event finished
+            if (e.EndDate.HasValue) return false;
+
+            // no questions
+            if (!e.Questions.Any()) return false;
+
+            // no options
+            if (!e.Options.Any()) return false;
+
+            // public voting: ok
+            if (e.IsPublic) return true;
+
+            // no tokens and private
+            if (!e.Tokens.Any()) return false;
+
+            var firstOption = e.Options.FirstOrDefault();
+            if (firstOption == null) return false;
+
+            // more than one option: ok
+            if (e.Options.Count != 1) return true;
+
+            // only one option and restricted by token
+            return !e.Tokens.All(x => x.OptionID.HasValue && x.OptionID.Value == firstOption.ID);
         }
 
         public static bool CanFinish(Event e)

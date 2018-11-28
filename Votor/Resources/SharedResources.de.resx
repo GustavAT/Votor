@@ -495,4 +495,16 @@
   <data name="General" xml:space="preserve">
     <value>Allgemein</value>
   </data>
+  <data name="Back to homepage" xml:space="preserve">
+    <value>Zurück zur Startseite</value>
+  </data>
+  <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
+    <value>Hoppla, das Event, nach dem Du suchst existiert nicht.</value>
+  </data>
+  <data name="QR-Codes" xml:space="preserve">
+    <value>QR-Codes</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Ergebnisse</value>
+  </data>
 </root>

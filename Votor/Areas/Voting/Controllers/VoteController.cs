@@ -49,7 +49,10 @@ namespace Votor.Areas.Voting.Controllers
                         return View("NotFound");
                     }
 
-                    return View("Result", finishedEvent.ID);
+                    return RedirectToAction("Result", "Vote", new
+                    {
+                        eventId = finishedEvent.ID
+                    });
                 }
 
                 targetEvent = GetActiveEventById(token.EventID);
@@ -63,7 +66,10 @@ namespace Votor.Areas.Voting.Controllers
                         return View("NotFound");
                     }
                     
-                    return View("Result", finishedEvent.ID);
+                    return RedirectToAction("Result", "Vote", new
+                    {
+                        eventId = finishedEvent.ID
+                    });
                 }
 
                 // token vote
@@ -83,7 +89,7 @@ namespace Votor.Areas.Voting.Controllers
                 // public vote
 
                 // check if a cookie is set
-                var publicTokenId = GetPublicToken();
+                var publicTokenId = GetPublicToken(id);
 
                 if (publicTokenId.HasValue)
                 {
@@ -101,7 +107,7 @@ namespace Votor.Areas.Voting.Controllers
 
                     // init cookie
                     publicTokenId = Guid.NewGuid();
-                    SetPublicToken(publicTokenId.Value);
+                    SetPublicToken(publicTokenId.Value, id);
 
                     // create new vote with public id
                     targetVote = InitializeNewVote(targetEvent, publicTokenId);
@@ -155,8 +161,30 @@ namespace Votor.Areas.Voting.Controllers
                     _context.SaveChanges();
                 }
             }
+            
+            return RedirectToAction("Index", new
+            {
+                id = voteModel.PublicToken.HasValue ? voteModel.EventId : voteModel.Token
+            });
+        }
 
-            return View("Index", InitVoteModel(voteModel.VoteId));
+        [HttpGet]
+        public IActionResult Result(Guid eventId)
+        {
+            var targetEvent = GetFinishedEventById(eventId);
+
+            if (targetEvent == null)
+            {
+                return View("NotFound");
+            }
+
+            var model = new ResultModel
+            {
+                EventId = targetEvent.ID,
+                EventName = targetEvent.Name
+            };
+
+            return View("Result", model);
         }
 
         private Event GetActiveEventById(Guid eventId)
@@ -184,15 +212,15 @@ namespace Votor.Areas.Voting.Controllers
             return _context.Tokens.Where(x => x.ID == tokenId).AsNoTracking().FirstOrDefault();
         }
 
-        private Guid? GetPublicToken()
+        private Guid? GetPublicToken(Guid eventId)
         {
-            var cookie = Request.Cookies["Token"];
+            var cookie = Request.Cookies[$"{eventId}"];
             return Util.ParseGuid(cookie);
         }
 
-        private void SetPublicToken(Guid tokenId)
+        private void SetPublicToken(Guid tokenId, Guid eventId)
         {
-            Response.Cookies.Append("Token", $"{tokenId}", new CookieOptions
+            Response.Cookies.Append($"{eventId}", $"{tokenId}", new CookieOptions
             {
                 Expires = DateTime.UtcNow.AddMinutes(3600),
                 HttpOnly = true,
@@ -343,5 +371,11 @@ namespace Votor.Areas.Voting.Controllers
         public string Option { get; set; }
 
         public List<OptionModel> Options { get; set; }
+    }
+
+    public class ResultModel
+    {
+        public Guid EventId { get; set; }
+        public string EventName { get; set; }
     }
 }

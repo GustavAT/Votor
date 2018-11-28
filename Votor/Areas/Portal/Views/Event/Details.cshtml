@@ -32,7 +32,7 @@
                 }
             </script>
 
-            <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
+            <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
                class="btn waves-effect waves-light btn-small">
                 @Localizer["Download QR-codes"]
             </a>
@@ -57,9 +57,6 @@
             </th>
             <th>
 
-            </th>
-            <th>
-                @Localizer["Actions"]
             </th>
         </tr>
         @foreach (var token in Model.Tokens)
@@ -87,12 +84,6 @@
                         }
                     </ul>
 </td>
-                <td>
-                    <a asp-controller="Dashboard" asp-action="GenerateQrCodes" asp-route-eventId="@Model.Id"
-                       asp-route-token="@token.Name" class="btn waves-effect waves-light btn-small">
-                        @Localizer["Download QR-codes"]
-                    </a>
-                </td>
             </tr>
         }
     </table>
