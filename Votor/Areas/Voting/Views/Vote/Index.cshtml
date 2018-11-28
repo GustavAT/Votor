@@ -1,24 +1,25 @@
 ﻿@model Controllers.VoteModel
 
 @{
-    ViewBag.Title = $"{Localizer["Vote"]} {"-"} {Model.EventName}";
+    ViewBag.Title = $"{Localizer["Vote"]}";
 }
 
 <div class="card @ViewBag.cardColor">
     <div class="card-content @ViewBag.cardTextColor">
         <span class="card-title">@Model.EventDescription</span>
     </div>
-   @if (!Model.Completed) { 
-    <div class="card-action card-action-overflow">        
-        <a class="btn waves-effect waves-light right @ViewBag.mainColor white-text" onclick="completeVote();">@Localizer["Complete"]</a>
-        <script>
-            function completeVote() {
-                $("#Completed").val("True");
-                $("form").submit();
-            }
-        </script>
-    </div>
-   }
+    @if (!Model.Completed)
+    {
+        <div class="card-action card-action-overflow">
+            <a class="btn waves-effect waves-light right @ViewBag.mainColor white-text" onclick="completeVote();">@Localizer["Complete"]</a>
+            <script>
+                function completeVote() {
+                    $("#Completed").val("True");
+                    $("form").submit();
+                }
+            </script>
+        </div>
+    }
 </div>
 
 
@@ -58,36 +59,40 @@ else
         @Html.HiddenFor(model => model.EventId)
         @Html.HiddenFor(model => model.Completed)
 
+        @Html.HiddenFor(model => model.PublicToken)
+        @Html.HiddenFor(model => model.Token)
+
         @for (var i = 0; i < Model.Choices.Count; i++)
         {
-        <div class="card @ViewBag.cardColor">
-            <div class="card-content @ViewBag.cardTextColor">
-                <table>
-                    <tr>
-                        <th>
-                            @Localizer["Question"]
-                        </th>
-                        <th>
-                            @Localizer["Option"]
-                        </th>
-                    </tr>
+            <div class="card @ViewBag.cardColor">
+                <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                    <table>
+                        <tr>
+                            <th>
+                                @Localizer["Question"]
+                            </th>
+                            <th>
+                                @Localizer["Option"]
+                            </th>
+                        </tr>
 
 
-                    <tr>
-                        @Html.EditorFor(model => model.Choices[i])
-                    </tr>
+                        <tr>
+                            @Html.EditorFor(model => model.Choices[i])
+                        </tr>
 
-                </table>
+                    </table>
+
+                    <div class="card-internal-action card-action-overflow">
+                        <button type="submit" class="btn waves-effect waves-light right">@Localizer["Save"]</button>
+                    </div>
+                </div>
             </div>
-            <div class="card-action card-action-overflow">
-                <button type="submit" class="btn waves-effect waves-light right">@Localizer["Save"]</button>
-            </div>
-        </div>
         }
 
-                    
 
-        
+
+
     }
 }
 
