@@ -489,4 +489,7 @@
   <data name="QR-Codes" xml:space="preserve">
     <value>QR-Codes</value>
   </data>
+  <data name="Results" xml:space="preserve">
+    <value>Ergebnisse</value>
+  </data>
 </root>

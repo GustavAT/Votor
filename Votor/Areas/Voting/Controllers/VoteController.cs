@@ -49,7 +49,10 @@ namespace Votor.Areas.Voting.Controllers
                         return View("NotFound");
                     }
 
-                    return View("Result", finishedEvent.ID);
+                    return RedirectToAction("Result", "Vote", new
+                    {
+                        eventId = finishedEvent.ID
+                    });
                 }
 
                 targetEvent = GetActiveEventById(token.EventID);
@@ -63,7 +66,10 @@ namespace Votor.Areas.Voting.Controllers
                         return View("NotFound");
                     }
                     
-                    return View("Result", finishedEvent.ID);
+                    return RedirectToAction("Result", "Vote", new
+                    {
+                        eventId = finishedEvent.ID
+                    });
                 }
 
                 // token vote
@@ -160,6 +166,25 @@ namespace Votor.Areas.Voting.Controllers
             {
                 id = voteModel.PublicToken.HasValue ? voteModel.EventId : voteModel.Token
             });
+        }
+
+        [HttpGet]
+        public IActionResult Result(Guid eventId)
+        {
+            var targetEvent = GetFinishedEventById(eventId);
+
+            if (targetEvent == null)
+            {
+                return View("NotFound");
+            }
+
+            var model = new ResultModel
+            {
+                EventId = targetEvent.ID,
+                EventName = targetEvent.Name
+            };
+
+            return View("Result", model);
         }
 
         private Event GetActiveEventById(Guid eventId)
@@ -346,5 +371,11 @@ namespace Votor.Areas.Voting.Controllers
         public string Option { get; set; }
 
         public List<OptionModel> Options { get; set; }
+    }
+
+    public class ResultModel
+    {
+        public Guid EventId { get; set; }
+        public string EventName { get; set; }
     }
 }
