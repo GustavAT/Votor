@@ -486,4 +486,7 @@
   <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
     <value>Hoppla, das Event, nach dem Du suchst existiert nicht.</value>
   </data>
+  <data name="QR-Codes" xml:space="preserve">
+    <value>QR-Codes</value>
+  </data>
 </root>

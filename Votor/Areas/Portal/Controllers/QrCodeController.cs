@@ -46,19 +46,23 @@ namespace Votor.Areas.Portal.Controllers
 
             if (targetEvent.IsPublic)
             {
+                var url = EventController.GenerateVotingUrl(targetEvent.ID, HttpContext);
+                var qrCode = Util.ToImageSourceString(Util.GenerateQrCode(url));
                 model.PublicQrCode = new QrCodeTokenModel
                 {
                     Name = targetEvent.Name,
-                    QrCode = EventController.GenerateVotingUrl(targetEvent.ID, HttpContext)
+                    QrCode = qrCode
                 };
             }
 
             foreach (var token in targetEvent.Tokens)
             {
+                var url = EventController.GenerateVotingUrl(token.ID, HttpContext);
+                var qrCode = Util.ToImageSourceString(Util.GenerateQrCode(url));
                 model.Tokens.Add(new  QrCodeTokenModel
                 {
                     Name = token.Name,
-                    QrCode = EventController.GenerateVotingUrl(token.ID, HttpContext)
+                    QrCode = qrCode
                 });
             }
 
