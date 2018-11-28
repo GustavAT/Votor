@@ -468,8 +468,8 @@
   <data name="Finish" xml:space="preserve">
     <value>Beenden</value>
   </data>
-  <data name="Download QR-codes" xml:space="preserve">
-    <value>QR-Codes herunterladen</value>
+  <data name="Print QR-Codes" xml:space="preserve">
+    <value>QR-Codes drucken</value>
   </data>
   <data name="Vote" xml:space="preserve">
     <value>Abstimmung</value>

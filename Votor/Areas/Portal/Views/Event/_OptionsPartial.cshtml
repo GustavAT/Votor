@@ -3,51 +3,51 @@
 
 
 <div class="card @ViewBag.cardColor">
-    <div class="card-content @ViewBag.cardTextColor">
-        <span class="card-title"></span>
+    <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+        <span class="card-title">@Localizer["Options"]</span>
+        @if (Model.Options.Count == 0)
+        {
+            <p> @Localizer["No options"]</p>
+        }
+        else
+        {
+            <table>
+                <tr>
+                    <th>
+                        @Localizer["Option"]
+                    </th>
+                    <th>
+                        @Localizer["Actions"]
+                    </th>
+                </tr>
+                @foreach (var option in Model.Options)
+                {
+                    <tr>
+                        <td>
+                            @option.Option
+                        </td>
+                        <td>
+                            <a asp-controller="Event" asp-action="RemoveOption" asp-route-optionId="@option.Id" asp-route-eventId="@option.EventId"
+                               class="btn waves-effect waves-light deep-orange accent-3 btn-small">
+                                <i class="material-icons left">delete</i>@Localizer["Remove"]
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
 
-
-        <div class="card-internal-action card-action-overflow">
-
-        </div>
+           
+                @{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
+                    {
+                        EventId = Model.EventModel.EventId,
+                        Option = string.Empty
+                    }); }
+      
     </div>
 </div>
 
-@if (Model.Options.Count == 0)
-{
-    <p> @Localizer["No options"]</p>
-}
-else
-{
-    <table>
-        <tr>
-            <th>
-                @Localizer["Option"]
-            </th>
-            <th>
-                @Localizer["Actions"]
-            </th>
-        </tr>
-        @foreach (var option in Model.Options)
-        {
-            <tr>
-                <td>
-                    @option.Option
-                </td>
-                <td>
-                    <a asp-controller="Event" asp-action="RemoveOption" asp-route-optionId="@option.Id" asp-route-eventId="@option.EventId"
-                       class="btn waves-effect waves-light deep-orange accent-3 btn-small">
-                        <i class="material-icons left">delete</i>@Localizer["Remove"]
-                    </a>
-                </td>
-            </tr>
-        }
-    </table>
-}
-    <div class="card-action-overflow">
-        @{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
-            {
-                EventId = Model.EventModel.EventId,
-                Option = string.Empty
-            }); }
-    </div>
+
+    
+        
+    

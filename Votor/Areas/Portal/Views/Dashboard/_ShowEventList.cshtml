@@ -34,6 +34,7 @@
                         <td>
                             @if (!item.CanEdit)
                             {
+
                                 <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
                                    class="btn waves-effect waves-light btn-small">
                                     <i class="material-icons left">info_outline</i>@Localizer["Details"]
@@ -61,9 +62,25 @@
                                     <i class="material-icons left">edit</i>@Localizer["Edit"]
                                 </a>
                             }
+                            <!-- Modal Structure -->
+                            <div id="deleteModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="card-title">@Localizer["Delete {0}?", item.Name]</span>
+                                </div>
+                                <div class="modal-footer">
+                                    <a 
+                                       class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                                        <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+                                    </a>
 
-                            <a asp-controller="Event" asp-action="DeleteWithPromt" asp-route-eventId="@item.Id"
-                               class="btn waves-effect waves-light deep-orange accent-3 btn-small">
+                                    <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@item.Id"
+                                       class="btn-flat waves-effect waves-light deep-orange accent-3 white-text">
+                                        <i class="material-icons left">delete_forever</i>@Localizer["Delete"]
+                                    </a>
+                                </div>
+                            </div>
+                            <a 
+                               class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#deleteModal">
                                 <i class="material-icons left">delete</i>@Localizer["Delete"]
                             </a>
                         </td>

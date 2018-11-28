@@ -70,13 +70,16 @@
         anchor.scrollIntoView({
             behavior: "smooth"
         });
+        
+        
 
     });
         </text>
     }
 
     document.addEventListener("DOMContentLoaded",
-        function() {
+        function () {
+            $(".modal").modal();
             $("select").formSelect();
         });
 </script>

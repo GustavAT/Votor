@@ -112,3 +112,7 @@ body{
     position: relative;
     padding: 16px 0px
 }
+
+.button-seperator {
+    margin-right:5px;
+}
