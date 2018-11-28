@@ -1,7 +1,5 @@
 ﻿@model Votor.Areas.Portal.Controllers.EventModel;
 
-@Html.ValidationSummary(false, "", new { @class = "red-text text-darken-1" })
-
 @using (Html.BeginForm("CreateEvent", "Dashboard", FormMethod.Post))
 {
     <div class="input-field">

@@ -15,8 +15,8 @@ namespace Votor.Areas.Portal.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private VotorContext _context;
-        private UserManager<IdentityUser> _userManager;
+        private readonly VotorContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
         
         public DashboardController(VotorContext context, UserManager<IdentityUser> userManager)
         {
@@ -92,7 +92,7 @@ namespace Votor.Areas.Portal.Controllers
 
                 return RedirectToAction("Edit", "Event", new
                 {
-                    id = newEvent.ID
+                    eventId = newEvent.ID
                 });
             }
 
