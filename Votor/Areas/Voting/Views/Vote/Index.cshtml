@@ -6,15 +6,19 @@
 
 <div class="card @ViewBag.cardColor">
     <div class="card-content @ViewBag.cardTextColor">
-        <p>@Model.EventDescription</p>
-        <p>@Model.Completed</p>
+        <span class="card-title">@Model.EventDescription</span>
     </div>
-    <div class="card-action">
-        <div class="right">
-            <input type="button" class="btn waves-effect waves-light"
-                   value="@Localizer["Complete"]" onclick="completeVote();" />
-        </div>
+   @if (!Model.Completed) { 
+    <div class="card-action card-action-overflow">        
+        <a class="btn waves-effect waves-light right @ViewBag.mainColor white-text" onclick="completeVote();">@Localizer["Complete"]</a>
+        <script>
+            function completeVote() {
+                $("#Completed").val("True");
+                $("form").submit();
+            }
+        </script>
     </div>
+   }
 </div>
 
 
@@ -75,20 +79,15 @@ else
 
                 </table>
             </div>
-            <div class="card-action pull-right">
-                <button type="submit" class="btn waves-effect waves-light pull-right">@Localizer["Save"]</button>
+            <div class="card-action card-action-overflow">
+                <button type="submit" class="btn waves-effect waves-light right">@Localizer["Save"]</button>
             </div>
         </div>
         }
 
                     
 
-        <script>
-            function completeVote() {
-                $("#Completed").val("True");
-                $("form").submit();
-            }
-        </script>
+        
     }
 }
 

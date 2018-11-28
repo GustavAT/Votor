@@ -2,6 +2,17 @@
 @model EditEventModel
 
 
+<div class="card @ViewBag.cardColor">
+    <div class="card-content @ViewBag.cardTextColor">
+        <span class="card-title"></span>
+
+
+        <div class="card-internal-action card-action-overflow">
+
+        </div>
+    </div>
+</div>
+
 @if (Model.Options.Count == 0)
 {
     <p> @Localizer["No options"]</p>
@@ -33,9 +44,10 @@ else
         }
     </table>
 }
-
-@{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
-    {
-        EventId = Model.EventModel.EventId,
-        Option = string.Empty
-    }); }
+    <div class="card-action-overflow">
+        @{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
+            {
+                EventId = Model.EventModel.EventId,
+                Option = string.Empty
+            }); }
+    </div>

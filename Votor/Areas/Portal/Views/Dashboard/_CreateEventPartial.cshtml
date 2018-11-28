@@ -4,16 +4,24 @@
 
 @using (Html.BeginForm("CreateEvent", "Dashboard", FormMethod.Post))
 {
-    <div class="input-field">
-        <i class="material-icons prefix">event</i>
+    <div class="card @ViewBag.cardColor">
+        <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+            <span class="card-title">@Localizer["Create"]</span>
+            <div class="input-field no-margin-bottom">
+                <i class="material-icons prefix">event</i>
 
-        @Html.LabelFor(model => model.EventName)
-        @Html.TextBoxFor(model => model.EventName)
-        @Html.ValidationMessageFor(model => model.EventName, "", new
-        {
-            @class = "red-text text-darken-1"
-        })
-    </div>
+                @Html.LabelFor(model => model.EventName)
+                @Html.TextBoxFor(model => model.EventName)
+                @Html.ValidationMessageFor(model => model.EventName, "", new
+                {
+                    @class = "red-text text-darken-1"
+                })
+            </div>
 
-    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Create"]</button>
+            <div class="card-internal-action card-action-overflow">
+                <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">@Localizer["Create"]</button>
+            </div>
+        </div>
+    </div>    
 }
+

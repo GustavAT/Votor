@@ -426,7 +426,7 @@ namespace Votor.Areas.Portal.Controllers
         [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        [Display(Name = "Event")]
+        [Display(Name = "Name")]
         public string EventName { get; set; }
 
         [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]

@@ -7,16 +7,22 @@
 
 @{await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());}
 
-<hr />
 
-<h3> @Localizer["Events"] (@Model.Events.Count)</h3>
 
+@{
+    ViewBag.CardTitle = Localizer["Events"];
+    ViewBag.EmptyCardTitle = Localizer["No Events"];
+}
 @{await Html.RenderPartialAsync("_ShowEventList", @Model.Events);}
 
-<h3> @Localizer["Active Events"] (@Model.Active.Count)</h3>
-
+@{
+    ViewBag.CardTitle = Localizer["Active Events"];
+    ViewBag.EmptyCardTitle = Localizer["No active Events"];
+}
 @{await Html.RenderPartialAsync("_ShowEventList", @Model.Active);}
 
-<h3> @Localizer["Finished Events"] (@Model.Finished.Count)</h3>
-
+@{
+    ViewBag.CardTitle = Localizer["Finished Events"];
+    ViewBag.EmptyCardTitle = Localizer["No finished Events"];
+    }
 @{await Html.RenderPartialAsync("_ShowEventList", @Model.Finished);}
