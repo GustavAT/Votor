@@ -83,11 +83,11 @@ namespace Votor
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.AccessDeniedPath = "/Identity/Account/Login/AccessDenied";
                 options.Cookie.Name = "Votor";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                options.LoginPath = "/Identity/Account/Login";
+                options.LoginPath = "/Identity/Account/Account/Login";
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });

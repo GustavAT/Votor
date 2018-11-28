@@ -1,22 +1,22 @@
 ﻿@model Votor.Areas.Portal.Controllers.QuestionModel
 
-<h4>@Localizer["Questions"]</h4>
-
 @using (Html.BeginForm("AddQuestion", "Event", FormMethod.Post))
 {
     <div class="input-field">
-        <i class="material-icons prefix">question_answer</i>
+            <i class="material-icons prefix">question_answer</i>
 
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.EventId)
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.EventId)
 
-        @Html.LabelFor(model => model.Question)
-        @Html.TextBoxFor(model => model.Question)
-        @Html.ValidationMessageFor(model => model.Question, "", new
-        {
-            @class = "red-text text-darken-1"
-        })
+            @Html.LabelFor(model => model.Question)
+            @Html.TextBoxFor(model => model.Question)
+            @Html.ValidationMessageFor(model => model.Question, "", new
+            {
+                @class = "red-text text-darken-1"
+            })
+        </div>
+    
+    <div class="card-internal-action card-action-overflow">
+        <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">@Localizer["Add"]</button>
     </div>
-
-    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Add"]</button>
 }

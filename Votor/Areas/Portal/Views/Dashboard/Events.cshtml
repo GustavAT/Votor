@@ -3,12 +3,10 @@
 
 @{
     ViewBag.Title = Localizer["Events"];
+    ViewBag.CardTitle = Localizer["Events"];
+    ViewBag.EmptyCardTitle = Localizer["No Events"];
 }
 
-@{await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());}
-
-<hr />
-
-<h3> @Localizer["Events"] (@Model.Count)</h3>
+@*@{await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());}*@
 
 @{await Html.RenderPartialAsync("_ShowEventList", Model);}

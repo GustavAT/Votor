@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace Votor.Areas.Portal.Controllers
             _localizer = localizer;
         }
 
-        public async Task<IActionResult> Edit(Guid eventId)
+        public async Task<IActionResult> Edit(Guid eventId, string section = "general")
         {
             var editEvent = await InitEditEventModel(eventId);
 
@@ -41,7 +42,7 @@ namespace Votor.Areas.Portal.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            ViewBag.Section = "general";
+            ViewBag.Section = section;
             return View("Edit", editEvent);
         }
 
@@ -72,7 +73,11 @@ namespace Votor.Areas.Portal.Controllers
 
                 _context.SaveChanges();
 
-                // todo show status message
+                return RedirectToAction("Edit", "Event", new
+                {
+                    eventId = eventModel.EventId,
+                    section = "general"
+                });
             }
 
             ViewBag.Section = "general";
@@ -92,13 +97,19 @@ namespace Votor.Areas.Portal.Controllers
 
                 _context.Questions.Add(question);
                 _context.SaveChanges();
+
+                return RedirectToAction("Edit", "Event", new
+                {
+                    eventId = questionModel.EventId,
+                    section = "questions"
+                });
             }
 
             ViewBag.Section = "questions";
             return View("Edit", await InitEditEventModel(questionModel.EventId));
         }
-        
-        public async Task<IActionResult> RemoveQuestion(Guid questionId, Guid eventId)
+
+        public IActionResult RemoveQuestion(Guid questionId, Guid eventId)
         {
             var question = new Question
             {
@@ -108,8 +119,11 @@ namespace Votor.Areas.Portal.Controllers
             _context.Questions.Remove(question);
             _context.SaveChanges();
 
-            ViewBag.Section = "questions";
-            return View("Edit", await InitEditEventModel(eventId));
+            return RedirectToAction("Edit", "Event", new
+            {
+                eventId,
+                section = "options"
+            });
         }
 
         [HttpPost]
@@ -125,13 +139,19 @@ namespace Votor.Areas.Portal.Controllers
 
                 _context.Options.Add(option);
                 _context.SaveChanges();
+
+                return RedirectToAction("Edit", "Event", new
+                {
+                    eventId = optionModel.EventId,
+                    section = "options"
+                });
             }
 
             ViewBag.Section = "options";
             return View("Edit", await InitEditEventModel(optionModel.EventId));
         }
 
-        public async Task<IActionResult> RemoveOption(Guid optionId, Guid eventId)
+        public IActionResult RemoveOption(Guid optionId, Guid eventId)
         {
             var option = new Option
             {
@@ -142,11 +162,14 @@ namespace Votor.Areas.Portal.Controllers
 
             var tokens = _context.Tokens.Where(x => x.OptionID == optionId);
             _context.RemoveRange(tokens);
-            
+
             _context.SaveChanges();
 
-            ViewBag.Section = "options";
-            return View("Edit", await InitEditEventModel(eventId));
+            return RedirectToAction("Edit", "Event", new
+            {
+                eventId,
+                section = "options"
+            });
         }
 
         public async Task<IActionResult> DeleteWithPromt(Guid eventId)
@@ -171,7 +194,12 @@ namespace Votor.Areas.Portal.Controllers
 
             if (target != null)
             {
-                var votes = _context.Votes.Where(x => x.EventID == eventId);
+                var votes = _context.Votes.Where(x => x.EventID == eventId)
+                    .Include(x => x.Choices);
+
+                var choices = votes.SelectMany(x => x.Choices);
+
+                _context.RemoveRange(choices);
                 _context.RemoveRange(votes);
 
                 var tokens = _context.Tokens.Where(x => x.EventID == eventId);
@@ -182,7 +210,7 @@ namespace Votor.Areas.Portal.Controllers
 
                 var questions = _context.Questions.Where(x => x.EventID == eventId);
                 _context.RemoveRange(questions);
-
+                
                 _context.Remove(target);
 
                 _context.SaveChanges();
@@ -199,7 +227,7 @@ namespace Votor.Areas.Portal.Controllers
 
             var existing = await _context.Tokens
                 .AnyAsync(x => x.EventID == tokenModel.EventId && x.Name == tokenName);
-
+            
             if (ModelState.IsValid && !existing)
             {
                 for (var i = tokenModel.Count; i-- > 0;)
@@ -211,28 +239,35 @@ namespace Votor.Areas.Portal.Controllers
                         EventID = tokenModel.EventId,
                         OptionID = tokenModel.RestrictionId
                     };
-
-                    // todo: token restriction
-
+                    
                     _context.Tokens.Add(token);
                     _context.SaveChanges();
                 }
+
+                return RedirectToAction("Edit", "Event", new
+                {
+                    eventId = tokenModel.EventId,
+                    section = "tokens"
+                });
             }
 
             ViewBag.Section = "tokens";
             return View("Edit", await InitEditEventModel(tokenModel.EventId));
         }
 
-        
-        public async Task<IActionResult> RemoveToken(string token, Guid eventId)
+
+        public IActionResult RemoveToken(string token, Guid eventId)
         {
             var tokens = _context.Tokens.Where(x => x.EventID == eventId && x.Name == token);
 
             _context.Tokens.RemoveRange(tokens);
             _context.SaveChanges();
 
-            ViewBag.Section = "tokens";
-            return View("Edit", await InitEditEventModel(eventId));
+            return RedirectToAction("Edit", "Event", new
+            {
+                eventId,
+                section = "tokens"
+            });
         }
 
         public async Task<IActionResult> Details(Guid eventId)
@@ -260,7 +295,7 @@ namespace Votor.Areas.Portal.Controllers
                     Count = tokens.Count(),
                     Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
                     Restriction = grouping.FirstOrDefault()?.Option?.Name,
-                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID)).ToList()
+                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID, HttpContext)).ToList()
                 };
 
                 tokenModels.Add(view);
@@ -271,7 +306,7 @@ namespace Votor.Areas.Portal.Controllers
                 Id = targetEvent.ID,
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
-                PublicUrl = GenerateVotingUrl(targetEvent.ID),
+                PublicUrl = GenerateVotingUrl(targetEvent.ID, HttpContext),
                 Tokens = tokenModels
             };
 
@@ -373,9 +408,9 @@ namespace Votor.Areas.Portal.Controllers
             return model;
         }
 
-        private string GenerateVotingUrl(Guid id)
+        public static string GenerateVotingUrl(Guid id, HttpContext context)
         {
-            var request = HttpContext.Request;
+            var request = context.Request;
             var uriBuilder = new UriBuilder {Scheme = request.Scheme, Host = request.Host.Host};
             if (request.Host.Port.HasValue)
             {
@@ -424,12 +459,11 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
-        [Display(Name = "Event")]
+        [Display(Name = "Name")]
         public string EventName { get; set; }
 
-        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
         [DataType(DataType.Text)]
         [Display(Name = "Description")]
         public string Description { get; set; }
@@ -444,7 +478,6 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
         [Display(Name = "Question")]
         public string Question { get; set; }
@@ -456,7 +489,6 @@ namespace Votor.Areas.Portal.Controllers
         public Guid EventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
         [Display(Name = "Option")]
         public string Option { get; set; }
@@ -471,12 +503,11 @@ namespace Votor.Areas.Portal.Controllers
         [Display(Name = "Restriction")]
         public string Restriction { get; set; }
 
-        [Range(1, 50, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Range(1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
         [Display(Name = "Count")]
         public int Count { get; set; }
         
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Text)]
         [Display(Name = "Token")]
         public string Token { get; set; }

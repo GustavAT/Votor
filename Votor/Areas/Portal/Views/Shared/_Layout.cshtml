@@ -21,7 +21,7 @@
 
 </head>
 <body>
-    <header style="margin-bottom: 10px;">
+    <header>
         <nav class="@ViewBag.mainColor">
             <a href="#" data-target="votor-sidenav" class="sidenav-trigger hide-on-large-only">
                 <i style="font-size: 32px;" class="material-icons">menu</i>
@@ -70,13 +70,16 @@
         anchor.scrollIntoView({
             behavior: "smooth"
         });
+        
+        
 
     });
         </text>
     }
 
     document.addEventListener("DOMContentLoaded",
-        function() {
+        function () {
+            $(".modal").modal();
             $("select").formSelect();
         });
 </script>

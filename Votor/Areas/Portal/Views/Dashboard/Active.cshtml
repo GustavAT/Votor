@@ -1,9 +1,9 @@
-﻿@model  List<Votor.Areas.Portal.Controllers.DashboardEventModel>
+﻿@model List<Votor.Areas.Portal.Controllers.DashboardEventModel>
 
 @{
     ViewBag.Title = Localizer["Active Events"];
+    ViewBag.CardTitle = Localizer["Active Events"];
+    ViewBag.EmptyCardTitle = Localizer["No active Events"];
 }
-
-<h3> @Localizer["Active Events"] (@Model.Count)</h3>
 
 @{await Html.RenderPartialAsync("_ShowEventList", @Model);}

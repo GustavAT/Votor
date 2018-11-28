@@ -1,65 +1,93 @@
 ﻿@model List<Votor.Areas.Portal.Controllers.DashboardEventModel>
+<div class="card @ViewBag.cardColor">
+    <div class="card-content @ViewBag.cardTextColor">
 
-@if (@Model.Count == 0)
-{
-    <p> @Localizer["No events"]</p>
-}
-else
-{
-    <table>
-        <tr>
-            <th>
-                @Localizer["Event"]
-            </th>
-            <th>
-                @Localizer["Actions"]
-            </th>
-        </tr>
 
-        @foreach (var item in @Model)
+        @if (Model.Count == 0)
         {
-            <tr>
-                <td>
-                    @item.Name
-
-                </td>
-                <td>
-                    @if (!item.CanEdit)
-                    {
-                        <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
-                           class="btn waves-effect waves-light btn-small">
-                            <i class="material-icons left">info_outline</i>@Localizer["Details"]
-                        </a>
-                    }
-
-                    @if (item.CanActivate)
-                    {
-                        <a asp-controller="Dashboard" asp-action="ActivateEvent" asp-route-eventId="@item.Id"
-                           class="btn waves-effect waves-light btn-small">
-                            <i class="material-icons left">info_outline</i>@Localizer["Activate"]
-                        </a>
-                    }
-                    @if (item.CanFinish)
-                    {
-                        <a asp-controller="Dashboard" asp-action="FinishEvent" asp-route-eventId="@item.Id"
-                           class="btn waves-effect waves-light btn-small">
-                            <i class="material-icons left">info_outline</i>@Localizer["Finish"]
-                        </a>
-                    }
-                    @if (item.CanEdit)
-                    {
-                        <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@item.Id"
-                           class="btn waves-effect waves-light btn-small">
-                            <i class="material-icons left">edit</i>@Localizer["Edit"]
-                        </a>
-                    }
-
-                    <a asp-controller="Event" asp-action="DeleteWithPromt" asp-route-eventId="@item.Id"
-                       class="btn waves-effect waves-light deep-orange accent-3 btn-small">
-                        <i class="material-icons left">delete</i>@Localizer["Delete"]
-                    </a>
-                </td>
-            </tr>
+        <span class="card-title">@ViewBag.EmptyCardTitle</span>
         }
-    </table>
-}
+        else
+        {
+            <span class="card-title">@ViewBag.CardTitle: @Model.Count</span> 
+        }
+        
+        @if (@Model.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th>
+                        @Localizer["Event"]
+                    </th>
+                    <th>
+                        @Localizer["Actions"]
+                    </th>
+                </tr>
+
+                @foreach (var item in @Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+
+                       </td>
+                        <td>
+                            @if (!item.CanEdit)
+                            {
+
+                                <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
+                                   class="btn waves-effect waves-light btn-small">
+                                    <i class="material-icons left">info_outline</i>@Localizer["Details"]
+                                </a>
+                            }
+
+                            @if (item.CanActivate)
+                            {
+                                <a asp-controller="Dashboard" asp-action="ActivateEvent" asp-route-eventId="@item.Id"
+                                   class="btn waves-effect waves-light btn-small">
+                                    <i class="material-icons left">info_outline</i>@Localizer["Activate"]
+                                </a>
+                            }
+                            @if (item.CanFinish)
+                            {
+                                <a asp-controller="Dashboard" asp-action="FinishEvent" asp-route-eventId="@item.Id"
+                                   class="btn waves-effect waves-light btn-small">
+                                    <i class="material-icons left">info_outline</i>@Localizer["Finish"]
+                                </a>
+                            }
+                            @if (item.CanEdit)
+                            {
+                                <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@item.Id"
+                                   class="btn waves-effect waves-light btn-small">
+                                    <i class="material-icons left">edit</i>@Localizer["Edit"]
+                                </a>
+                            }
+                            <!-- Modal Structure -->
+                            <div id="deleteModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="card-title">@Localizer["Delete {0}?", item.Name]</span>
+                                </div>
+                                <div class="modal-footer">
+                                    <a 
+                                       class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                                        <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+                                    </a>
+
+                                    <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@item.Id"
+                                       class="btn-flat waves-effect waves-light deep-orange accent-3 white-text">
+                                        <i class="material-icons left">delete_forever</i>@Localizer["Delete"]
+                                    </a>
+                                </div>
+                            </div>
+                            <a 
+                               class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#deleteModal">
+                                <i class="material-icons left">delete</i>@Localizer["Delete"]
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+

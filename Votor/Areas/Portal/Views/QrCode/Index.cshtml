@@ -1,0 +1,55 @@
+﻿@model Votor.Areas.Portal.Controllers.QrCodeModel
+@{
+    Layout = "_LayoutQrCodes";
+    ViewBag.Title = Localizer["QR-Codes"];
+}
+
+@if (Model.PublicQrCode != null)
+{
+    <h4>@Localizer["Public"]</h4>
+
+    for (var i = 9; i-- > 0;)
+     {
+         <div class="card">
+             <div class="card-image">
+                 <img src="@Model.PublicQrCode.QrCode" alt="" aria-hidden="True"/>
+             </div>
+             <div class="card-content">
+                 <p>@Model.EventName</p>
+             </div>
+         </div>
+     }
+}
+
+
+@{
+    var groups = Model.Tokens.GroupBy(x => x.Name);
+
+    foreach (var group in groups)
+    {
+        
+
+        var i = 0;
+        foreach (var token in group)
+        {
+            if (i % 9 == 0)
+            {
+                <hr/>
+                <div class="page-break"></div>
+                <h4>@Localizer["Token"] @group.Key</h4>
+            }
+
+            <div class="card">
+                <div class="card-image">
+                    <img src="@token.QrCode" alt="" aria-hidden="True" />
+
+                </div>
+                <div class="card-content">
+                    <p>@token.Name</p>
+                </div>
+            </div>
+
+            i++;
+        }
+    }
+}

@@ -468,8 +468,8 @@
   <data name="Finish" xml:space="preserve">
     <value>Beenden</value>
   </data>
-  <data name="Download QR-codes" xml:space="preserve">
-    <value>QR-Codes herunterladen</value>
+  <data name="Print QR-Codes" xml:space="preserve">
+    <value>QR-Codes drucken</value>
   </data>
   <data name="Vote" xml:space="preserve">
     <value>Abstimmung</value>
@@ -479,5 +479,32 @@
   </data>
   <data name="Complete" xml:space="preserve">
     <value>Abschließen</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="No active Events" xml:space="preserve">
+    <value>Keine aktiven Events</value>
+  </data>
+  <data name="No finished Events" xml:space="preserve">
+    <value>Keine abgeschlossenen Events</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="Back to homepage" xml:space="preserve">
+    <value>Zurück zur Startseite</value>
+  </data>
+  <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
+    <value>Hoppla, das Event, nach dem Du suchst existiert nicht.</value>
+  </data>
+  <data name="QR-Codes" xml:space="preserve">
+    <value>QR-Codes</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Ergebnisse</value>
   </data>
 </root>

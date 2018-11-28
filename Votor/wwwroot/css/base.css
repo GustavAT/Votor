@@ -31,17 +31,17 @@ main {
 
 /* form input fields */
 
-.input-field label {
+/*.input-field label {
     color: #7b1fa2;
-}
+}*/
 
-.input-field label span {
+/*.input-field label span {
     color: black;
-}
+}*/
 /* label focus color */
-.input-field input[type=text]:focus + label {
+/*.input-field input[type=text]:focus + label {
     color: #7b1fa2;
-}
+}*/
 /* label underline focus color */
 .input-field input[type=text]:focus {
     border-bottom: 1px solid #7b1fa2;
@@ -86,4 +86,33 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
 /* Additional Stylings for Header*/
 .brand-margin {
 	margin-left: 20px;
+}
+
+body{
+    background-image:url("../images/pattern_triangles.png");
+    background-size: 200px;
+    background-repeat:repeat;
+}
+
+.card-action-overflow{
+    overflow:auto;
+}
+
+.no-margin-bottom{
+    margin-bottom: 0px;
+}
+
+.card-no-bottom-padding{
+    padding-bottom: 0px !important;
+}
+
+.card-internal-action {
+    background-color: inherit;
+    border-top: 1px solid rgba(160,160,160,0.2);
+    position: relative;
+    padding: 16px 0px
+}
+
+.button-seperator {
+    margin-right:5px;
 }

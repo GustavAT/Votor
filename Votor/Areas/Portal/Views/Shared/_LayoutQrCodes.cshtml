@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/base.css" />
+        <link rel="stylesheet" href="~/css/portal.css" />
+
+    </environment>
+    <environment exclude="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/base.css" />
+        <link rel="stylesheet" href="~/css/portal.css" />
+    </environment>
+    
+    <style type="text/css">
+        div.page-break {
+            page-break-after: always;
+        }
+
+        hr {
+            visibility: hidden;
+        }
+
+        p, div {
+            page-break-inside: avoid;
+        }
+
+        p {
+            text-align: center;
+            padding: 0 10px 10px 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .card .card-content {
+            padding: 0;
+        }
+
+        div .card {
+            display: inline-block;
+            margin: 10px;
+            width: 215px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
