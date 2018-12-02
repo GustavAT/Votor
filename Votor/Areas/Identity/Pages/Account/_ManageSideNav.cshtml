@@ -14,12 +14,12 @@
 	<ul id="votor-sidenav" class="sidenav sidenav-fixed">
 		<li>
 			<a class="waves-effect" asp-controller="Dashboard" asp-area="Portal">
-				@Localizer["Dashboard"]
+			    <i class="material-icons">dashboard</i> @Localizer["Dashboard"]
 			</a>
 		</li>
 		<li>
 			<a class="waves-effect" asp-page="./Index">
-				@Localizer["Profile"]
+			    <i class="material-icons">person</i> @Localizer["Profile"]
 				@if (isEmailConfirmed)
 				{
 					<span class="new badge @ViewBag.mainColor" data-badge-caption="">
@@ -36,24 +36,26 @@
 		</li>
 		<li>
 			<a class="waves-effect" asp-page="./ChangePassword">
-				@Localizer["Password"]
+			    <i class="material-icons">lock_outline</i> @Localizer["Password"]
 			</a>
 		</li>
 		<li>
 			@if (hasExternalLogins)
 			{
-				<a class="waves-effect" asp-page="./ExternalLogins">@Localizer["External Login"]</a>
+			    <a class="waves-effect" asp-page="./ExternalLogins">
+                    <i class="material-icons">cloud_queue</i> @Localizer["External Login"]
+			    </a>
 			}
 		</li>
 		<li>
 			<a class="waves-effect" asp-page="./PersonalData">
-				@Localizer["Personal data"]
+                <i class="material-icons">data_usage</i> @Localizer["Personal data"]
 			</a>
 		</li>
 		<li>
 			<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
 			<a href="#" id="logout-button-menu">
-				@Localizer["Logout"]
+                <i class="material-icons">keyboard_return</i> @Localizer["Logout"]
 			</a>
 			<script type="text/javascript">
 				document.addEventListener("DOMContentLoaded",
