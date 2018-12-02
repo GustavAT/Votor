@@ -54,8 +54,8 @@ namespace Votor
 
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClientId = Configuration["AuthenticationGoogleClientId"];
+                googleOptions.ClientSecret = Configuration["AuthenticationGoogleClientSecret"];
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -97,7 +97,6 @@ namespace Votor
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 5001;
             });
-            //services.AddHttpsRedirection()
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
