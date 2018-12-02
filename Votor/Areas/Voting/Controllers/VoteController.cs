@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Votor.Areas.Portal.Controllers;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
@@ -15,11 +16,13 @@ namespace Votor.Areas.Voting.Controllers
     [Area("Voting")]
     public class VoteController : Controller
     {
-        private VotorContext _context;
+        private readonly VotorContext _context;
+        public readonly IStringLocalizer<SharedResources> _localizer;
 
-        public VoteController(VotorContext context)
+        public VoteController(VotorContext context, IStringLocalizer<SharedResources> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -178,18 +181,52 @@ namespace Votor.Areas.Voting.Controllers
                 return View("NotFound");
             }
 
-            // TODO: aggregate results
-
-            var votes = _context.Votes
-                .Include(x => x.Choices)
-                .AsNoTracking()
-                .ToList();
-
             var model = new ResultModel
             {
                 EventId = targetEvent.ID,
                 EventName = targetEvent.Name
             };
+
+            // TODO: aggregate results
+
+            var votes = _context.Votes
+                .Include(x => x.Choices).ThenInclude(x => x.Option)
+                .Include(x => x.Choices).ThenInclude(x => x.Question)
+                .AsNoTracking()
+                .ToList();
+
+            var publicCount = votes.Count(x => x.TokenID.HasValue);
+            var tokenCount = votes.Count(x => x.CookieID.HasValue);
+
+            // public- and token-votes
+            if (publicCount > 0 && tokenCount > 0)
+            {
+                var chart = new ChartModel
+                {
+                    Name = "TODO: Distribution Public-Votes and Token-Votes",
+                    Values = new List<ChartValue>
+                    {
+                        new ChartValue
+                        {
+                            Name = _localizer["Public"],
+                            Value = publicCount
+                        },
+                        new ChartValue
+                        {
+                            Name = _localizer["Token"],
+                            Value = tokenCount
+                        }
+                    }
+                };
+                model.VoteDistributionPublicToken = chart;
+            }
+
+            if (targetEvent.IsPublic)
+            {
+
+            }
+
+            
 
             return View("Result", model);
         }
@@ -211,6 +248,8 @@ namespace Votor.Areas.Voting.Controllers
                                             && x.StartDate.HasValue
                                             && x.EndDate.HasValue)
                 .Include(x => x.Questions)
+                .Include(x => x.Options)
+                .Include(x => x.Tokens)
                 .AsNoTracking().FirstOrDefault();
         }
 
@@ -384,5 +423,22 @@ namespace Votor.Areas.Voting.Controllers
     {
         public Guid EventId { get; set; }
         public string EventName { get; set; }
+
+        public ChartModel VoteDistributionPublicToken { get; set; }
+        public ChartModel WeightedVoteDistributionPublicToken { get; set; }
+        public ChartModel VoteDistribution { get; set; }
+        public ChartModel WeightedVoteDistribution { get; set; }
+    }
+
+    public class ChartModel
+    {
+        public string Name { get; set; }
+        public List<ChartValue> Values { get; set; } = new List<ChartValue>();
+
+    }
+
+    public class ChartValue {
+        public string Name { get; set; }
+        public double Value { get; set; }
     }
 }

@@ -64,7 +64,7 @@
                             }
                             @if (item.EndDate.HasValue)
                             {
-                                <a asp-controller="Vote" asp-action="Result" asp-route-eventId="@item.Id"
+                                <a asp-area="Voting" asp-controller="Vote" asp-action="Result" asp-route-eventId="@item.Id"
                                    class="btn waves-effect waves-light btn-small">
                                     <i class="material-icons left">insert_chart</i>@Localizer["Results"]
                                 </a>
