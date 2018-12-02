@@ -66,25 +66,9 @@ else
         {
             <div class="card @ViewBag.cardColor">
                 <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-                    <table>
-                        <tr>
-                            <th>
-                                @Localizer["Question"]
-                            </th>
-                            <th>
-                                @Localizer["Option"]
-                            </th>
-                        </tr>
-
-
-                        <tr>
-                            @Html.EditorFor(model => model.Choices[i])
-                        </tr>
-
-                    </table>
-
+                   @Html.EditorFor(model => model.Choices[i])
                     <div class="card-internal-action card-action-overflow">
-                        <button type="submit" class="btn waves-effect waves-light right">@Localizer["Save"]</button>
+                        <button type="submit" class="btn waves-effect @ViewBag.MainColor waves-light right">@Localizer["Save"]</button>
                     </div>
                 </div>
             </div>

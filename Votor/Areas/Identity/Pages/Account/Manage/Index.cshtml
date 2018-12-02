@@ -4,45 +4,56 @@
 @model IndexModel
 @{
     ViewData["Title"] = Localizer["Profile"];
-    ViewBag.Title = ViewData["Title"];
 }
 
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+<div class="card @ViewBag.cardColor">
+    <div class="card-content @ViewBag.cardTextColor">
+        <span class="card-title">@Localizer["Manage account"]</span>
 
-<form id="profile-form" method="post">
-        
-    <div asp-validation-summary="All" class="red-text text-darken-1">
-    </div>
+        @Html.Partial("_StatusMessage", Model.StatusMessage)
 
-    <div class="input-field">
-        <i class="material-icons prefix">person</i>
-        <label asp-for="Username"></label>
-        <input asp-for="Username" disabled />
-    </div>
+        <form id="profile-form" method="post">
 
-    <div class="input-field">
-        <i class="material-icons prefix">email</i>
-        <label asp-for="Input.Email"></label>
-        <input asp-for="Input.Email" />
-        <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
-    </div>
+            <div asp-validation-summary="All" class="red-text text-darken-1">
+            </div>
 
-    <div class="input-field">
-        @if (!Model.IsEmailConfirmed)
-        {
-            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn @ViewBag.mainColor" style="width: 100%;">
-                @Localizer["Send verification email"]
-            </button>
+            <div class="input-field">
+                <i class="material-icons prefix">person</i>
+                <label asp-for="Username"></label>
+                <input asp-for="Username" disabled />
+            </div>
 
+            <div class="input-field">
+                <i class="material-icons prefix">email</i>
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" />
+                <span asp-validation-for="Input.Email" class="red-text text-darken-1"></span>
+            </div>
+
+            
+
+        </form>
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
         }
+
+            <div class="card-internal-action card-action-overflow">
+                <div class="input-field">
+                    @if (!Model.IsEmailConfirmed)
+                    {
+                        <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn @ViewBag.mainColor" style="width: 100%;">
+                            @Localizer["Send verification email"]
+                        </button>
+
+                    }
+                </div>
+
+                <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
+                    @Localizer["Save"]
+                </button>
+            </div>
     </div>
+</div>
 
-    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
-        @Localizer["Save"]
-    </button>
 
-</form>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

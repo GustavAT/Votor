@@ -2,16 +2,16 @@
 
 @Html.HiddenFor(model => model.Id)
 
-<td>
+<span class="card-title">
     @Model.Question
-</td>
-<td>
-    <div class="input-field">
-        
-        <select asp-for="@Model.OptionId" asp-items="@(new SelectList(Model.Options, "Id", "Option", @Model.OptionId))">
-            <option>@Localizer["Select option"]</option>
-        </select>
-        
-        @Html.LabelFor(model => model.Option)
-    </div>
-</td>
+</span>
+
+<div class="input-field">
+
+    <select asp-for="@Model.OptionId" asp-items="@(new SelectList(Model.Options, "Id", "Option", @Model.OptionId))">
+        <option>@Localizer["Select option"]</option>
+    </select>
+
+    @Html.LabelFor(model => model.Option)
+</div>
+
