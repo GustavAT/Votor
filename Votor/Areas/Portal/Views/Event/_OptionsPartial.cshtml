@@ -16,7 +16,7 @@
                     <th>
                         @Localizer["Option"]
                     </th>
-                    <th>
+                    <th class="right">
                         @Localizer["Actions"]
                     </th>
                 </tr>
@@ -26,7 +26,7 @@
                         <td>
                             @option.Option
                         </td>
-                        <td>
+                        <td class="right">
                             <a asp-controller="Event" asp-action="RemoveOption" asp-route-optionId="@option.Id" asp-route-eventId="@option.EventId"
                                class="btn waves-effect waves-light deep-orange accent-3 btn-small">
                                 <i class="material-icons left">delete</i>@Localizer["Remove"]
@@ -37,13 +37,14 @@
             </table>
         }
 
-           
-                @{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
-                    {
-                        EventId = Model.EventModel.EventId,
-                        Option = string.Empty
-                    }); }
-      
+        <br />
+
+        @{ await Html.RenderPartialAsync("_AddOptionPartial", new OptionModel
+            {
+                EventId = Model.EventModel.EventId,
+                Option = string.Empty
+            }); }
+
     </div>
 </div>
 
