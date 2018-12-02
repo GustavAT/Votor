@@ -1,8 +1,70 @@
 ﻿@model Votor.Areas.Voting.Controllers.ResultModel
-
+@* include chart libarry *@
+<script type="text/javascript" src="~/js/echarts.min.js"></script>
 @{
     ViewBag.Title = Localizer["Results"];
 }
+<div class="card">
+    <div class="card-content">
+        <p class="card-title">@Model.EventName</p>
+        <p>@Localizer["Votes"]: @Model.VoteDistribution.Values.Sum(x => x.Value)</p>
 
-<h4>@Model.EventName</h4>
+        <table>
+            <tr>
+                <th>
+                    @Localizer["Category"]
+                </th>
+                <th>
+                    @Localizer["Winner"]
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Localizer["Overall"]
+                </td>
+                <td>
+                    @{
+                        var winners = Model.Overall.WeightedValues.Where(x => Math.Abs(x.Value - Model.Overall.WeightedValues.Max(y => y.Value)) < 0.000001);
+                    }
+                    @string.Join(", ", winners.Select(x => $"{x.Name} ({x.Value})"))
+                </td>
+            </tr>
+            @foreach (var record in Model.Questions)
+            {
+                <tr>
+                    <td>
+                        @record.Question
+                    </td>
+                    <td>
+                        @{
+                            var questionWinner = record.WeightedValues.Where(x => Math.Abs(x.Value - record.WeightedValues.Max(y => y.Value)) < 0.000001);
+                        }
+                        @string.Join(", ", questionWinner.Select(x => $"{x.Name} ({x.Value})"))
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 
+<script>
+    window.votorCharts = [];
+
+    window.addEventListener("resize",
+        function () {
+            for (var i = window.votorCharts.length; i-- > 0;) {
+                votorCharts[i].resize();
+            }
+        });
+</script>
+
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.VoteDistribution);}
+
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.WeightedVoteDistribution);}
+
+@{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
+
+@foreach (var questionChartModel in Model.Questions)
+{
+    await Html.RenderPartialAsync("_QuestionChartPartial", questionChartModel);
+}

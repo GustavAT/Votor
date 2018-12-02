@@ -292,7 +292,7 @@ namespace Votor.Areas.Portal.Controllers
                 var view = new TokenDetailModel
                 {
                     Name = grouping.Key,
-                    Count = tokens.Count(),
+                    Count = grouping.Count(),
                     Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
                     Restriction = grouping.FirstOrDefault()?.Option?.Name,
                     TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID, HttpContext)).ToList()

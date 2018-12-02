@@ -1,0 +1,78 @@
+﻿@using System.Web
+@model Votor.Areas.Voting.Controllers.ChartModel
+
+@{
+    var chartId = Guid.NewGuid();
+}
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-content">
+            <p class="card-title">@Model.Name</p>
+            <div id="@chartId" style="width: 100%; min-height: 300px;"></div>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript">
+        var chart = echarts.init(document.getElementById("@chartId"));
+
+        var data = initData();
+
+        if (chart) {
+
+            var options = {
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br />{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: "horizontal",
+                    left: "center",
+                    data: data.legend
+                },
+                series: [
+                    {
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Name))",
+                        type: "pie",
+                        radius: "80%",
+                        label: {
+                            normal: {
+                                formatter: "{b} \n{c} ({d}%)",
+                                show: true,
+                                position: "inner"
+                            }
+                        },
+                        center: ["50%", "60%"],
+                        data: data.series,
+                        color: ["#7b1fa2", "#00acc1"]
+
+                    }
+                ]
+            };
+
+            chart.setOption(options);
+
+            window.votorCharts.push(chart);
+        }
+
+        function initData() {
+            var data = {};
+            data.legend = [];
+            data.series = [];
+
+            @foreach (var value in Model.Values) {
+                <text>
+                    data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))");
+                    data.series.push({
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
+                        value: @value.Value
+                    });
+                </text>
+            }
+            
+            return data;
+        }
+    </script>
+}

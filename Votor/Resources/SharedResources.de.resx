@@ -384,7 +384,7 @@
   <data name="Finished Events" xml:space="preserve">
     <value>Abgeschlossene Events</value>
   </data>
-  <data name="No events" xml:space="preserve">
+  <data name="No Events" xml:space="preserve">
     <value>Keine Events</value>
   </data>
   <data name="Add" xml:space="preserve">
@@ -495,7 +495,7 @@
   <data name="General" xml:space="preserve">
     <value>Allgemein</value>
   </data>
-  <data name="Back to homepage" xml:space="preserve">
+  <data name="Return to startpage" xml:space="preserve">
     <value>Zurück zur Startseite</value>
   </data>
   <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
@@ -506,5 +506,20 @@
   </data>
   <data name="Results" xml:space="preserve">
     <value>Ergebnisse</value>
+  </data>
+  <data name="Votes" xml:space="preserve">
+    <value>Stimmen</value>
+  </data>
+  <data name="Weighted Votes" xml:space="preserve">
+    <value>Gewichtete Stimmen</value>
+  </data>
+  <data name="Overall" xml:space="preserve">
+    <value>Gesamt</value>
+  </data>
+  <data name="Winner" xml:space="preserve">
+    <value>Gewinner</value>
+  </data>
+  <data name="Not found" xml:space="preserve">
+    <value>Nicht gefunden</value>
   </data>
 </root>

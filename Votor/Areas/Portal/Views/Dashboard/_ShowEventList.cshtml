@@ -62,14 +62,20 @@
                                     <i class="material-icons left">edit</i>@Localizer["Edit"]
                                 </a>
                             }
+                            @if (item.EndDate.HasValue)
+                            {
+                                <a asp-area="Voting" asp-controller="Vote" asp-action="Result" asp-route-eventId="@item.Id"
+                                   class="btn waves-effect waves-light btn-small">
+                                    <i class="material-icons left">insert_chart</i>@Localizer["Results"]
+                                </a>
+                            }
                             <!-- Modal Structure -->
                             <div id="deleteModal" class="modal">
                                 <div class="modal-content">
                                     <span class="card-title">@Localizer["Delete {0}?", item.Name]</span>
                                 </div>
                                 <div class="modal-footer">
-                                    <a 
-                                       class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                                    <a class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
                                         <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
                                     </a>
 
@@ -79,8 +85,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <a 
-                               class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#deleteModal">
+                            <a class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#deleteModal">
                                 <i class="material-icons left">delete</i>@Localizer["Delete"]
                             </a>
                         </td>

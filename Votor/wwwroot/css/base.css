@@ -94,15 +94,15 @@ body{
     background-repeat:repeat;
 }
 
-.card-action-overflow{
+.card-action-overflow {
     overflow:auto;
 }
 
-.no-margin-bottom{
+.no-margin-bottom {
     margin-bottom: 0px;
 }
 
-.card-no-bottom-padding{
+.card-no-bottom-padding {
     padding-bottom: 0px !important;
 }
 
