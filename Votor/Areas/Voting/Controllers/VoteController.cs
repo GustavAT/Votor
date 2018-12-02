@@ -261,18 +261,18 @@ namespace Votor.Areas.Voting.Controllers
                     questionModel.Values.Add(new ChartValue
                     {
                         Name = option.Name,
-                        Value = choices.Count(x => x.OptionID == option.ID)
+                        Value = choices.Count(x => x.OptionID == option.ID && x.QuestionID == question.ID)
                     });
 
 
                     double count = votes.Where(x => x.CookieID.HasValue)
-                        .SelectMany(x => x.Choices).Count(x => x.OptionID == option.ID);
+                        .SelectMany(x => x.Choices).Count(x => x.OptionID == option.ID && x.QuestionID == question.ID);
 
                     var votesWithToken = votes.Where(x => x.Token != null);
                     foreach (var vote in votesWithToken)
                     {
                         var weight = vote.Token.Weight;
-                        count += weight * vote.Choices.Count(x => x.OptionID == option.ID);
+                        count += weight * vote.Choices.Count(x => x.OptionID == option.ID && x.QuestionID == question.ID);
                     }
 
                     questionModel.WeightedValues.Add(new ChartValue

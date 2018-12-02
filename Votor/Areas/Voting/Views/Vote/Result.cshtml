@@ -24,9 +24,9 @@
                 </td>
                 <td>
                     @{
-                        var winners = Model.Overall.Values.Where(x => Math.Abs(x.Value - Model.Overall.Values.Max(y => y.Value)) < 0.000001);
+                        var winners = Model.Overall.WeightedValues.Where(x => Math.Abs(x.Value - Model.Overall.WeightedValues.Max(y => y.Value)) < 0.000001);
                     }
-                    @string.Join(',', winners.Select(x => x.Name))
+                    @string.Join(", ", winners.Select(x => $"{x.Name} ({x.Value})"))
                 </td>
             </tr>
             @foreach (var record in Model.Questions)
@@ -37,9 +37,9 @@
                     </td>
                     <td>
                         @{
-                            var questionWinner = record.Values.Where(x => Math.Abs(x.Value - Model.Overall.Values.Max(y => y.Value)) < 0.000001);
+                            var questionWinner = record.WeightedValues.Where(x => Math.Abs(x.Value - record.WeightedValues.Max(y => y.Value)) < 0.000001);
                         }
-                        @string.Join(',', questionWinner.Select(x => x.Name))
+                        @string.Join(", ", questionWinner.Select(x => $"{x.Name} ({x.Value})"))
                     </td>
                 </tr>
             }
