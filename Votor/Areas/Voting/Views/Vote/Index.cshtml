@@ -29,23 +29,11 @@
     {
         <div class="card @ViewBag.cardColor">
             <div class="card-content @ViewBag.cardTextColor">
-                <table>
-                    <tr>
-                        <th>
-                            @Localizer["Question"]
-                        </th>
-                        <th>
-                            @Localizer["Option"]
-                        </th>
-                    </tr>
-
-
-                    <tr>
-                        <td>@item.Question</td>
-                        <td>@item.Option</td>
-                    </tr>
-
-                </table>
+				<span class="card-title">@item.Question</span>
+				<br/>
+				<p class="black-text">@item.Option</p>
+                        
+                    
             </div>
 
         </div>
