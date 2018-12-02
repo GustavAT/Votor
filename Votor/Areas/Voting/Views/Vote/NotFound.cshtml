@@ -1,10 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = @Localizer["Oops, looks like the event your are looking does not exist."];
+    ViewBag.Title = Localizer["Not found"];
 }
 
-
-<img src="~/images/vote_not_found.png" width="650" alt="@Localizer["Sad Potatoe"]"/>
-
-<a asp-controller="Home" asp-action="Index" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Back to homepage"]</a>
-
+<div class="row">
+    <div class="col m12 l6 offset-l3">
+        <div class="card">
+            <div class="card-image">
+                <img src="~/images/vote_not_found.png" alt="@Localizer["Sad Potatoe"]" />
+            </div>
+            <div class="card-content">
+                <p>@Localizer["Oops, looks like the event your are looking does not exist."]</p>
+                <a asp-controller="Home" asp-action="Index" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Return to startpage"]</a>
+            </div>
+        </div>
+    </div>
+</div>

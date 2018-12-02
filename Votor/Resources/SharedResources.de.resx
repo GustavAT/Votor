@@ -495,7 +495,7 @@
   <data name="General" xml:space="preserve">
     <value>Allgemein</value>
   </data>
-  <data name="Back to homepage" xml:space="preserve">
+  <data name="Return to startpage" xml:space="preserve">
     <value>Zurück zur Startseite</value>
   </data>
   <data name="Oops, looks like the event your are looking does not exist." xml:space="preserve">
@@ -518,5 +518,8 @@
   </data>
   <data name="Winner" xml:space="preserve">
     <value>Gewinner</value>
+  </data>
+  <data name="Not found" xml:space="preserve">
+    <value>Nicht gefunden</value>
   </data>
 </root>
