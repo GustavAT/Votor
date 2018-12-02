@@ -67,6 +67,14 @@ namespace Votor.Areas.Portal.Controllers
             if (CanFinish(target))
             {
                 target.EndDate = DateTime.UtcNow;
+
+                // set all votes to completed
+                var votes = _context.Votes.Where(x => x.EventID == eventId);
+                foreach (var vote in votes)
+                {
+                    vote.IsCompleted = true;
+                }
+                
                 _context.SaveChanges();
             }
 

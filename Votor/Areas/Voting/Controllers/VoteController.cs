@@ -178,6 +178,13 @@ namespace Votor.Areas.Voting.Controllers
                 return View("NotFound");
             }
 
+            // TODO: aggregate results
+
+            var votes = _context.Votes
+                .Include(x => x.Choices)
+                .AsNoTracking()
+                .ToList();
+
             var model = new ResultModel
             {
                 EventId = targetEvent.ID,

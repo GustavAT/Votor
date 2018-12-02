@@ -1,8 +1,40 @@
 ﻿@model Votor.Areas.Voting.Controllers.ResultModel
 
+@* include chart libarry *@
+<script type="text/javascript" src="~/js/echarts.min.js"></script>
+
 @{
     ViewBag.Title = Localizer["Results"];
 }
 
 <h4>@Model.EventName</h4>
+
+<div id="first-chart" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    // based on prepared DOM, initialize echarts instance
+    var myChart = echarts.init(document.getElementById('first-chart'));
+
+    // specify chart configuration item and data
+    var option = {
+        title: {
+            text: 'ECharts entry example'
+        },
+        tooltip: {},
+        legend: {
+            data:['Sales']
+        },
+        xAxis: {
+            data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
+        },
+        yAxis: {},
+        series: [{
+            name: 'Sales',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+
+    // use configuration item and data specified to show chart
+    myChart.setOption(option);
+</script>
 
