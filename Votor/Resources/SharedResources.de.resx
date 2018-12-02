@@ -409,7 +409,7 @@
     <value>Abbrechen</value>
   </data>
   <data name="Delete {0}?" xml:space="preserve">
-    <value>{0} Löschen?</value>
+    <value>{0} löschen?</value>
   </data>
   <data name="The event {0} was deleted!" xml:space="preserve">
     <value>Das Event {0} wurde gelöscht!</value>

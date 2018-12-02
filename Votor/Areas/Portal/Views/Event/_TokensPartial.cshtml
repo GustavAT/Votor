@@ -26,7 +26,7 @@
                     <th>
                         @Localizer["Restriction"]
                     </th>
-                    <th>
+                    <th class="right">
                         @Localizer["Actions"]
                     </th>
                 </tr>
@@ -53,7 +53,7 @@
                                 @Localizer["No restriction"]
                             }
                         </td>
-                        <td>
+                        <td class="right">
 
                             <a asp-controller="Event" asp-action="RemoveToken" asp-route-token="@token.Token" asp-route-eventId="@token.EventId"
                                class="btn waves-effect waves-light deep-orange accent-3 btn-small">
@@ -65,6 +65,8 @@
             </table>
         }
 
+         <br />
+
         @{ await Html.RenderPartialAsync("_AddTokenPartial", new TokenModel
             {
                 EventId = Model.EventModel.EventId,
@@ -73,7 +75,7 @@
                 Weight = 1,
                 Options = Model.Options
             }); }
-        
+
     </div>
 </div>
 

@@ -17,7 +17,7 @@
                     <th>
                         @Localizer["Question"]
                     </th>
-                    <th>
+                    <th class="right">
                         @Localizer["Actions"]
                     </th>
                 </tr>
@@ -27,7 +27,7 @@
                         <td>
                             @question.Question
                         </td>
-                        <td>
+                        <td class="right">
                             <a asp-controller="Event" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-eventId="@question.EventId"
                                class="btn waves-effect waves-light deep-orange accent-3 btn-small">
                                 <i class="material-icons left">delete</i>@Localizer["Remove"]
