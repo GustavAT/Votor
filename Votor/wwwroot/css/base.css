@@ -83,9 +83,12 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
     z-index: 0;
 }
 
+.dropdown-content li > a, .dropdown-content li > span {
+    color: black;
+}
 /* Additional Stylings for Header*/
 .brand-margin {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 body{

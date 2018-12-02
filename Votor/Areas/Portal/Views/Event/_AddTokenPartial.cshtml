@@ -2,6 +2,7 @@
 
 @using (Html.BeginForm("AddToken", "Event", FormMethod.Post))
 {
+    <h6>@Localizer["Add"]</h6>
     @Html.HiddenFor(model => model.EventId)
 
     <div class="input-field">
@@ -47,5 +48,5 @@
     <div class="card-internal-action card-action-overflow">
         <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">@Localizer["Add"]</button>
     </div>
-  
+
 }

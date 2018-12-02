@@ -7,9 +7,11 @@
     ViewBag.Title = ViewData["Title"];
 }
 
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+<div class="card @ViewBag.cardColor">
+    <div class="card-content @ViewBag.cardTextColor">
+        <span class="card-title">@Localizer["External Login"]</span>
+        @Html.Partial("_StatusMessage", Model.StatusMessage)
 
-        
         @if (Model.CurrentLogins?.Count > 0)
         {
             <h5>
@@ -18,45 +20,51 @@
 
             <table>
                 <tbody>
-                @foreach (var login in Model.CurrentLogins)
-                {
-                    <tr class="collection-item">
-                        
-                        <td>
-                            <p>@login.ProviderDisplayName</p>
-                        </td>
-                        <td>
-                            @if (Model.ShowRemoveButton)
-                            {
-                                <form id="remove-login" asp-page-handler="RemoveLogin" method="post">
-                                    <div class="right">
-                                        <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                        <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                        <button type="submit" class="btn waves-effect waves-light red darken-1" title="@Localizer["Remove this {0} login from your account", @login.LoginProvider]">
-                                            @Localizer["Remove"]
-                                        </button>
-                                    </div>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
+                    @foreach (var login in Model.CurrentLogins)
+                    {
+                        <tr class="collection-item">
+
+                            <td>
+                                <p>@login.ProviderDisplayName</p>
+                            </td>
+                            <td>
+                                @if (Model.ShowRemoveButton)
+                                {
+                                    <form id="remove-login" asp-page-handler="RemoveLogin" method="post">
+                                        <div class="right">
+                                            <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                            <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                                            <button type="submit" class="btn waves-effect waves-light red darken-1" title="@Localizer["Remove this {0} login from your account", @login.LoginProvider]">
+                                                @Localizer["Remove"]
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
-        @if (Model.OtherLogins?.Count > 0)
-        {
-            <h5>
-                @Localizer["Add external login"]
-            </h5>
-            
-            <form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-                @if (Model.GoogleLogin != null)
+       
+
+            <div class="card-internal-action card-action-overflow">
+                @if (Model.OtherLogins?.Count > 0)
                 {
-                    <button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
-                        <img src="~/images/google-plus-icon.svg" class="logo-button"/>
-                        <span class="logo-title">@Model.GoogleLogin.DisplayName</span>
-                    </button>
+
+
+                    <form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
+                        @if (Model.GoogleLogin != null)
+                        {
+                            <button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
+                                <img src="~/images/google-plus-icon.svg" class="logo-button" />
+                                <span class="logo-title">@Model.GoogleLogin.DisplayName</span>
+                            </button>
+                        }
+                    </form>
                 }
-            </form>
-        }
+            </div>
+    </div>
+</div>
+
+
