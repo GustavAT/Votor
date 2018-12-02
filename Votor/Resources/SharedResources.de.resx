@@ -507,4 +507,16 @@
   <data name="Results" xml:space="preserve">
     <value>Ergebnisse</value>
   </data>
+  <data name="Votes" xml:space="preserve">
+    <value>Stimmen</value>
+  </data>
+  <data name="Weighted Votes" xml:space="preserve">
+    <value>Gewichtete Stimmen</value>
+  </data>
+  <data name="Overall" xml:space="preserve">
+    <value>Gesamt</value>
+  </data>
+  <data name="Winner" xml:space="preserve">
+    <value>Gewinner</value>
+  </data>
 </root>

@@ -1,70 +1,70 @@
 ﻿@model Votor.Areas.Voting.Controllers.ResultModel
-
 @* include chart libarry *@
 <script type="text/javascript" src="~/js/echarts.min.js"></script>
-
 @{
     ViewBag.Title = Localizer["Results"];
 }
+<div class="card">
+    <div class="card-content">
+        <p class="card-title">@Model.EventName</p>
+        <p>@Localizer["Votes"]: @Model.VoteDistribution.Values.Sum(x => x.Value)</p>
 
-<h4>@Model.EventName</h4>
-@* TODO: move pie/bar/line chart to partial view *@
-
-@if (Model.VoteDistributionPublicToken != null)
-{
-    <div class="card">
-        <div class="card-image">
-            <div id="todo" style="min-height: 200px;" class="m12"></div>
-        </div>
-        <div class="card-content">
-            Distribution of votes
-        </div>
-    </div>
-
-    <script type="text/javascript">
-        var chart = echarts.init(document.getElementById("todo"));
-
-        option = {
-            title : {
-                text: '某站点用户访问来源',
-                subtext: '纯属虚构',
-                x:'center'
-            },
-            tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-            },
-            series : [
-                {
-                    name: '访问来源',
-                    type: 'pie',
-                    radius : '55%',
-                    center: ['50%', '60%'],
-                    data:[
-                        {value:335, name:'直接访问'},
-                        {value:310, name:'邮件营销'},
-                        {value:234, name:'联盟广告'},
-                        {value:135, name:'视频广告'},
-                        {value:1548, name:'搜索引擎'}
-                    ],
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
+        <table>
+            <tr>
+                <th>
+                    @Localizer["Category"]
+                </th>
+                <th>
+                    @Localizer["Winner"]
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Localizer["Overall"]
+                </td>
+                <td>
+                    @{
+                        var winners = Model.Overall.Values.Where(x => Math.Abs(x.Value - Model.Overall.Values.Max(y => y.Value)) < 0.000001);
                     }
-                }
-            ]
-        };
+                    @string.Join(',', winners.Select(x => x.Name))
+                </td>
+            </tr>
+            @foreach (var record in Model.Questions)
+            {
+                <tr>
+                    <td>
+                        @record.Question
+                    </td>
+                    <td>
+                        @{
+                            var questionWinner = record.Values.Where(x => Math.Abs(x.Value - Model.Overall.Values.Max(y => y.Value)) < 0.000001);
+                        }
+                        @string.Join(',', questionWinner.Select(x => x.Name))
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 
-        chart.setOption(option);
-    </script>
+<script>
+    window.votorCharts = [];
+
+    window.addEventListener("resize",
+        function () {
+            for (var i = window.votorCharts.length; i-- > 0;) {
+                votorCharts[i].resize();
+            }
+        });
+</script>
+
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.VoteDistribution);}
+
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.WeightedVoteDistribution);}
+
+@{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
+
+@foreach (var questionChartModel in Model.Questions)
+{
+    await Html.RenderPartialAsync("_QuestionChartPartial", questionChartModel);
 }
-
-

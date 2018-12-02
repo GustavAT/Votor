@@ -186,47 +186,143 @@ namespace Votor.Areas.Voting.Controllers
                 EventId = targetEvent.ID,
                 EventName = targetEvent.Name
             };
-
-            // TODO: aggregate results
-
+            
             var votes = _context.Votes
                 .Include(x => x.Choices).ThenInclude(x => x.Option)
                 .Include(x => x.Choices).ThenInclude(x => x.Question)
+                .Include(x => x.Token)
+                .Where(x => x.EventID == eventId)
                 .AsNoTracking()
                 .ToList();
 
-            var publicCount = votes.Count(x => x.TokenID.HasValue);
-            var tokenCount = votes.Count(x => x.CookieID.HasValue);
+            var tokenVotes = votes.Where(x => x.TokenID.HasValue).ToList();
+            var publicVotes = votes.Where(x => x.CookieID.HasValue).ToList();
 
-            // public- and token-votes
-            if (publicCount > 0 && tokenCount > 0)
+            // distribution public vs tokens (all)
+            var chart = new ChartModel
             {
-                var chart = new ChartModel
+                Name = _localizer["Votes"],
+                Values = new List<ChartValue>
                 {
-                    Name = "TODO: Distribution Public-Votes and Token-Votes",
-                    Values = new List<ChartValue>
+                    new ChartValue
                     {
-                        new ChartValue
-                        {
-                            Name = _localizer["Public"],
-                            Value = publicCount
-                        },
-                        new ChartValue
-                        {
-                            Name = _localizer["Token"],
-                            Value = tokenCount
-                        }
+                        Name = _localizer["Public"],
+                        Value = publicVotes.Count()
+                    },
+                    new ChartValue
+                    {
+                        Name = _localizer["Token"],
+                        Value = tokenVotes.Count()
                     }
-                };
-                model.VoteDistributionPublicToken = chart;
-            }
+                }
+            };
+            model.VoteDistribution = chart;
 
-            if (targetEvent.IsPublic)
+            var weightedTokenCount = votes.Where(x => x.TokenID.HasValue)
+                .Select(x => x.Token.Weight)
+                .Sum();
+
+            // weighted distribution public vs tokens (all)
+            var weightedChart = new ChartModel
             {
+                Name = _localizer["Weighted Votes"],
+                Values = new List<ChartValue>
+                {
+                    new ChartValue
+                    {
+                        Name = _localizer["Public"],
+                        Value = publicVotes.Count
+                    },
+                    new ChartValue
+                    {
+                        Name = _localizer["Token"],
+                        Value = weightedTokenCount
+                    }
+                }
+            };
+            
+            model.WeightedVoteDistribution = weightedChart;
 
+            model.Questions = new List<QuestionChartModel>();
+
+            var choices = votes.SelectMany(x => x.Choices).ToList();
+
+            foreach (var question in targetEvent.Questions)
+            {
+                var questionModel = new QuestionChartModel
+                {
+                    Question = question.Text,
+                    Values = new List<ChartValue>(),
+                    WeightedValues = new List<ChartValue>()
+                };
+
+                foreach (var option in targetEvent.Options)
+                {
+                    questionModel.Values.Add(new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = choices.Count(x => x.OptionID == option.ID)
+                    });
+
+
+                    double count = votes.Where(x => x.CookieID.HasValue)
+                        .SelectMany(x => x.Choices).Count(x => x.OptionID == option.ID);
+
+                    var votesWithToken = votes.Where(x => x.Token != null);
+                    foreach (var vote in votesWithToken)
+                    {
+                        var weight = vote.Token.Weight;
+                        count += weight * vote.Choices.Count(x => x.OptionID == option.ID);
+                    }
+
+                    questionModel.WeightedValues.Add(new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = count
+                    });
+                }
+
+                model.Questions.Add(questionModel);
             }
 
-            
+            var overall = new QuestionChartModel
+            {
+                Question = _localizer["Overall"],
+                Values = new List<ChartValue>(),
+                WeightedValues = new List<ChartValue>()
+            };
+
+            var publicChoices = publicVotes.SelectMany(x => x.Choices).ToList();
+            var tokenChoices = tokenVotes.SelectMany(x => x.Choices).ToList();
+
+            foreach (var option in targetEvent.Options)
+            {
+                overall.Values.Add(new ChartValue
+                {
+                    Name = option.Name,
+                    Value = choices.Count(x => x.OptionID == option.ID)
+                });
+
+                var choicesForOption = tokenChoices.Where(x => x.OptionID == option.ID)
+                    .Join(votes, x => x.VoteID, x => x.ID, (choice, vote) => new { Choice = choice, Vote = vote});
+
+
+
+                double count = publicChoices.Count(x => x.OptionID == option.ID);
+                foreach (var choice in choicesForOption)
+                {
+                    count += choice.Vote.Token?.Weight ?? 1;
+                }
+
+                overall.WeightedValues.Add(new ChartValue
+                {
+                    Name = option.Name,
+                    Value = count
+                });
+            }
+
+            model.Overall = overall;
+
 
             return View("Result", model);
         }
@@ -423,18 +519,26 @@ namespace Votor.Areas.Voting.Controllers
     {
         public Guid EventId { get; set; }
         public string EventName { get; set; }
-
-        public ChartModel VoteDistributionPublicToken { get; set; }
-        public ChartModel WeightedVoteDistributionPublicToken { get; set; }
+        
         public ChartModel VoteDistribution { get; set; }
         public ChartModel WeightedVoteDistribution { get; set; }
+
+        public QuestionChartModel Overall { get; set; }
+
+        public List<QuestionChartModel> Questions { get; set; } = new List<QuestionChartModel>();
     }
 
     public class ChartModel
     {
         public string Name { get; set; }
         public List<ChartValue> Values { get; set; } = new List<ChartValue>();
+    }
 
+    public class QuestionChartModel
+    {
+        public string Question { get; set; }
+        public List<ChartValue> Values { get; set; } = new List<ChartValue>();
+        public List<ChartValue> WeightedValues { get; set; } = new List<ChartValue>();
     }
 
     public class ChartValue {
