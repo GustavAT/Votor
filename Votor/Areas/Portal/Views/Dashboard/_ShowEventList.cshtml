@@ -61,9 +61,33 @@
                                    class="btn waves-effect waves-light btn-small @ViewBag.secondaryColor">
                                     <i class="material-icons left">info_outline</i>@Localizer["Finish"]
                                 </a>
+
+                                <!-- Modal reset event -->
+                                <div id="resetModal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="card-title">@Localizer["Reset {0}?", item.Name]</span>
+                                        <span class="card-content black-text">
+                                            @Localizer["All votings will be deleted."]
+                                        </span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                                            <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+                                        </a>
+
+                                        <a asp-controller="Dashboard" asp-action="Reset" asp-route-eventId="@item.Id"
+                                           class="btn-flat waves-effect waves-light deep-orange accent-3 white-text">
+                                            <i class="material-icons left">fast_rewind</i>@Localizer["Reset"]
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <a class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#resetModal">
+                                    <i class="material-icons left">fast_rewind</i>@Localizer["Reset"]
+                                </a>
                             }
 
-                            <!-- Modal Structure -->
+                            <!-- Modal delete event -->
                             <div id="deleteModal" class="modal">
                                 <div class="modal-content">
                                     <span class="card-title">@Localizer["Delete {0}?", item.Name]</span>

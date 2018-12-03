@@ -522,4 +522,10 @@
   <data name="Not found" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>
+  <data name="All votings will be deleted." xml:space="preserve">
+    <value>Alle bisherigen Stimmen werden gelöscht.</value>
+  </data>
+  <data name="Reset {0}?" xml:space="preserve">
+    <value>{0} zurücksetzen?</value>
+  </data>
 </root>
