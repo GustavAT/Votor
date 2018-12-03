@@ -2,27 +2,24 @@
 @model Controllers.EventListModel;
 
 @{
-    ViewBag.Title = Localizer["Dashboard"];
+	ViewBag.Title = Localizer["Dashboard"];
+	await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());
+
+	if (Model.Events.Any()) {
+		ViewBag.CardTitle = Localizer["Events"];
+		ViewBag.EmptyCardTitle = Localizer["No Events"];
+		await Html.RenderPartialAsync("_ShowEventList", @Model.Events);
+	}
+	if (Model.Active.Any()) {
+		ViewBag.CardTitle = Localizer["Active Events"];
+		ViewBag.EmptyCardTitle = Localizer["No active Events"];
+		await Html.RenderPartialAsync("_ShowEventList", @Model.Active);
+	}
+
+	if (Model.Finished.Any()) {
+		ViewBag.CardTitle = Localizer["Finished Events"];
+		ViewBag.EmptyCardTitle = Localizer["No finished Events"];
+		await Html.RenderPartialAsync("_ShowEventList", @Model.Finished);
+	}
+
 }
-
-@{await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());}
-
-
-
-@{
-    ViewBag.CardTitle = Localizer["Events"];
-    ViewBag.EmptyCardTitle = Localizer["No Events"];
-}
-@{await Html.RenderPartialAsync("_ShowEventList", @Model.Events);}
-
-@{
-    ViewBag.CardTitle = Localizer["Active Events"];
-    ViewBag.EmptyCardTitle = Localizer["No active Events"];
-}
-@{await Html.RenderPartialAsync("_ShowEventList", @Model.Active);}
-
-@{
-    ViewBag.CardTitle = Localizer["Finished Events"];
-    ViewBag.EmptyCardTitle = Localizer["No finished Events"];
-    }
-@{await Html.RenderPartialAsync("_ShowEventList", @Model.Finished);}

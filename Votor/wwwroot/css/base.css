@@ -119,3 +119,7 @@ body{
 .button-seperator {
     margin-right:5px;
 }
+
+.card-margin-top { 
+	margin-top: 1rem !important;
+}
