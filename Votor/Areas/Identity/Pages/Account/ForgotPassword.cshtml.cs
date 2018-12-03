@@ -61,7 +61,7 @@ namespace Votor.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     _localizer["Reset Password"],
-                    _localizer["Hellow {0}!", user.UserName] + "<br /><br />" +
+                    _localizer["Hello {0}!", user.UserName] + "<br /><br />" +
                     _localizer["Please reset your password by <a href='{0}'>clicking here</a>.",
                         HtmlEncoder.Default.Encode(callbackUrl)]);
 

@@ -131,7 +131,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
 
-            await _emailSender.SendEmailAsync(Input.Email, 
+            await _emailSender.SendEmailAsync(Input.Email,
                 _localizer["Confirm your email"],
                 _localizer["Hello {0}!", user.UserName] + "<br /><br />" +
                 _localizer["Please confirm your account by <a href='{0}'>clicking here</a>.", HtmlEncoder.Default.Encode(callbackUrl)]);

@@ -38,11 +38,12 @@
 
             <div class="card-internal-action card-action-overflow">
                 <a class="btn waves-effect waves-light right  @ViewBag.MainColor" onclick="copyToClipboard();">
-                 <i class="material-icons left">content_copy</i>@Localizer["Copy"]
+                 <i class="material-icons left">content_copy</i>@Localizer["Create"]
                 </a>
                 <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
                    class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
-                    @Localizer["Print QR-Codes"]
+                    <i class="material-icons left">sync</i>
+                    @Localizer["Generate QR-codes"]
                 </a>
             </div>
         </div>
