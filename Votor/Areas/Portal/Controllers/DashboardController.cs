@@ -57,7 +57,7 @@ namespace Votor.Areas.Portal.Controllers
                 _context.SaveChanges();
             }
 
-            return View("Dashboard", await InitEventListModel());
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> FinishEvent(Guid eventId)
@@ -78,7 +78,23 @@ namespace Votor.Areas.Portal.Controllers
                 _context.SaveChanges();
             }
 
-            return View("Dashboard", await InitEventListModel());
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<IActionResult> Reset(Guid eventId)
+        {
+            var target = await GetEventById(eventId);
+
+            if (target == null) return RedirectToAction("Index", "Dashboard");
+
+            _context.RemoveRange(target.Votes.SelectMany(x => x.Choices));
+            _context.RemoveRange(target.Votes);
+
+            target.StartDate = target.EndDate = null;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Dashboard");
         }
         
         [HttpPost]
@@ -207,6 +223,7 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Options)
                 .Include(x => x.Questions)
                 .Include(x => x.Tokens)
+                .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .FirstOrDefault();
         }
 
