@@ -546,4 +546,7 @@
   <data name="Template" xml:space="preserve">
     <value>Vorlage</value>
   </data>
+  <data name="Score" xml:space="preserve">
+    <value>Punkte</value>
+  </data>
 </root>
