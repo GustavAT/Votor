@@ -531,7 +531,19 @@
   <data name="Copy Event" xml:space="preserve">
     <value>Event Kopieren</value>
   </data>
+  <data name="Confirm your email" xml:space="preserve">
+    <value>Bestätige diene Email</value>
+  </data>
   <data name="Copy2" xml:space="preserve">
     <value>Kopie</value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value>Hallo {0}!</value>
+  </data>
+  <data name="Please confirm your account by &lt;a href='{0}'&gt;clicking here&lt;/a&gt;." xml:space="preserve">
+    <value>Bitte bestätige deinen Account, indem du &lt;a href='{0}'&gt;hier klickst&lt;/a&gt;.</value>
+  </data>
+  <data name="Please reset your password by &lt;a href='{0}'&gt;clicking here&lt;/a&gt;." xml:space="preserve">
+    <value>Bitte setze dein Passwort zurück, indem du &lt;a href='{0}'&gt;hier klickst&lt;/a&gt;.</value>
   </data>
 </root>

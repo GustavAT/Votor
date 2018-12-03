@@ -130,10 +130,11 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            await _emailSender.SendEmailAsync(Input.Email, 
+                _localizer["Confirm your email"],
+                _localizer["Hello {0}!", user.UserName] + "<br /><br />" +
+                _localizer["Please confirm your account by <a href='{0}'>clicking here</a>.", HtmlEncoder.Default.Encode(callbackUrl)]);
 
             StatusMessage = _localizer["Verification email sent. Please check your inbox."];
             return RedirectToPage();

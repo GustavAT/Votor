@@ -23,9 +23,9 @@ namespace Votor.Services
         public Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
+            var msg = new SendGridMessage
             {
-                From = new EmailAddress("Joe@contoso.com", "Joe Smith"),
+                From = new EmailAddress("votor@noreply.cywl.at", "Votor"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
