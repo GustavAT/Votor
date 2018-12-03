@@ -528,4 +528,10 @@
   <data name="Reset {0}?" xml:space="preserve">
     <value>{0} zurücksetzen?</value>
   </data>
+  <data name="Copy Event" xml:space="preserve">
+    <value>Event Kopieren</value>
+  </data>
+  <data name="Copy2" xml:space="preserve">
+    <value>Kopie</value>
+  </data>
 </root>

@@ -7,7 +7,7 @@
 
 @{await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());}
 
-
+@{ await Html.RenderPartialAsync("_CloneEventPartial", Model.CloneEventModel);}
 
 @{
     ViewBag.CardTitle = Localizer["Events"];
