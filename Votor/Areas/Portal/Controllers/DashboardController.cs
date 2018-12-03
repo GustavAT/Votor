@@ -142,7 +142,7 @@ namespace Votor.Areas.Portal.Controllers
             {
                 var newEvent = new Event
                 {
-                    Name = $"{_localizer["Copy2"]} - {targetEvent.Name}",
+                    Name = $"{_localizer["Copy"]} - {targetEvent.Name}",
                     Description = targetEvent.Description,
                     IsPublic = targetEvent.IsPublic,
                     UserID = userId.Value,
@@ -331,7 +331,7 @@ namespace Votor.Areas.Portal.Controllers
     {
         public List<DashboardEventModel> All { get; set; } = new List<DashboardEventModel>();
 
-        [Display(Name = "Event")]
+        [Display(Name = "Template")]
         public Guid? SelectedEvent { get; set; }
     }
 
