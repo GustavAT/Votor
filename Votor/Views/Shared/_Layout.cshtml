@@ -4,24 +4,27 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Votor</title>
+    <meta name="theme-color" content="#7b1fa2">
+    <link rel="icon" sizes="192x192" href="~/images/votor_logo_192.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
 
-	<environment include="Development">
-		@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
-		<link rel="stylesheet" href="~/css/materialize.min.css" />
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="~/css/base.css" />
-		<link rel="stylesheet" href="~/css/site.css" />
-	</environment>
-	<environment exclude="Development">
-		@*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-		asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-		asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
-		<link rel="stylesheet" href="~/css/base.css" />
-		<link rel="stylesheet" href="~/css/site.css" />
-	</environment>
+    <title>@ViewData["Title"] - Votor</title>
+    <environment include="Development">
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+        <link rel="stylesheet" href="~/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/base.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/base.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
 </head>
 <body>
 	<header>
