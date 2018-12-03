@@ -211,7 +211,7 @@ namespace Votor.Areas.Voting.Controllers
                     },
                     new ChartValue
                     {
-                        Name = _localizer["Token"],
+                        Name = _localizer["Invite"],
                         Value = tokenVotes.Count()
                     }
                 }
@@ -235,7 +235,7 @@ namespace Votor.Areas.Voting.Controllers
                     },
                     new ChartValue
                     {
-                        Name = _localizer["Token"],
+                        Name = _localizer["Invite"],
                         Value = weightedTokenCount
                     }
                 }

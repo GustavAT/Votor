@@ -546,4 +546,16 @@
   <data name="Template" xml:space="preserve">
     <value>Vorlage</value>
   </data>
+  <data name="Choice" xml:space="preserve">
+    <value>Auswahl</value>
+  </data>
+  <data name="Invite" xml:space="preserve">
+    <value>Einladung</value>
+  </data>
+  <data name="Invites" xml:space="preserve">
+    <value>Einladungen</value>
+  </data>
+  <data name="No invites" xml:space="preserve">
+    <value>Keine Einladungen</value>
+  </data>
 </root>

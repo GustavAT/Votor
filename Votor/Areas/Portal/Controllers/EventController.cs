@@ -509,7 +509,7 @@ namespace Votor.Areas.Portal.Controllers
         
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
-        [Display(Name = "Token")]
+        [Display(Name = "Invite")]
         public string Token { get; set; }
 
         [Range(0.1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
