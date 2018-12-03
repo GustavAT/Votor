@@ -4,9 +4,16 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div>
-    <p>
-        Thank you for confirming your email.
-    </p>
+<div class="row">
+	<div class="col s12 m8 l8 offset-m2 offset-l2">
+		<div class="card @ViewBag.cardColor">
+			<div class="card-content @ViewBag.cardTextColor">
+				<span class="card-title">@ViewData["Title"]</span>
+				<p class="black-text">
+					Thank you for confirming your email.
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
+
