@@ -4,10 +4,13 @@
 @{
     ViewBag.Title = Localizer["Results"];
 }
+
 <div class="card">
     <div class="card-content">
         <p class="card-title">@Model.EventName</p>
-        <p>@Localizer["Votes"]: @Model.VoteDistribution.Values.Sum(x => x.Value)</p>
+        <p>@Model.EventDescription</p>
+        
+        <hr/>
 
         <table>
             <tr>
@@ -17,6 +20,9 @@
                 <th>
                     @Localizer["Winner"]
                 </th>
+                <th>
+                    @Localizer["Score"]
+                </th>
             </tr>
             <tr>
                 <td>
@@ -24,22 +30,32 @@
                 </td>
                 <td>
                     @{
-                        var winners = Model.Overall.WeightedValues.Where(x => Math.Abs(x.Value - Model.Overall.WeightedValues.Max(y => y.Value)) < 0.000001);
+                        var winners = Model.Overall.Score
+                            .Where(x => Math.Abs(x.Value - Model.Overall.Score.Max(y => y.Value)) < 0.000001)
+                            .ToList();
                     }
-                    @string.Join(", ", winners.Select(x => $"{x.Name} ({x.Value})"))
+                    @string.Join(", ", winners.Select(x => x.Name))
+                </td>
+                <td>
+                    @(winners.FirstOrDefault()?.Value ?? 0)
                 </td>
             </tr>
             @foreach (var record in Model.Questions)
             {
                 <tr>
                     <td>
-                        @record.Question
+                        @record.Title
                     </td>
                     <td>
                         @{
-                            var questionWinner = record.WeightedValues.Where(x => Math.Abs(x.Value - record.WeightedValues.Max(y => y.Value)) < 0.000001);
+                            var questionWinner = record.Score
+                                .Where(x => Math.Abs(x.Value - record.Score.Max(y => y.Value)) < 0.000001)
+                                .ToList();
                         }
-                        @string.Join(", ", questionWinner.Select(x => $"{x.Name} ({x.Value})"))
+                        @string.Join(", ", questionWinner.Select(x => x.Name))
+                    </td>
+                    <td>
+                        @(questionWinner.FirstOrDefault()?.Value ?? 0)
                     </td>
                 </tr>
             }
@@ -58,9 +74,9 @@
         });
 </script>
 
-@{ await Html.RenderPartialAsync("_PieChartPartial", Model.VoteDistribution);}
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.Distribution);}
 
-@{ await Html.RenderPartialAsync("_PieChartPartial", Model.WeightedVoteDistribution);}
+@{ await Html.RenderPartialAsync("_PieChartPartial", Model.Score);}
 
 @{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
 

@@ -1,9 +1,12 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.Extensions.Localization
-
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject IStringLocalizer<SharedResources> Localizer;
+
+<div class="background">
+    <img class="votor-sidenav-image" src="~/images/votor_logo.png">
+</div>
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -28,14 +31,14 @@
     </li>
 
     <script type="text/javascript">
-		document.addEventListener("DOMContentLoaded",
-			function () {
-				$(".logout-button-menu").on("click",
-					function () {
-						$(".logout-form-menu").submit();
-					});
+        document.addEventListener("DOMContentLoaded",
+            function () {
+                $(".logout-button-menu").on("click",
+                    function () {
+                        $(".logout-form-menu").submit();
+                    });
             });
-        </script>
+    </script>
 }
 else
 {
@@ -50,10 +53,9 @@ else
 		</a>
     </li>
 }
-
 <script type="text/javascript">
-	document.addEventListener("DOMContentLoaded",
-		function () {
-			$('.sidenav').sidenav();
-		});
+    document.addEventListener("DOMContentLoaded",
+        function () {
+            $('.sidenav').sidenav();
+        });
 </script>

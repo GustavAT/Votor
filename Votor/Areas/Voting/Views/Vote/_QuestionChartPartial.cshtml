@@ -1,6 +1,6 @@
 ﻿@using System.Globalization
 @using System.Web
-@model Votor.Areas.Voting.Controllers.QuestionChartModel
+@model Votor.Areas.Voting.Controllers.QuestionBarChartModel
 
 @{
     var chartId = Guid.NewGuid();
@@ -10,7 +10,7 @@
 {
     <div class="card">
         <div class="card-content">
-            <p class="card-title">@Model.Question</p>
+            <p class="card-title">@Model.Title</p>
             <div id="@chartId" style="width: 100%; min-height: 300px;"></div>
         </div>
     </div>
@@ -26,34 +26,49 @@
             var options = {
                 tooltip: {
                     trigger: "item",
-                    formatter: "{a} <br />{b} : {c} ({d}%)"
+                    formatter: "{a} <br />{b} : {c}"
                 },
                 legend: {
-                    data: ["@Localizer["Votes"]", "@Localizer["Weighted Votes"]"]
+                    data: [
+                        "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))",
+                        "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
+                        "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Score"]))"
+                    ]
                 },
                 xAxis: {
                     type: "category",
-                    data: data.xAxis
+                    data: data.xAxis,
+                    splitLine: { show: false },
+                    axisLabel: { interval: 0 }
                 },
                 yAxis: {
+                    name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Score"]))",
                     type: "value"
                 },
                 series: [
                     {
-                        name: "@Localizer["Votes"]",
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))",
                         type: "bar",
                         barGap: "5%",
                         barWidth:"20%",
-                        data: data.series,
+                        data: data.seriesPublic,
                         color: "#7b1fa2"
                     },
                     {
-                        name: "@Localizer["Weighted Votes"]",
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
                         type: "bar",
                         barGap: "5%",
                         barWidth: "20%",
-                        data: data.seriesWeighted,
+                        data: data.seriesToken,
                         color: "#00acc1"
+                    },
+                    {
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Score"]))",
+                        type: "bar",
+                        barGap: "5%",
+                        barWidth: "20%",
+                        data: data.seriesScore,
+                        color: "#ff3d00"
                     }
                 ]
             };
@@ -66,27 +81,39 @@
         function initData() {
             var data = {};
             data.xAxis = [];
-            data.series = [];
-            data.seriesWeighted = [];
+            data.seriesPublic = [];
+            data.seriesToken = [];
+            data.seriesScore = [];
 
-            @foreach (var value in Model.Values) {
+            @foreach (var value in Model.PublicValues) {
                 <text>
                     data.xAxis.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))");
-                    data.series.push({
+                    data.seriesPublic.push({
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
-                        value: @value.Value
+                        value: @value.Value.ToString(CultureInfo.InvariantCulture)
                     });
                 </text>
             }
 
-            @foreach (var value in Model.WeightedValues)
+            @foreach (var value in Model.TokenValues)
             {
                 <text>
-                    data.seriesWeighted.push({
+                    data.seriesToken.push({
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
                         value: @value.Value.ToString(CultureInfo.InvariantCulture)
                     });
-            
+
+                </text>
+            }
+
+            @foreach (var value in Model.Score)
+            {
+                <text>
+                    data.seriesScore.push({
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
+                        value: @value.Value.ToString(CultureInfo.InvariantCulture)
+                    });
+
                 </text>
             }
 

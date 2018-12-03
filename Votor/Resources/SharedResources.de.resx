@@ -558,4 +558,10 @@
   <data name="No invites" xml:space="preserve">
     <value>Keine Einladungen</value>
   </data>
+  <data name="Copy code" xml:space="preserve">
+    <value>Code kopieren</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Punkte</value>
+  </data>
 </root>

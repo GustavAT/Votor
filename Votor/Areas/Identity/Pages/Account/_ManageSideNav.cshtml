@@ -11,64 +11,69 @@
 
 
 <div class="container">
-	<ul id="votor-sidenav" class="sidenav sidenav-fixed">
-		<li>
-			<a class="waves-effect" asp-controller="Dashboard" asp-area="Portal">
-			    <i class="material-icons">dashboard</i> @Localizer["Dashboard"]
-			</a>
-		</li>
-		<li>
-			<a class="waves-effect" asp-page="./Index">
-			    <i class="material-icons">person</i> @Localizer["Profile"]
-				@if (isEmailConfirmed)
-				{
-					<span class="new badge @ViewBag.mainColor" data-badge-caption="">
-						@Localizer["Verified"]
-					</span>
-				}
-				else
-				{
-					<span class="new badge red darken-1" data-badge-caption="">
-						@Localizer["Not verified"]
-					</span>
-				}
-			</a>
-		</li>
-		<li>
-			<a class="waves-effect" asp-page="./ChangePassword">
-			    <i class="material-icons">lock_outline</i> @Localizer["Password"]
-			</a>
-		</li>
-		<li>
-			@if (hasExternalLogins)
-			{
-			    <a class="waves-effect" asp-page="./ExternalLogins">
-                    <i class="material-icons">cloud_queue</i> @Localizer["External Login"]
-			    </a>
-			}
-		</li>
-		<li>
-			<a class="waves-effect" asp-page="./PersonalData">
-                <i class="material-icons">data_usage</i> @Localizer["Personal data"]
-			</a>
-		</li>
-		<li>
-			<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logout-form-menu"></form>
-			<a href="#" id="logout-button-menu">
-                <i class="material-icons">keyboard_return</i> @Localizer["Logout"]
-			</a>
-			<script type="text/javascript">
-				document.addEventListener("DOMContentLoaded",
-					function () {
-						$("#logout-button-menu").on("click",
-							function () {
-								$("#logout-form-menu").submit();
-							});
-					});
+    <ul id="votor-sidenav" class="sidenav sidenav-fixed">
 
-			</script>
-		</li>
-	</ul>
+        <div class="background">
+            <img class="votor-sidenav-image" src="~/images/votor_logo.png">
+        </div>
+
+        <li>
+            <a class="waves-effect" asp-controller="Dashboard" asp-area="Portal">
+                <i class="material-icons">dashboard</i> @Localizer["Dashboard"]
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./Index">
+                <i class="material-icons">person</i> @Localizer["Profile"]
+                @if (isEmailConfirmed)
+                {
+                    <span class="new badge @ViewBag.mainColor" data-badge-caption="">
+                        @Localizer["Verified"]
+                    </span>
+                }
+                else
+                {
+                    <span class="new badge red darken-1" data-badge-caption="">
+                        @Localizer["Not verified"]
+                    </span>
+                }
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./ChangePassword">
+                <i class="material-icons">lock_outline</i> @Localizer["Password"]
+            </a>
+        </li>
+        <li>
+            @if (hasExternalLogins)
+            {
+                <a class="waves-effect" asp-page="./ExternalLogins">
+                    <i class="material-icons">cloud_queue</i> @Localizer["External Login"]
+                </a>
+            }
+        </li>
+        <li>
+            <a class="waves-effect" asp-page="./PersonalData">
+                <i class="material-icons">data_usage</i> @Localizer["Personal data"]
+            </a>
+        </li>
+        <li>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})" method="post" id="logout-form-menu"></form>
+            <a href="#" id="logout-button-menu">
+                <i class="material-icons">keyboard_return</i> @Localizer["Logout"]
+            </a>
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded",
+                    function() {
+                        $("#logout-button-menu").on("click",
+                            function() {
+                                $("#logout-form-menu").submit();
+                            });
+                    });
+
+            </script>
+        </li>
+    </ul>
 </div>
 
 
