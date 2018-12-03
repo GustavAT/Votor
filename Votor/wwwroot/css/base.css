@@ -27,14 +27,19 @@ main {
     flex: 1 0 auto;
 }
 
+.votor-sidenav-image {
+    width: 20%;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 /* Materialize CSS overrides */
-
 /* form input fields */
-
 /*.input-field label {
     color: #7b1fa2;
 }*/
-
 /*.input-field label span {
     color: black;
 }*/
