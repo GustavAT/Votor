@@ -7,18 +7,28 @@
 <div class="card @ViewBag.cardColor">
     <div class="card-content @ViewBag.cardTextColor">
         <span class="card-title">@Model.EventName</span>
+		<span class="black-text">
+			@Model.EventDescription
+		</span>
     </div>
     @if (!Model.Completed)
     {
-        <div class="card-action card-action-overflow">
-            <a class="btn waves-effect waves-light right @ViewBag.mainColor white-text" onclick="completeVote();">@Localizer["Complete"]</a>
-            <script>
-                function completeVote() {
-                    $("#Completed").val("True");
-                    $("form").submit();
-                }
-            </script>
-        </div>
+	<div class="card-action card-action-overflow">
+		<a class="btn-small waves-effect waves-light right @ViewBag.secondaryColor white-text" onclick="completeVote();">
+			<i class="material-icons left">check</i>@Localizer["Complete"]
+		</a>
+		<button type="submit" class="btn-small waves-effect @ViewBag.MainColor waves-light right margin button-seperator">
+			<i class="material-icons left">save</i>@Localizer["Save"]
+		</button>	
+		
+		
+		<script>
+			function completeVote() {
+				$("#Completed").val("True");
+				$("form").submit();
+			}
+		</script>
+	</div>
     }
 </div>
 
@@ -53,11 +63,9 @@ else
         @for (var i = 0; i < Model.Choices.Count; i++)
         {
             <div class="card @ViewBag.cardColor">
-                <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <div class="card-content @ViewBag.cardTextColor">
                    @Html.EditorFor(model => model.Choices[i])
-                    <div class="card-internal-action card-action-overflow">
-                        <button type="submit" class="btn waves-effect @ViewBag.MainColor waves-light right">@Localizer["Save"]</button>
-                    </div>
+                    
                 </div>
             </div>
         }

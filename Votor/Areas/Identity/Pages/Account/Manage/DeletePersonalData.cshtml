@@ -13,22 +13,29 @@
         <b>@Localizer["Deleting your account removes all data stored on our servers. Your account cannot be recovered!"]</b>
     </div>
 </div>
-
-        
 <form id="delete-user" method="post" class="form-group">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    @if (Model.RequirePassword)
-    {
-        <div class="input-field">
-            <i class="material-icons prefix">lock</i>
-            <label asp-for="Input.Password"></label>
-            <input asp-for="Input.Password"/>
-            <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
-        </div>
-    }
-    <button class="btn waves-effect waves-light red darken-1" style="width: 100%;" type="submit">
-        @Localizer["Delete account"]
-    </button>
+	<div class="card @ViewBag.cardColor">
+		<div class="card-content @ViewBag.cardTextColor">
+			<span class="card-title"></span>
+			<div asp-validation-summary="All" class="text-danger"></div>
+			@if (Model.RequirePassword)
+			{
+				<div class="input-field">
+					<i class="material-icons prefix">lock</i>
+					<label asp-for="Input.Password"></label>
+					<input asp-for="Input.Password" />
+					<span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
+				</div>
+			}
+
+			<div class="card-internal-action card-action-overflow">
+
+				<button class="btn waves-effect waves-light red darken-1" style="width: 100%;" type="submit">
+					@Localizer["Delete account"]
+				</button>
+			</div>
+		</div>
+	</div>
 </form>
 
 @section Scripts {

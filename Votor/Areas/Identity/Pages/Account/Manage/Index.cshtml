@@ -3,14 +3,15 @@
 @using Microsoft.Extensions.Localization
 @model IndexModel
 @{
-    ViewData["Title"] = Localizer["Profile"];
+	ViewData["Title"] = Localizer["Profile"];
 }
+@Html.Partial("_StatusMessage", Model.StatusMessage)
 
 <div class="card @ViewBag.cardColor">
-    <div class="card-content @ViewBag.cardTextColor">
-        <span class="card-title">@Localizer["Manage account"]</span>
+	<div class="card-content @ViewBag.cardTextColor">
+		<span class="card-title">@Localizer["Manage account"]</span>
 
-        @Html.Partial("_StatusMessage", Model.StatusMessage)
+
 
 		<form id="profile-form" method="post">
 
@@ -52,8 +53,8 @@
 
 		</form>
 
-       
-    </div>
+
+	</div>
 </div>
 
 

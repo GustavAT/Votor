@@ -92,7 +92,7 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
 }
 
 body{
-    background-image:url("../images/pattern_triangles.png");
+    background-image:url("../images/triangles.png");
     background-size: 200px;
     background-repeat:repeat;
 }
@@ -118,4 +118,8 @@ body{
 
 .button-seperator {
     margin-right:5px;
+}
+
+.card-margin-top { 
+	margin-top: 1rem !important;
 }
