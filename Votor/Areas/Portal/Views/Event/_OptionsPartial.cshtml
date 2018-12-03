@@ -4,17 +4,17 @@
 
 <div class="card @ViewBag.cardColor">
     <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-        <span class="card-title">@Localizer["Options"]</span>
+        <span class="card-title">@Localizer["Choices"]</span>
         @if (Model.Options.Count == 0)
         {
-            <p> @Localizer["No options"]</p>
+            <p> @Localizer["No choices"]</p>
         }
         else
         {
             <table>
                 <tr>
                     <th>
-                        @Localizer["Option"]
+                        @Localizer["Choice"]
                     </th>
                     <th class="right">
                         @Localizer["Actions"]

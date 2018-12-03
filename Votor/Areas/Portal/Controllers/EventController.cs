@@ -490,7 +490,7 @@ namespace Votor.Areas.Portal.Controllers
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
-        [Display(Name = "Option")]
+        [Display(Name = "Choice")]
         public string Option { get; set; }
     }
 

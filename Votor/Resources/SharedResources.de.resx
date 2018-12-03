@@ -547,7 +547,7 @@
     <value>Vorlage</value>
   </data>
   <data name="Choice" xml:space="preserve">
-    <value>Auswahl</value>
+    <value>Auswahlmöglichkeit</value>
   </data>
   <data name="Invite" xml:space="preserve">
     <value>Einladung</value>
@@ -563,5 +563,11 @@
   </data>
   <data name="Score" xml:space="preserve">
     <value>Punkte</value>
+  </data>
+  <data name="Choices" xml:space="preserve">
+    <value>Auswahlmöglichkeiten</value>
+  </data>
+  <data name="No choices" xml:space="preserve">
+    <value>Keine Auswahlmöglichkeiten</value>
   </data>
 </root>
