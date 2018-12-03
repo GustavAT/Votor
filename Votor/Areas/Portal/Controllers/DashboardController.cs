@@ -74,12 +74,11 @@ namespace Votor.Areas.Portal.Controllers
                 target.EndDate = DateTime.UtcNow;
 
                 // set all votes to completed
-                var votes = _context.Votes.Where(x => x.EventID == eventId);
-                foreach (var vote in votes)
-                {
-                    vote.IsCompleted = true;
-                }
-                
+                var votes = _context.Votes.Where(x => x.EventID == eventId && !x.IsCompleted);
+                var choices = votes.SelectMany(x => x.Choices);
+
+                _context.Choices.RemoveRange(choices);
+                _context.Votes.RemoveRange(votes);
                 _context.SaveChanges();
             }
 

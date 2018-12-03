@@ -200,8 +200,8 @@ namespace Votor.Areas.Voting.Controllers
             var tokenChoices = allChoices.Where(x => x.Vote.TokenID.HasValue).ToList();
             var publicChoices = allChoices.Where(x => x.Vote.CookieID.HasValue).ToList();
 
-            model.PublicVotes = publicChoices.Count;
-            model.TokenVotes = tokenChoices.Count;
+            model.PublicVotes = votes.Count(x => x.CookieID.HasValue);
+            model.TokenVotes = votes.Count(x => x.TokenID.HasValue);
 
             model.Score = new DistributionPieChartModel
             {
@@ -213,8 +213,8 @@ namespace Votor.Areas.Voting.Controllers
             model.Distribution = new DistributionPieChartModel
             {
                 Title = _localizer["Votes"],
-                PublicVotes = publicChoices.Count,
-                TokenVotes = tokenChoices.Count
+                PublicVotes = model.PublicVotes,
+                TokenVotes = model.TokenVotes
             };
 
             model.Questions = new List<QuestionBarChartModel>();
