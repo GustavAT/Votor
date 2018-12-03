@@ -331,7 +331,7 @@ namespace Votor.Areas.Portal.Controllers
     {
         public List<DashboardEventModel> All { get; set; } = new List<DashboardEventModel>();
 
-        [Display(Name = "Event")]
+        [Display(Name = "Template")]
         public Guid? SelectedEvent { get; set; }
     }
 

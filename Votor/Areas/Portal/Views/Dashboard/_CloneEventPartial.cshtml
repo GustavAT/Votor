@@ -8,6 +8,8 @@
 
             <div class="input-field no-margin-bottom">
                 <select asp-for="@Model.SelectedEvent" asp-items="@(new SelectList(Model.All, "Id", "Name"))"></select>
+                
+                @Html.LabelFor(model => model.SelectedEvent)
 
                 @Html.ValidationMessageFor(model => model.SelectedEvent, "", new
                 {
