@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded",
     function() {
         setTimeout(function() {
                 $("input:-webkit-autofill").each(function(index, element) {
-                    debugger;
                     var labels = element.labels;
                     for (var i = labels.length; i-- > 0;) {
                         labels[i].classList.add("active");
