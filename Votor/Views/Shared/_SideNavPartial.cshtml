@@ -51,7 +51,7 @@ else
 	</li>
 }
 
-<ul class="sidenav" id="votor-sidenav">
+@*<ul class="sidenav" id="votor-sidenav">
 
     <div class="background">
         <img class="votor-sidenav-image" src="~/images/votor_logo.png">
@@ -61,9 +61,7 @@ else
     {
         <li>
             <div class="user-view">
-                @*<div class="background">
-                        <img class="responsive-img" src="images/votor_material.png">
-                    </div>*@
+                
                 @{
                     var user = await UserManager.GetUserAsync(User);
                 }
@@ -90,7 +88,6 @@ else
             </a>
         </li>
         <li>
-            @* todo: change to _LogoutPartial.cshtml *@
 
             <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})" method="post" id="logout-form-sidenav"></form>
 
@@ -158,7 +155,7 @@ else
             </a>
         </li>
     }
-</ul>
+</ul>*@
 
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded",
