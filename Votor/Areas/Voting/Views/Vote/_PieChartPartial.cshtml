@@ -1,5 +1,6 @@
-﻿@using System.Web
-@model Votor.Areas.Voting.Controllers.ChartModel
+﻿@using System.Globalization
+@using System.Web
+@model Votor.Areas.Voting.Controllers.DistributionPieChartModel
 
 @{
     var chartId = Guid.NewGuid();
@@ -9,7 +10,7 @@
 {
     <div class="card">
         <div class="card-content">
-            <p class="card-title">@Model.Name</p>
+            <p class="card-title">@Model.Title</p>
             <div id="@chartId" style="width: 100%; min-height: 300px;"></div>
         </div>
     </div>
@@ -34,7 +35,7 @@
                 },
                 series: [
                     {
-                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Name))",
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Title))",
                         type: "pie",
                         radius: "80%",
                         label: {
@@ -62,15 +63,17 @@
             data.legend = [];
             data.series = [];
 
-            @foreach (var value in Model.Values) {
-                <text>
-                    data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))");
-                    data.series.push({
-                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
-                        value: @value.Value
-                    });
-                </text>
-            }
+            data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))");
+            data.series.push({
+                name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))",
+                value: @Model.PublicVotes.ToString(CultureInfo.InvariantCulture)
+            });
+
+            data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))");
+            data.series.push({
+                name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
+                value: @Model.TokenVotes.ToString(CultureInfo.InvariantCulture)
+            });
             
             return data;
         }

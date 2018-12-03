@@ -153,7 +153,7 @@ namespace Votor.Areas.Voting.Controllers
 
             _context.SaveChanges();
 
-            if (voteModel.Completed)
+            if (voteModel.Completed && voteModel.Choices.All(x => x.OptionId.HasValue))
             {
                 var vote = _context.Votes
                     .FirstOrDefault(x => x.ID == voteModel.VoteId);
@@ -184,7 +184,8 @@ namespace Votor.Areas.Voting.Controllers
             var model = new ResultModel
             {
                 EventId = targetEvent.ID,
-                EventName = targetEvent.Name
+                EventName = targetEvent.Name,
+                EventDescription = targetEvent.Description
             };
             
             var votes = _context.Votes
@@ -195,134 +196,96 @@ namespace Votor.Areas.Voting.Controllers
                 .AsNoTracking()
                 .ToList();
 
-            var tokenVotes = votes.Where(x => x.TokenID.HasValue).ToList();
-            var publicVotes = votes.Where(x => x.CookieID.HasValue).ToList();
+            var allChoices = votes.SelectMany(x => x.Choices).ToList();
+            var tokenChoices = allChoices.Where(x => x.Vote.TokenID.HasValue).ToList();
+            var publicChoices = allChoices.Where(x => x.Vote.CookieID.HasValue).ToList();
 
-            // distribution public vs tokens (all)
-            var chart = new ChartModel
+            model.PublicVotes = publicChoices.Count;
+            model.TokenVotes = tokenChoices.Count;
+
+            model.Score = new DistributionPieChartModel
             {
-                Name = _localizer["Votes"],
-                Values = new List<ChartValue>
-                {
-                    new ChartValue
-                    {
-                        Name = _localizer["Public"],
-                        Value = publicVotes.Count()
-                    },
-                    new ChartValue
-                    {
-                        Name = _localizer["Token"],
-                        Value = tokenVotes.Count()
-                    }
-                }
+                Title = _localizer["Score"],
+                PublicVotes = publicChoices.Count,
+                TokenVotes = tokenChoices.Sum(x => x.Vote.Token?.Weight ?? 0)
             };
-            model.VoteDistribution = chart;
 
-            var weightedTokenCount = votes.Where(x => x.TokenID.HasValue)
-                .Select(x => x.Token.Weight)
-                .Sum();
-
-            // weighted distribution public vs tokens (all)
-            var weightedChart = new ChartModel
+            model.Distribution = new DistributionPieChartModel
             {
-                Name = _localizer["Weighted Votes"],
-                Values = new List<ChartValue>
-                {
-                    new ChartValue
-                    {
-                        Name = _localizer["Public"],
-                        Value = publicVotes.Count
-                    },
-                    new ChartValue
-                    {
-                        Name = _localizer["Token"],
-                        Value = weightedTokenCount
-                    }
-                }
+                Title = _localizer["Votes"],
+                PublicVotes = publicChoices.Count,
+                TokenVotes = tokenChoices.Count
             };
-            
-            model.WeightedVoteDistribution = weightedChart;
 
-            model.Questions = new List<QuestionChartModel>();
-
-            var choices = votes.SelectMany(x => x.Choices).ToList();
+            model.Questions = new List<QuestionBarChartModel>();
 
             foreach (var question in targetEvent.Questions)
             {
-                var questionModel = new QuestionChartModel
+                var questionModel = new QuestionBarChartModel
                 {
-                    Question = question.Text,
-                    Values = new List<ChartValue>(),
-                    WeightedValues = new List<ChartValue>()
+                    Title = question.Text,
+                    PublicValues = new List<ChartValue>(),
+                    TokenValues = new List<ChartValue>(),
+                    Score = new List<ChartValue>()
                 };
 
                 foreach (var option in targetEvent.Options)
                 {
-                    questionModel.Values.Add(new ChartValue
+                    var tokenValue = new ChartValue
                     {
                         Name = option.Name,
-                        Value = choices.Count(x => x.OptionID == option.ID && x.QuestionID == question.ID)
-                    });
+                        Value = tokenChoices.Where(x => x.QuestionID == question.ID && x.OptionID == option.ID)
+                            .Sum(x => x.Vote.Token?.Weight ?? 0)
+                    };
+                    questionModel.TokenValues.Add(tokenValue);
 
-
-                    double count = votes.Where(x => x.CookieID.HasValue)
-                        .SelectMany(x => x.Choices).Count(x => x.OptionID == option.ID && x.QuestionID == question.ID);
-
-                    var votesWithToken = votes.Where(x => x.Token != null);
-                    foreach (var vote in votesWithToken)
-                    {
-                        var weight = vote.Token.Weight;
-                        count += weight * vote.Choices.Count(x => x.OptionID == option.ID && x.QuestionID == question.ID);
-                    }
-
-                    questionModel.WeightedValues.Add(new ChartValue
+                    var publicValue = new ChartValue
                     {
                         Name = option.Name,
-                        Value = count
+                        Value = publicChoices.Count(x => x.QuestionID == question.ID && x.OptionID == option.ID)
+                    };
+                    questionModel.PublicValues.Add(publicValue);
+
+                    questionModel.Score.Add(new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = tokenValue.Value + publicValue.Value
                     });
                 }
 
                 model.Questions.Add(questionModel);
             }
-
-            var overall = new QuestionChartModel
+            
+            model.Overall = new QuestionBarChartModel
             {
-                Question = _localizer["Overall"],
-                Values = new List<ChartValue>(),
-                WeightedValues = new List<ChartValue>()
+                Title = _localizer["Overall"],
+                PublicValues = new List<ChartValue>(),
+                TokenValues = new List<ChartValue>(),
+                Score = new List<ChartValue>()
             };
-
-            var publicChoices = publicVotes.SelectMany(x => x.Choices).ToList();
-            var tokenChoices = tokenVotes.SelectMany(x => x.Choices).ToList();
 
             foreach (var option in targetEvent.Options)
             {
-                overall.Values.Add(new ChartValue
+                var tokenValue = new ChartValue
                 {
                     Name = option.Name,
-                    Value = choices.Count(x => x.OptionID == option.ID)
-                });
+                    Value = tokenChoices.Where(x => x.OptionID == option.ID).Sum(x => x.Vote.Token?.Weight ?? 0)
+                };
+                model.Overall.TokenValues.Add(tokenValue);
 
-                var choicesForOption = tokenChoices.Where(x => x.OptionID == option.ID)
-                    .Join(votes, x => x.VoteID, x => x.ID, (choice, vote) => new { Choice = choice, Vote = vote});
-
-
-
-                double count = publicChoices.Count(x => x.OptionID == option.ID);
-                foreach (var choice in choicesForOption)
-                {
-                    count += choice.Vote.Token?.Weight ?? 1;
-                }
-
-                overall.WeightedValues.Add(new ChartValue
+                var publicValue = new ChartValue
                 {
                     Name = option.Name,
-                    Value = count
+                    Value = publicChoices.Count(x => x.OptionID == option.ID)
+                };
+                model.Overall.PublicValues.Add(publicValue);
+
+                model.Overall.Score.Add(new ChartValue
+                {
+                    Name = option.Name,
+                    Value = tokenValue.Value + publicValue.Value
                 });
             }
-
-            model.Overall = overall;
-
 
             return View("Result", model);
         }
@@ -519,26 +482,33 @@ namespace Votor.Areas.Voting.Controllers
     {
         public Guid EventId { get; set; }
         public string EventName { get; set; }
-        
-        public ChartModel VoteDistribution { get; set; }
-        public ChartModel WeightedVoteDistribution { get; set; }
+        public string EventDescription { get; set; }
 
-        public QuestionChartModel Overall { get; set; }
+        public int PublicVotes { get; set; }
+        public int TokenVotes { get; set; }
 
-        public List<QuestionChartModel> Questions { get; set; } = new List<QuestionChartModel>();
+        public DistributionPieChartModel Score { get; set; }
+        public DistributionPieChartModel Distribution { get; set; }
+
+        public QuestionBarChartModel Overall { get; set; }
+
+        public List<QuestionBarChartModel> Questions { get; set; } = new List<QuestionBarChartModel>();
     }
 
-    public class ChartModel
+    public class DistributionPieChartModel
     {
-        public string Name { get; set; }
-        public List<ChartValue> Values { get; set; } = new List<ChartValue>();
+        public string Title { get; set; }
+        public double PublicVotes { get; set; }
+        public double TokenVotes { get; set; }
     }
 
-    public class QuestionChartModel
+    
+    public class QuestionBarChartModel
     {
-        public string Question { get; set; }
-        public List<ChartValue> Values { get; set; } = new List<ChartValue>();
-        public List<ChartValue> WeightedValues { get; set; } = new List<ChartValue>();
+        public string Title { get; set; }
+        public List<ChartValue> PublicValues { get; set; }
+        public List<ChartValue> TokenValues { get; set; }
+        public List<ChartValue> Score { get; set; }
     }
 
     public class ChartValue {

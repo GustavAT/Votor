@@ -546,4 +546,10 @@
   <data name="Template" xml:space="preserve">
     <value>Vorlage</value>
   </data>
+  <data name="Copy code" xml:space="preserve">
+    <value>Code kopieren</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Punkte</value>
+  </data>
 </root>
