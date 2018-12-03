@@ -153,7 +153,7 @@ namespace Votor.Areas.Voting.Controllers
 
             _context.SaveChanges();
 
-            if (voteModel.Completed)
+            if (voteModel.Completed && voteModel.Choices.All(x => x.OptionId.HasValue))
             {
                 var vote = _context.Votes
                     .FirstOrDefault(x => x.ID == voteModel.VoteId);
