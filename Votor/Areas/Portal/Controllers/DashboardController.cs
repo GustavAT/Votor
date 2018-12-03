@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
 
@@ -17,11 +19,14 @@ namespace Votor.Areas.Portal.Controllers
     {
         private readonly VotorContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         
-        public DashboardController(VotorContext context, UserManager<IdentityUser> userManager)
+        public DashboardController(VotorContext context, UserManager<IdentityUser> userManager,
+            IStringLocalizer<SharedResources> localizer)
         {
             _context = context;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -123,6 +128,84 @@ namespace Votor.Areas.Portal.Controllers
             return View("Dashboard", await InitEventListModel());
         }
 
+        public async Task<IActionResult> Clone(CloneEventModel model)
+        {
+            var userId = await GetUserId();
+            var targetEvent = _context.Events
+                .Where(x => x.UserID == userId && x.ID == model.SelectedEvent)
+                .Include(x => x.Options)
+                .Include(x => x.Questions)
+                .Include(x => x.Tokens)
+                .FirstOrDefault();
+            
+            if (ModelState.IsValid && targetEvent != null && userId.HasValue)
+            {
+                var newEvent = new Event
+                {
+                    Name = $"{_localizer["Copy2"]} - {targetEvent.Name}",
+                    Description = targetEvent.Description,
+                    IsPublic = targetEvent.IsPublic,
+                    UserID = userId.Value,
+                    Questions = new List<Question>(),
+                    Options = new List<Option>(),
+                    Tokens = new List<Token>()
+                };
+
+                foreach (var question in targetEvent.Questions)
+                {
+                    var newQuestion = new Question
+                    {
+                        Text = question.Text,
+                    };
+                    newEvent.Questions.Add(newQuestion);
+                }
+
+                var optionLookup = new Dictionary<Guid, Option>();
+                foreach (var option in targetEvent.Options)
+                {
+                    var newOption = new Option
+                    {
+                        Name = option.Name
+                    };
+                    newEvent.Options.Add(newOption);
+                    optionLookup.Add(option.ID, newOption);
+                }
+
+                _context.Events.Add(newEvent);
+
+                var tokens = new List<Token>();
+                foreach (var token in targetEvent.Tokens)
+                {
+                    var newToken = new Token
+                    {
+                        EventID = newEvent.ID,
+                        Name = token.Name,
+                        Weight = token.Weight
+                    };
+
+                    if (token.OptionID.HasValue && optionLookup.ContainsKey(token.OptionID.Value))
+                    {
+                        newToken.OptionID = optionLookup[token.OptionID.Value].ID;
+                    }
+
+                    tokens.Add(newToken);
+                }
+
+                _context.Tokens.AddRange(tokens);
+                _context.SaveChanges();
+
+                return RedirectToAction("Edit", "Event", new
+                {
+                    eventId = newEvent.ID
+                });
+            }
+
+            ModelState.AddModelError("SelectedEvent", "TODO");
+
+
+            return View("Dashboard", await InitEventListModel());
+        }
+
         #region helper
 
         /// <summary>
@@ -162,11 +245,16 @@ namespace Votor.Areas.Portal.Controllers
             var finished = source.Where(x => x.StartDate.HasValue && x.EndDate.HasValue).ToList();
 
 
+
             return new EventListModel
             {
                 Events = events,
                 Active = active,
-                Finished = finished
+                Finished = finished,
+                CloneEventModel = new CloneEventModel
+                {
+                    All = events.Concat(active).Concat(finished).ToList()
+                }
             };
         }
 
@@ -235,6 +323,16 @@ namespace Votor.Areas.Portal.Controllers
         public List<DashboardEventModel> Events { get; set; } = new List<DashboardEventModel>();
         public List<DashboardEventModel> Active { get; set; } = new List<DashboardEventModel>();
         public List<DashboardEventModel> Finished { get; set; } = new List<DashboardEventModel>();
+        
+        public CloneEventModel CloneEventModel { get; set; } = new CloneEventModel();
+    }
+
+    public class CloneEventModel
+    {
+        public List<DashboardEventModel> All { get; set; } = new List<DashboardEventModel>();
+
+        [Display(Name = "Event")]
+        public Guid? SelectedEvent { get; set; }
     }
 
     public class DashboardEventModel
