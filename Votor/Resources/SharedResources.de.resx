@@ -570,4 +570,25 @@
   <data name="No choices" xml:space="preserve">
     <value>Keine Auswahlmöglichkeiten</value>
   </data>
+  <data name="Create new Event" xml:space="preserve">
+    <value>Neues Event erstellen</value>
+  </data>
+  <data name="From Template" xml:space="preserve">
+    <value>Mit Vorlage</value>
+  </data>
+  <data name="New Choice" xml:space="preserve">
+    <value>Neue Auswahlmöglichkeit</value>
+  </data>
+  <data name="New Invite" xml:space="preserve">
+    <value>Neue Einladung</value>
+  </data>
+  <data name="New Question" xml:space="preserve">
+    <value>Neue Frage</value>
+  </data>
+  <data name="Without Template" xml:space="preserve">
+    <value>Ohne Vorlage</value>
+  </data>
+  <data name="New Event" xml:space="preserve">
+    <value>Neues Event</value>
+  </data>
 </root>

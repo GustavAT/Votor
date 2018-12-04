@@ -35,20 +35,34 @@ main {
     margin-bottom: 10px;
 }
 
-/* Materialize CSS overrides */
-/* form input fields */
-/*.input-field label {
+.tabs .indicator {
+    background-color: white;
+}
+
+.votor-card-action {
+    position: absolute;
+    right: 0;
+    top: 30px;
+}
+
+.votor-card-title {
+    margin-bottom: 0 !important;
+}
+
+    /* Materialize CSS overrides */
+    /* form input fields */
+    /*.input-field label {
     color: #7b1fa2;
 }*/
-/*.input-field label span {
+    /*.input-field label span {
     color: black;
 }*/
-/* label focus color */
-/*.input-field input[type=text]:focus + label {
+    /* label focus color */
+    /*.input-field input[type=text]:focus + label {
     color: #7b1fa2;
 }*/
-/* label underline focus color */
-.input-field input[type=text]:focus {
+    /* label underline focus color */
+    .input-field input[type=text]:focus {
     border-bottom: 1px solid #7b1fa2;
     box-shadow: 0 1px 0 0 #7b1fa2;
 }

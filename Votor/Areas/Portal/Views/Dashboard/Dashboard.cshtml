@@ -3,31 +3,35 @@
 
 @{
     ViewBag.Title = Localizer["Dashboard"];
-    await Html.RenderPartialAsync("_CreateEventPartial", new EventModel());
+}
 
-    if (Model.CloneEventModel.All.Any())
-    {
-        await Html.RenderPartialAsync("_CloneEventPartial", Model.CloneEventModel);
-    }
+<div class="col s12 m6 l4">
+    @{ await Html.RenderPartialAsync("_CreateEventPartial", Model.CloneEventModel); }
+</div>
 
-    if (Model.Events.Any())
+    
+<div class="col s12 m6 l4">
+    @if (Model.Events.Any())
     {
         ViewBag.CardTitle = Localizer["Events"];
         ViewBag.EmptyCardTitle = Localizer["No Events"];
         await Html.RenderPartialAsync("_ShowEventList", @Model.Events);
     }
-    if (Model.Active.Any())
+</div>
+<div class="col s12 m6 l4">
+    @if (Model.Active.Any())
     {
         ViewBag.CardTitle = Localizer["Active Events"];
         ViewBag.EmptyCardTitle = Localizer["No active Events"];
         await Html.RenderPartialAsync("_ShowEventList", @Model.Active);
     }
+</div>
+<div class="col s12 m6 l4">
 
-    if (Model.Finished.Any())
+    @if (Model.Finished.Any())
     {
         ViewBag.CardTitle = Localizer["Finished Events"];
         ViewBag.EmptyCardTitle = Localizer["No finished Events"];
         await Html.RenderPartialAsync("_ShowEventList", @Model.Finished);
     }
-
-}
+</div>

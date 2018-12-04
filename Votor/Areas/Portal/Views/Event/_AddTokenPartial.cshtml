@@ -2,7 +2,6 @@
 
 @using (Html.BeginForm("AddToken", "Event", FormMethod.Post))
 {
-    <h6>@Localizer["Add"]</h6>
     @Html.HiddenFor(model => model.EventId)
 
     <div class="input-field">

@@ -3,60 +3,60 @@
 @using (Html.BeginForm("Edit", "Event", FormMethod.Post))
 {
     @Html.HiddenFor(model => model.EventModel.EventId)
-<div class="card @ViewBag.cardColor">
-    <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-        <span class="card-title">@Localizer["General"]</span>
-        <div class="input-field">
-            <i class="material-icons prefix">event</i>
 
-            @Html.LabelFor(model => model.EventModel.EventName)
-            @Html.TextBoxFor(model => model.EventModel.EventName)
-            @Html.ValidationMessageFor(model => model.EventModel.EventName, "", new
-            {
-                @class = "red-text text-darken-1"
-            })
-        </div>
+    <div class="col s12 m6 l4">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <span class="card-title">@Localizer["General"]</span>
+                <div class="input-field">
+                    <i class="material-icons prefix">event</i>
 
-        <div class="input-field">
-            <i class="material-icons prefix">mode_edit</i>
-
-            @Html.LabelFor(model => model.EventModel.Description)
-            @Html.TextAreaFor(model => model.EventModel.Description, new
-            {
-                @class = "materialize-textarea"
-            })
-            @Html.ValidationMessageFor(model => model.EventModel.Description, "", new
-            {
-                @class = "red-text text-darken-1"
-            })
-        </div>
-
-        <div class="input-field no-margin-bottom">
-            <p>
-                <label asp-for="EventModel.IsPublic">
-                    @Html.CheckBoxFor(model => model.EventModel.IsPublic, new
+                    @Html.LabelFor(model => model.EventModel.EventName)
+                    @Html.TextBoxFor(model => model.EventModel.EventName)
+                    @Html.ValidationMessageFor(model => model.EventModel.EventName, "", new
                     {
-                        @class = "filled-in @ViewBag.mainColor"
+                        @class = "red-text text-darken-1"
                     })
-                    <span>@Html.DisplayNameFor(model => model.EventModel.IsPublic)</span>
-                </label>
-            </p>
+                </div>
+
+                <div class="input-field">
+                    <i class="material-icons prefix">mode_edit</i>
+
+                    @Html.LabelFor(model => model.EventModel.Description)
+                    @Html.TextAreaFor(model => model.EventModel.Description, new
+                    {
+                        @class = "materialize-textarea"
+                    })
+                    @Html.ValidationMessageFor(model => model.EventModel.Description, "", new
+                    {
+                        @class = "red-text text-darken-1"
+                    })
+                </div>
+
+                <div class="input-field no-margin-bottom">
+                    <p>
+                        <label asp-for="EventModel.IsPublic">
+                            @Html.CheckBoxFor(model => model.EventModel.IsPublic, new
+                            {
+                                @class = "filled-in @ViewBag.mainColor"
+                            })
+                            <span>@Html.DisplayNameFor(model => model.EventModel.IsPublic)</span>
+                        </label>
+                    </p>
 
 
-            @Html.ValidationMessageFor(model => model.EventModel.IsPublic, "", new
-            {
-                @class = "red-text text-darken-1"
-            })
-        </div>
-        <br/>
-        <div class="card-internal-action card-action-overflow">
-            <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor right">@Localizer["Save"]</button>
+                    @Html.ValidationMessageFor(model => model.EventModel.IsPublic, "", new
+                    {
+                        @class = "red-text text-darken-1"
+                    })
+                </div>
+                <br/>
+                <div class="card-internal-action card-action-overflow">
+                    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor right">@Localizer["Save"]</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-    
-
-    
 }
 
     

@@ -1,54 +1,35 @@
 ﻿@using Votor.Areas.Portal.Controllers
 @model EditEventModel
 
-<div class="card @ViewBag.cardColor">
-    <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-        <span class="card-title">
-            @Localizer["Questions"]
-        </span>
-        @if (Model.Questions.Count == 0)
-        {
-            <p> @Localizer["No questions"]</p>
-        }
-        else
-        {
-            <table>
-                <tr>
-                    <th>
-                        @Localizer["Question"]
-                    </th>
-                    <th class="right">
-                        @Localizer["Actions"]
-                    </th>
-                </tr>
-                @foreach (var question in Model.Questions)
-                {
-                    <tr>
-                        <td>
-                            @question.Question
-                        </td>
-                        <td class="right">
-                            <a asp-controller="Event" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-eventId="@question.EventId"
-                               class="btn waves-effect waves-light deep-orange accent-3 btn-small">
-                                <i class="material-icons left">delete</i>@Localizer["Remove"]
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
-
-        <br />
-
-        <div class="card-action-overflow">
-            <h6>@Localizer["Add"]</h6>
-
-            @{ await Html.RenderPartialAsync("_AddQuestionPartial", new QuestionModel
+<div class="col s12 m6 l4">
+    <div class="card @ViewBag.cardColor">
+        <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+            <div class="card-title">
+                @Localizer["New Question"]
+            </div>
+            @{
+                await Html.RenderPartialAsync("_AddQuestionPartial", new QuestionModel
                 {
                     EventId = Model.EventModel.EventId,
                     Question = string.Empty
-                }); }
+                });
+            }
         </div>
     </div>
-    
 </div>
+
+@foreach (var question in Model.Questions)
+{
+    <div class="col s12 m6 l4">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content @ViewBag.cardTextColor">
+                <div class="card-title votor-card-title">
+                    @question.Question
+                </div>
+                <a asp-controller="Event" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-eventId="@question.EventId" class="deep-orange-text votor-card-action">
+                    <i class="material-icons left">delete</i>
+                </a>
+            </div>
+        </div>
+    </div>
+}

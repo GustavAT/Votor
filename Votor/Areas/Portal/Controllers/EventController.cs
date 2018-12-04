@@ -122,7 +122,7 @@ namespace Votor.Areas.Portal.Controllers
             return RedirectToAction("Edit", "Event", new
             {
                 eventId,
-                section = "options"
+                section = "questions"
             });
         }
 
