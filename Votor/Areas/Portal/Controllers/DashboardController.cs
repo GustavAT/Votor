@@ -101,16 +101,42 @@ namespace Votor.Areas.Portal.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
         
-        [HttpPost]
-        public async Task<IActionResult> CreateEvent(EventModel model)
+        //[HttpPost]
+        //public async Task<IActionResult> CreateEvent(NewEventModel model)
+        //{
+        //    var userId = await GetUserId();
+
+        //    if (ModelState.IsValid && userId.HasValue)
+        //    {
+        //        var newEvent = new Event
+        //        {
+        //            Name = model.EventName,
+        //            IsPublic = true,
+        //            UserID = userId.Value
+        //        };
+
+        //        _context.Events.Add(newEvent);
+        //        _context.SaveChanges();
+
+        //        return RedirectToAction("Edit", "Event", new
+        //        {
+        //            eventId = newEvent.ID
+        //        });
+        //    }
+
+        //    return View("Dashboard", await InitEventListModel());
+        //}
+
+        public async Task<IActionResult> Create(CloneEventModel model)
         {
             var userId = await GetUserId();
 
-            if (ModelState.IsValid && userId.HasValue)
+            // new event, no template
+            if (!model.SelectedEvent.HasValue && userId.HasValue)
             {
                 var newEvent = new Event
                 {
-                    Name = model.EventName,
+                    Name = _localizer["New Event"],
                     IsPublic = true,
                     UserID = userId.Value
                 };
@@ -124,12 +150,6 @@ namespace Votor.Areas.Portal.Controllers
                 });
             }
 
-            return View("Dashboard", await InitEventListModel());
-        }
-
-        public async Task<IActionResult> Clone(CloneEventModel model)
-        {
-            var userId = await GetUserId();
             var targetEvent = _context.Events
                 .Where(x => x.UserID == userId && x.ID == model.SelectedEvent)
                 .Include(x => x.Options)
@@ -137,6 +157,7 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Tokens)
                 .FirstOrDefault();
             
+            // new event, from template
             if (ModelState.IsValid && targetEvent != null && userId.HasValue)
             {
                 var newEvent = new Event
@@ -330,7 +351,7 @@ namespace Votor.Areas.Portal.Controllers
     {
         public List<DashboardEventModel> All { get; set; } = new List<DashboardEventModel>();
 
-        [Display(Name = "Template")]
+        [Display(Name = "From Template")]
         public Guid? SelectedEvent { get; set; }
     }
 

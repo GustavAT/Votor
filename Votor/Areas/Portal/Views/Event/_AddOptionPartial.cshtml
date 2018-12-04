@@ -2,7 +2,6 @@
 
 @using (Html.BeginForm("AddOption", "Event", FormMethod.Post))
 {
-    <h6>@Localizer["Add"]</h6>
     <div class="input-field">
         <i class="material-icons prefix">format_list_bulleted</i>
 
@@ -17,6 +16,8 @@
         })
     </div>
     <div class="card-internal-action card-action-overflow">
-        <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">@Localizer["Add"]</button>
+        <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">
+            @Localizer["Add"]
+        </button>
     </div>
 }
