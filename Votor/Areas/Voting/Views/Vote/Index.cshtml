@@ -1,78 +1,84 @@
 ﻿@model Controllers.VoteModel
 
 @{
-    ViewBag.Title = $"{Localizer["Vote"]}";
+	ViewBag.Title = $"{Localizer["Vote"]}";
 }
-
-<div class="card @ViewBag.cardColor">
-    <div class="card-content @ViewBag.cardTextColor">
-        <span class="card-title">@Model.EventName</span>
-		<span class="black-text">
-			@Model.EventDescription
-		</span>
-    </div>
-    @if (!Model.Completed)
-    {
-	<div class="card-action card-action-overflow">
-		<a class="btn-small waves-effect waves-light right @ViewBag.secondaryColor white-text" onclick="completeVote();">
-			<i class="material-icons left">check</i>@Localizer["Complete"]
-		</a>
-		<button type="submit" class="btn-small waves-effect @ViewBag.MainColor waves-light right margin button-seperator">
-			<i class="material-icons left">save</i>@Localizer["Save"]
-		</button>	
-		
-		
-		<script>
-			function completeVote() {
-				$("#Completed").val("True");
-				$("form").submit();
-			}
-		</script>
+<div class="row row-no-margin-bottom">
+	<div class="@ViewBag.VoteTopCardLayout">
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title card-title-weight-600 @ViewBag.cardTextColor">@Model.EventName</span>
+				<span class="black-text">
+					@Model.EventDescription
+				</span>
+			</div>
+		</div>
 	</div>
-    }
 </div>
+<div class="row">
+	@if (Model.Completed)
+	{
+		@foreach (var item in Model.Choices)
+		{
+			<div class="@ViewBag.VoteContentCardLayout">
+				<div class="card @ViewBag.cardColor ">
+					<div class="card-content @ViewBag.cardTextColor">
+						<span class="card-title">@item.Question</span>
+						<br />
+						<p class="black-text">@item.Option</p>
+					</div>
+				</div>
+			</div>
 
+		}
+	}
+	else
+	{
+		using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+		{
+			@Html.HiddenFor(model => model.VoteId)
+			@Html.HiddenFor(model => model.EventId)
+			@Html.HiddenFor(model => model.Completed)
 
-@if (Model.Completed)
-{
-    @foreach (var item in Model.Choices)
-    {
-        <div class="card @ViewBag.cardColor">
-            <div class="card-content @ViewBag.cardTextColor">
-				<span class="card-title">@item.Question</span>
-				<br/>
-				<p class="black-text">@item.Option</p>
-                        
-                    
-            </div>
+			@Html.HiddenFor(model => model.PublicToken)
+			@Html.HiddenFor(model => model.Token)
 
-        </div>
-    }
-}
-else
-{
-    using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
-    {
-        @Html.HiddenFor(model => model.VoteId)
-        @Html.HiddenFor(model => model.EventId)
-        @Html.HiddenFor(model => model.Completed)
+			@for (var i = 0; i < Model.Choices.Count; i++)
+			{
 
-        @Html.HiddenFor(model => model.PublicToken)
-        @Html.HiddenFor(model => model.Token)
+				<div class="@ViewBag.VoteContentCardLayout">
+					<div class="card @ViewBag.cardColor">
+						<div class="card-content @ViewBag.cardTextColor">
+							@Html.EditorFor(model => model.Choices[i])
 
-        @for (var i = 0; i < Model.Choices.Count; i++)
-        {
-            <div class="card @ViewBag.cardColor">
-                <div class="card-content @ViewBag.cardTextColor">
-                   @Html.EditorFor(model => model.Choices[i])
-                    
-                </div>
-            </div>
-        }
+						</div>
+					</div>
+				</div>
+			}
 
+			<div class="col s12 m12 l12 postition-center">
+				<button type="submit" class="btn-small waves-effect @ViewBag.MainColor waves-light btn-margin-top">
+				<i class="material-icons left">save</i>@Localizer["Save"]
+				</button>
+				<a class="btn-small waves-effect waves-light @ViewBag.secondaryColor white-text btn-margin-top" onclick="completeVote();">
+					<i class="material-icons left">check</i>@Localizer["Complete"]
+				</a>   			
+					
+				<script>
+					function completeVote() {
+						$("#Completed").val("True");
+						$("form").submit();
+					}
+				</script>
+			</div>
 
+		}
+	}
 
+	
+				
+	
+	
 
-    }
-}
+</div>
 

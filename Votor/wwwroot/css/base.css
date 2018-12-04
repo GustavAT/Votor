@@ -97,7 +97,7 @@ input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:n
 }
 
 body{
-    background-image:url("../images/triangles.png");
+    background-image:url("../images/triangles-light.png");
     background-size: 200px;
     background-repeat:repeat;
 }
@@ -127,4 +127,32 @@ body{
 
 .card-margin-top { 
 	margin-top: 1rem !important;
+}
+
+.btn-margin-top {
+	margin-top: 5px;
+}
+
+.postition-center {
+	text-align: center;
+}
+
+.title-font-size {
+	font-size: 26px;
+}
+
+.logo-vertical-center {
+	vertical-align:sub;
+}
+
+.row-no-margin-bottom {
+	margin-bottom: 0px;
+}
+
+.card-title-weight-600 {
+	font-weight: 600 !important;
+}
+
+.card-title-weight-400 {
+	font-weight: 400 !important;
 }
