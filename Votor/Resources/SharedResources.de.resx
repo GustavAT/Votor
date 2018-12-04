@@ -591,4 +591,7 @@
   <data name="New Event" xml:space="preserve">
     <value>Neues Event</value>
   </data>
+  <data name="Delete Event?" xml:space="preserve">
+    <value>Event löschen?</value>
+  </data>
 </root>

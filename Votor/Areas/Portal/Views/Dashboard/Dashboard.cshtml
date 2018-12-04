@@ -9,15 +9,8 @@
     @{ await Html.RenderPartialAsync("_CreateEventPartial", Model.CloneEventModel); }
 </div>
 
-    
-<div class="col s12 m6 l4">
-    @if (Model.Events.Any())
-    {
-        ViewBag.CardTitle = Localizer["Events"];
-        ViewBag.EmptyCardTitle = Localizer["No Events"];
-        await Html.RenderPartialAsync("_ShowEventList", @Model.Events);
-    }
-</div>
+@{ await Html.RenderPartialAsync("_ShowEventCards", Model.Events);}
+
 <div class="col s12 m6 l4">
     @if (Model.Active.Any())
     {

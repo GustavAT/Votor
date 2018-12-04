@@ -101,32 +101,6 @@ namespace Votor.Areas.Portal.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
         
-        //[HttpPost]
-        //public async Task<IActionResult> CreateEvent(NewEventModel model)
-        //{
-        //    var userId = await GetUserId();
-
-        //    if (ModelState.IsValid && userId.HasValue)
-        //    {
-        //        var newEvent = new Event
-        //        {
-        //            Name = model.EventName,
-        //            IsPublic = true,
-        //            UserID = userId.Value
-        //        };
-
-        //        _context.Events.Add(newEvent);
-        //        _context.SaveChanges();
-
-        //        return RedirectToAction("Edit", "Event", new
-        //        {
-        //            eventId = newEvent.ID
-        //        });
-        //    }
-
-        //    return View("Dashboard", await InitEventListModel());
-        //}
-
         public async Task<IActionResult> Create(CloneEventModel model)
         {
             var userId = await GetUserId();
