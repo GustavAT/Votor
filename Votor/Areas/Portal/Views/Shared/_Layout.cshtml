@@ -39,10 +39,10 @@
 <body>
     <header>
         <nav class="@ViewBag.mainColor">
-            <a href="#" data-target="votor-sidenav" class="sidenav-trigger hide-on-large-only">
-                <i style="font-size: 32px;" class="material-icons">menu</i>
-            </a>
-            <a href="#" class="brand-logo brand-margin">@ViewBag.Title</a>
+	        <a href="#" data-target="votor-sidenav" class="sidenav-trigger hide-on-large-only">
+		        <i style="font-size: 32px;" class="material-icons">menu</i>
+	        </a>
+			<a asp-action="Index" asp-controller="Dashboard" class="brand-logo brand-margin">@ViewBag.Title</a>
         </nav>
         <partial name="_SideNavPartial" />
     </header>

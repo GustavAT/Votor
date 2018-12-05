@@ -6,107 +6,110 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#7b1fa2">
-    <link rel="icon" sizes="192x192" href="~/images/votor_logo_192.png">
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="theme-color" content="#7b1fa2">
+	<link rel="icon" sizes="192x192" href="~/images/votor_logo_192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
 
-    <title>@ViewData["Title"] - Votor</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/materialize.min.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/base.css" />
-        <link rel="stylesheet" href="~/css/identity.css" />
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <link rel="stylesheet" href="~/css/identity.manage.css" />
-        }
-        else
-        {
-            <link rel="stylesheet" href="~/css/identity.login.css" />
-        }
-    </environment>
-    <environment exclude="Development">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/base.css" />
-        <link rel="stylesheet" href="~/css/identity.css" />
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <link rel="stylesheet" href="~/css/identity.manage.css" />
-        }
-        else
-        {
-            <link rel="stylesheet" href="~/css/identity.login.css" />
-        }
-    </environment>
-</head>
-<body>
-	@if (SignInManager.IsSignedIn(User))
-	{
-
-		<header>
-			<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
-				<a href="#" class="brand-logo brand-margin">Account</a>
-				<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-			</nav>
-			<partial name="~/Areas/Identity/Pages/Account/_ManageSideNav.cshtml" />
-		</header>
-	}
-	else
-	{
-		<header>
-			<nav class="@ViewBag.mainColor">
-				<div class="nav-wrapper container">
-					<a href="#" class="brand-margin">
-						<img src="~/images/votor_logo.png" width="33px" class="logo-vertical-center" />
-						<span class="title-font-size">Votor</span>
-					</a>
-					<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-					<ul id="nav-mobile" class="right hide-on-med-and-down">
-						<partial name="~/Views/Shared/_SideNavPartial.cshtml" />
-					</ul>
-				</div>
-			</nav>
-			<ul class="sidenav" id="votor-sidenav">
-				<partial name="~/Views/Shared/_LoginPartial.cshtml" />
-			</ul>
-		</header>
-	}
-
-	<main>
-		<div class="container">
-			@RenderBody()
-		</div>
-	</main>
-	<partial name="_AccountFooterPartial" />
-
+	<title>@ViewData["Title"] - Votor</title>
 	<environment include="Development">
-		<script src="~/lib/jquery/dist/jquery.js"></script>
-		@*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
-		<script src="~/js/site.js" asp-append-version="true"></script>
-		<script src="~/js/materialize.min.js" asp-append-version="true"></script>
+		<link rel="stylesheet" href="~/css/materialize.min.css"/>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/base.css"/>
+		<link rel="stylesheet" href="~/css/identity.css"/>
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<link rel="stylesheet" href="~/css/identity.manage.css"/>
+		}
+		else
+		{
+			<link rel="stylesheet" href="~/css/identity.login.css"/>
+		}
 	</environment>
 	<environment exclude="Development">
-		<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-				asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-				asp-fallback-test="window.jQuery"
-				crossorigin="anonymous"
-				integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-		</script>
-		@*<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true"/>
+		<link rel="stylesheet" href="~/css/base.css"/>
+		<link rel="stylesheet" href="~/css/identity.css"/>
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<link rel="stylesheet" href="~/css/identity.manage.css"/>
+		}
+		else
+		{
+			<link rel="stylesheet" href="~/css/identity.login.css"/>
+		}
+	</environment>
+</head>
+<body>
+@if (SignInManager.IsSignedIn(User))
+{
+	<header>
+		<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
+			<a asp-page="Index" asp-area="Identity" class="brand-logo brand-margin">Account</a>
+			<a href="#" data-target="votor-sidenav" class="sidenav-trigger">
+				<i class="material-icons">menu</i>
+			</a>
+		</nav>
+		<partial name="~/Areas/Identity/Pages/Account/_ManageSideNav.cshtml"/>
+	</header>
+}
+else
+{
+	<header>
+		<nav class="@ViewBag.mainColor">
+			<div class="nav-wrapper container">
+				<a asp-action="Index" asp-area="" asp-controller="Home" class="brand-margin">
+					<img src="~/images/votor_logo.png" width="33px" class="logo-vertical-center"/>
+					<span class="title-font-size">Votor</span>
+				</a>
+				<a href="#" data-target="votor-sidenav" class="sidenav-trigger">
+					<i class="material-icons">menu</i>
+				</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<partial name="~/Views/Shared/_SideNavPartial.cshtml"/>
+				</ul>
+			</div>
+		</nav>
+		<ul class="sidenav" id="votor-sidenav">
+			<partial name="~/Views/Shared/_LoginPartial.cshtml"/>
+		</ul>
+	</header>
+}
+
+<main>
+	<div class="container">
+		@RenderBody()
+	</div>
+</main>
+<partial name="_AccountFooterPartial"/>
+
+<environment include="Development">
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	@*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/materialize.min.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+	        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+	        asp-fallback-test="window.jQuery"
+	        crossorigin="anonymous"
+	        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+	</script>
+	@*<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
 					asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
 					asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
 					crossorigin="anonymous"
 					integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
 			</script>*@
-		<script src="~/js/site.js" asp-append-version="true"></script>
-		<script src="~/js/materialize.min.js" asp-append-version="true"></script>
-	</environment>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/materialize.min.js" asp-append-version="true"></script>
+</environment>
 
-	@RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
 
-	<partial name="_CookieConsentPartial" />
+<partial name="_CookieConsentPartial"/>
 </body>
 </html>

@@ -30,7 +30,10 @@
 	<header>
 	<nav class="@ViewBag.mainColor" style="margin-bottom: 10px;">
 		<div class="nav-wrapper container">
-			<a href="#" class="brand-logo">@ViewData["Title"]</a>
+			<a asp-action="Index"  asp-area="" asp-controller="Home" class="brand-margin">
+				<img src="~/images/votor_logo.png" width="33px" class="logo-vertical-center"/>
+				<span class="title-font-size">Votor</span>
+			</a>
 			<a href="#" data-target="votor-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<partial name="_SideNavPartial"/>
