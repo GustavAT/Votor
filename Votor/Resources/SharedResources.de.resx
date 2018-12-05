@@ -603,4 +603,7 @@
   <data name="Or Login with an extrenal Account" xml:space="preserve">
     <value>Oder logge dich mit einem externen Account ein</value>
   </data>
+  <data name="Click here to login" xml:space="preserve">
+    <value>Klicke hier um dich einzuloggen</value>
+  </data>
 </root>

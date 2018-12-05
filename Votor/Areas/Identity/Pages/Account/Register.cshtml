@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col s12 m6 l4 offset-m3 offset-l4">
 
-		<div class="card">
+		<div class="card card-margin-top">
 			<div class="card-content">
 
 				<span class="card-title @ViewBag.cardTextColor card-title-weight-600">@Localizer["Create Account"]</span>
@@ -53,8 +53,8 @@
 						@Localizer["Register"]
 					</button>
 					<div class="postition-center btn-margin-top-10">
-						<p>
-							<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Already registered?"]</a>
+						<p class="font-size-12">
+							@Localizer["Already registered?"]  <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Click here to login"]</a>
 						</p>
 					</div>
 				</form>
