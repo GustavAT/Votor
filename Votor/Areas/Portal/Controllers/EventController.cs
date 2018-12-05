@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
+using Votor.Areas.Voting.Controllers;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -306,9 +307,62 @@ namespace Votor.Areas.Portal.Controllers
                 Id = targetEvent.ID,
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
-                PublicUrl = GenerateVotingUrl(targetEvent.ID, HttpContext),
-                Tokens = tokenModels
+                PublicUrl = targetEvent.IsPublic ? GenerateVotingUrl(targetEvent.ID, HttpContext) : string.Empty,
+                Tokens = tokenModels,
+                StartDate = targetEvent.StartDate,
+                EndDate = targetEvent.EndDate
             };
+
+            // calculate score if event is active
+            if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
+            {
+                var chartValues = new List<ChartValue>();
+                foreach (var option in targetEvent.Options)
+                {
+                    var chartValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = 0d
+                    };
+
+                    foreach (var recordVote in targetEvent.Votes)
+                    {
+                        var choices = recordVote.Choices.Count(x => x.OptionID == option.ID);
+
+                        if (recordVote.CookieID.HasValue)
+                        {
+                            chartValue.Value += choices;
+                        }
+                        else if (recordVote.TokenID.HasValue)
+                        {
+                            chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
+                        }
+                    }
+
+                    chartValues.Add(chartValue);
+                }
+
+                model.ChartValues = chartValues;
+            }
+            else
+            {
+                model.TokenValues = targetEvent.Tokens
+                    .GroupBy(x => x.Name, x => x)
+                    .Select(x => new ChartValue
+                    {
+                        Name = x.Key,
+                        Value = x.Count()
+                    }).ToList();
+
+                if (model.TokenValues.Count == 0)
+                {
+                    model.TokenValues.Add(new ChartValue
+                    {
+                        Name = _localizer["No invites"],
+                        Value = 0
+                    });
+                }
+            }
 
 
             return View("Details", model);
@@ -325,7 +379,11 @@ namespace Votor.Areas.Portal.Controllers
         private async Task<Event> GetEventById(Guid id)
         {
             var userId = await GetUserId();
-            return _context.Events.FirstOrDefault(x => x.ID == id && x.UserID == userId);
+            return _context.Events
+                .Include(x => x.Options)
+                .Include(x => x.Votes).ThenInclude(x => x.Choices)
+                .Include(x => x.Votes).ThenInclude(x => x.Token)
+                .FirstOrDefault(x => x.ID == id && x.UserID == userId);
         }
 
         private List<QuestionModel> GetQuestionsByEventId(Guid id)
@@ -430,8 +488,13 @@ namespace Votor.Areas.Portal.Controllers
         public string Description { get; set; }
         [Display(Name = "Public")]
         public string PublicUrl { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public List<TokenDetailModel> Tokens { get; set; }
+
+        public List<ChartValue> TokenValues { get; set; } = new List<ChartValue>();
+        public List<ChartValue> ChartValues { get; set; } = new List<ChartValue>();
     }
 
     public class TokenDetailModel
