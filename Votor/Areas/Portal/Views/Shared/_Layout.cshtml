@@ -24,6 +24,16 @@
     </environment>
 
     <script src="~/js/echarts.min.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        window.votorCharts = [];
+
+        window.addEventListener("resize",
+            function () {
+                for (var i = window.votorCharts.length; i-- > 0;) {
+                    votorCharts[i].resize();
+                }
+            });
+    </script>
 
 </head>
 <body>
@@ -75,15 +85,6 @@
 
             if (section) {
                 $(".tabs").tabs("select", section);
-            }
-        });
-
-    window.votorCharts = [];
-
-    window.addEventListener("resize",
-        function () {
-            for (var i = window.votorCharts.length; i-- > 0;) {
-                votorCharts[i].resize();
             }
         });
 </script>

@@ -49,49 +49,4 @@
             </div>
         </div>
     </div>
-
-    @*<tr>
-        <td>
-            @token.Token
-        </td>
-        <td>
-            @token.Count
-        </td>
-        <td>
-            @token.Weight
-        </td>
-        <td>
-            @if (!string.IsNullOrEmpty(token.Restriction))
-            {
-                @token.Restriction
-            }
-            else
-            {
-                @Localizer["No restriction"]
-            }
-        </td>
-        <td class="right">
-
-            <a asp-controller="Event" asp-action="RemoveToken" asp-route-token="@token.Token" asp-route-eventId="@token.EventId"
-               class="btn waves-effect waves-light deep-orange accent-3 btn-small">
-                <i class="material-icons left">delete</i>@Localizer["Remove"]
-            </a>
-        </td>
-    </tr>*@
 }
-
-@*<th>
-        @Localizer["Invite"]
-    </th>
-    <th>
-        @Localizer["Count"]
-    </th>
-    <th>
-        @Localizer["Weight"]
-    </th>
-    <th>
-        @Localizer["Restriction"]
-    </th>
-    <th class="right">
-        @Localizer["Actions"]
-    </th>*@
