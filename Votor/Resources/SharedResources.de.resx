@@ -618,4 +618,7 @@
   <data name="Click here to login" xml:space="preserve">
     <value>Klicke hier um dich einzuloggen</value>
   </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Entwürfe</value>
+  </data>
 </root>

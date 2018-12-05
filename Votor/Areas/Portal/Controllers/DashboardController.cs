@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Votor.Areas.Portal.Data;
 using Votor.Areas.Portal.Models;
+using Votor.Areas.Voting.Controllers;
 
 namespace Votor.Areas.Portal.Controllers
 {
@@ -216,13 +217,14 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Options)
                 .Include(x => x.Questions)
                 .Include(x => x.Tokens)
+                .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .AsNoTracking()
                 .ToList();
 
             var source = new List<DashboardEventModel>();
             foreach (var record in allEvents)
             {
-                source.Add(new DashboardEventModel
+                var model = new DashboardEventModel
                 {
                     Id = record.ID,
                     Name = record.Name,
@@ -231,7 +233,40 @@ namespace Votor.Areas.Portal.Controllers
                     CanActivate = CanActivate(record),
                     CanEdit = CanEdit(record),
                     CanFinish = CanFinish(record)
-                });
+                };
+
+                // calculate score if event is active
+                if (CanFinish(record) || record.EndDate.HasValue)
+                {
+                    var chartValues = new List<ChartValue>();
+                    foreach (var option in record.Options)
+                    {
+                        var chartValue = new ChartValue
+                        {
+                            Name = option.Name,
+                            Value = 0d
+                        };
+
+                        foreach (var recordVote in record.Votes)
+                        {
+                            var choices = recordVote.Choices.Count(x => x.OptionID == option.ID);
+
+                            if (recordVote.CookieID.HasValue)
+                            {
+                                chartValue.Value += choices;
+                            } else if (recordVote.TokenID.HasValue)
+                            {
+                                chartValue.Value += choices * recordVote.Token?.Weight ?? 1;
+                            }
+                        }
+
+                        chartValues.Add(chartValue);
+                    }
+
+                    model.Votes = chartValues;
+                }
+
+                source.Add(model);
             }
             
             var events = source.Where(x => !x.StartDate.HasValue).ToList();
@@ -325,7 +360,7 @@ namespace Votor.Areas.Portal.Controllers
     {
         public List<DashboardEventModel> All { get; set; } = new List<DashboardEventModel>();
 
-        [Display(Name = "From Template")]
+        [Display(Name = "Template")]
         public Guid? SelectedEvent { get; set; }
     }
 
@@ -338,5 +373,7 @@ namespace Votor.Areas.Portal.Controllers
         public bool CanFinish { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        public List<ChartValue> Votes { get; set; } = new List<ChartValue>();
     }
 }
