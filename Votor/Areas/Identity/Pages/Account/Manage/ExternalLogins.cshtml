@@ -33,21 +33,23 @@
 	{
 		foreach (var login in Model.CurrentLogins)
 		{
-			if (Model.ShowRemoveButton)
-			{
-				<form id="remove-login-@login.ProviderKey" asp-page-handler="RemoveLogin" method="post">
-					<input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden"/>
-					<input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden"/>
-					<div class="card @ViewBag.cardColor col s12 m6 l4">
-						<div class="card-content @ViewBag.cardTextColor">
-							<div class="card-title votor-card-title">@login.ProviderDisplayName</div>
+			
+			<form id="remove-login-@login.ProviderKey" asp-page-handler="RemoveLogin" method="post">
+				<input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden"/>
+				<input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden"/>
+				<div class="card @ViewBag.cardColor col s12 m6 l4">
+					<div class="card-content @ViewBag.cardTextColor">
+						<div class="card-title votor-card-title">@login.ProviderDisplayName</div>
+						@if (Model.ShowRemoveButton)
+						{
 							<a href="#" onclick="$('#remove-login-@login.ProviderKey').submit();" class="deep-orange-text votor-card-action" title="@Localizer["Remove this {0} login from your account", @login.LoginProvider]">
 								<i class="material-icons left">delete</i>
 							</a>
-						</div>
+						}
 					</div>
-				</form>
-			}
+				</div>
+			</form>
+			
 		}
 	}
 </div>

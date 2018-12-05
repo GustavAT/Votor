@@ -1,101 +1,113 @@
-﻿@using Microsoft.AspNetCore.Http
-@model Votor.Areas.Portal.Controllers.EventDetailModel
+﻿@model Votor.Areas.Portal.Controllers.EventDetailModel
 
 @{
     ViewBag.Title = Localizer["Details"];
 }
 
-<div class="card @ViewBag.cardColor">
-    <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-        <span class="card-title">@Model.Name</span>
-        <div id="general">
-            @Model.Description
-        </div>
-        <div id="tokens">
-            @if (!string.IsNullOrEmpty(Model.PublicUrl))
-            {
-                <div class="input-field">
-                    @Html.TextBoxFor(model => model.PublicUrl, new
-                    {
-                        @readonly = true
-                    })
+<div class="row no-margin-bottom">
 
-                    
-
-                    <script>
-                        function copyToClipboard() {
-                            var elem = $("#PublicUrl");
-                            if (elem) {
-                                elem.select();
-                                document.execCommand("copy");
-                            }
-                        }
-                    </script>
-
-                    
+    <div class="col s12 m6 l4">
+        <div class="card card-no-bottom-padding @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <div class="card-title">
+                    @Model.Name
                 </div>
-            }
-
-            <div class="card-internal-action card-action-overflow">
-                <a class="btn waves-effect waves-light right  @ViewBag.MainColor" onclick="copyToClipboard();">
-                 <i class="material-icons left">content_copy</i>@Localizer["Copy code"]
-                </a>
-                <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
-                   class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
-                    <i class="material-icons left">sync</i>
-                    @Localizer["Generate QR-codes"]
-                </a>
+                @{
+                    if (Model.StartDate.HasValue || Model.EndDate.HasValue)
+                    {
+                        await Html.RenderPartialAsync("_EventStatisticsPartial", Model.ChartValues);
+                    }
+                    else
+                    {
+                        await Html.RenderPartialAsync("_InvitePieChartPartial", Model.TokenValues);
+                    }
+                }
             </div>
         </div>
     </div>
+
+    <div class="col s12 m6 l8">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <span class="card-title">@Model.Name</span>
+                <div id="general">
+                    @Model.Description
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.PublicUrl))
+                {
+                    <div class="input-field">
+                        @Html.TextBoxFor(model => model.PublicUrl, new
+                        {
+                            @readonly = true
+                        })
+
+
+
+                        <script>
+                            function copyToClipboard() {
+                                var elem = $("#PublicUrl");
+                                if (elem) {
+                                    elem.select();
+                                    document.execCommand("copy");
+                                }
+                            }
+                        </script>
+
+
+                    </div>
+                }
+
+                <div class="card-internal-action card-action-overflow">
+                    
+                    @if (!string.IsNullOrEmpty(Model.PublicUrl))
+                    {
+                        <a class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor" onclick="copyToClipboard();">
+                            <i class="material-icons left">content_copy</i>@Localizer["Copy link"]
+                        </a>
+                    }
+
+                    @if (Model.EndDate.HasValue)
+                    {
+                        <a target="_blank" asp-area="" asp-controller="Vote" asp-action="Result" asp-route-eventId="@Model.Id"
+                           class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
+                            <i class="material-icons left">insert_chart</i>@Localizer["Results"]
+                        </a>
+                    }
+                    
+                    <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
+                       class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
+                        <i class="material-icons left">sync</i>
+                        @Localizer["QR-Codes"]
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
-@if (Model.Tokens.Any())
-{
+    @foreach (var token in Model.Tokens)
+    {
+        <div class="col s12 m6 l4">
+            <div class="card @ViewBag.cardColor">
+                <div class="card-content @ViewBag.cardTextColor">
 
-<div class="card @ViewBag.cardColor">
-    <div class="card-content @ViewBag.cardTextColor">
-        <span class="card-title">@Localizer["Invites"]</span>
-        <table>
-            <tr>
-                <th>
-                    @Localizer["Name"]
-                </th>
-                <th>
-                    @Localizer["Count"]
-                </th>
-                <th>
-                    @Localizer["Weight"]
-                </th>
-                <th>
-                    @Localizer["Restriction"]
-                </th>
-                <th>
+                    <div class="card-title">
+                        @token.Count x @token.Name
+                    </div>
+                    <div class="black-text">
+                        @if (string.IsNullOrEmpty(token.Restriction))
+                        {
+                            <p>
+                                @($"{Localizer["Restriction"]}: {token.Restriction}")
+                            </p>
+                        }
 
-                </th>
-            </tr>
-            @foreach (var token in Model.Tokens)
-            {
-                <tr>
-                    <td>
-                        @token.Name
-                    </td>
-                    <td>
-                        @token.Count
-                    </td>
-                    <td>
-                        @token.Weight
-                    </td>
-                    <td>
-                        
-                        @token.Restriction
-                    </td>
-                </tr>
-            }
-        </table>
-
-
-    </div>
+                        <p>
+                            @($"{Localizer["Weight"]}: {token.Weight}")
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
-
-}
