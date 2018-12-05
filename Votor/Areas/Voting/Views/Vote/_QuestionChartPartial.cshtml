@@ -85,14 +85,21 @@
             data.seriesToken = [];
             data.seriesScore = [];
 
-            @foreach (var value in Model.PublicValues) {
-                <text>
-                    data.xAxis.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))");
-                    data.seriesPublic.push({
-                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
-                        value: @value.Value.ToString(CultureInfo.InvariantCulture)
-                    });
-                </text>
+            @{
+                var i = 0;
+                foreach (var value in Model.PublicValues)
+                {
+                    <text>
+                        data.xAxis.push(
+                            "@(Html.Raw(HttpUtility.JavaScriptStringEncode((i % 2 == 1 ? "\n" : "") + value.Name)))");
+                        data.seriesPublic.push({
+                            name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
+                            value: @value.Value.ToString(CultureInfo.InvariantCulture)
+                        });
+                    </text>
+
+                    i++;
+                }
             }
 
             @foreach (var value in Model.TokenValues)

@@ -1,0 +1,71 @@
+﻿@using System.Globalization
+@using System.Web
+@model List<Votor.Areas.Voting.Controllers.ChartValue>
+
+@{
+    var chartId = Guid.NewGuid();
+}
+
+<div id="@chartId" style="width: 100%; min-height: 300px;"></div>
+
+<script type="text/javascript">
+        var chart = echarts.init(document.getElementById("@chartId"));
+
+        var data = initData();
+
+        if (chart) {
+
+            var options = {
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br />{b} : {c}"
+                },
+                legend: {
+                    orient: "horizontal",
+                    left: "center",
+                    data: data.legend
+                },
+                series: [
+                    {
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
+                        type: "pie",
+                        radius: "80%",
+                        label: {
+                            normal: {
+                                formatter: "{b} \n{c}",
+                                show: true,
+                                position: "inner"
+                            }
+                        },
+                        center: ["50%", "60%"],
+                        data: data.series,
+                        color: ["#7b1fa2", "#6a1b9a", "#4a148c", "#00acc1", "#0097a7", "#00838f", "#4fc3f7", "#29b6f6", "#03a9f4"]
+
+                    }
+                ]
+            };
+
+            chart.setOption(options);
+
+            window.votorCharts.push(chart);
+        }
+
+        function initData() {
+            var data = {};
+            data.legend = [];
+            data.series = [];
+
+            @foreach (var value in Model)
+            {
+                <text>
+                    data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))");
+                    data.series.push({
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
+                        value: @value.Value.ToString(CultureInfo.InvariantCulture)
+                    });
+                </text>
+            }
+
+            return data;
+        }
+</script>

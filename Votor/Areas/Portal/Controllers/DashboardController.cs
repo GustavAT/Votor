@@ -74,12 +74,11 @@ namespace Votor.Areas.Portal.Controllers
             {
                 target.EndDate = DateTime.UtcNow;
 
-                // set all votes to completed
-                var votes = _context.Votes.Where(x => x.EventID == eventId && !x.IsCompleted);
-                var choices = votes.SelectMany(x => x.Choices);
+                //var votes = _context.Votes.Where(x => x.EventID == eventId && !x.IsCompleted);
+                //var choices = votes.SelectMany(x => x.Choices);
 
-                _context.Choices.RemoveRange(choices);
-                _context.Votes.RemoveRange(votes);
+                //_context.Choices.RemoveRange(choices);
+                //_context.Votes.RemoveRange(votes);
                 _context.SaveChanges();
             }
 
@@ -266,6 +265,25 @@ namespace Votor.Areas.Portal.Controllers
 
                     model.Votes = chartValues;
                 }
+                else
+                {
+                    model.Tokens = record.Tokens
+                        .GroupBy(x => x.Name, x => x)
+                        .Select(x => new ChartValue
+                        {
+                            Name = x.Key,
+                            Value = x.Count()
+                        }).ToList();
+
+                    if (model.Tokens.Count == 0)
+                    {
+                        model.Tokens.Add(new ChartValue
+                        {
+                            Name = _localizer["No invites"],
+                            Value = 0
+                        });
+                    }
+                }
 
                 source.Add(model);
             }
@@ -376,5 +394,6 @@ namespace Votor.Areas.Portal.Controllers
         public DateTime? EndDate { get; set; }
 
         public List<ChartValue> Votes { get; set; } = new List<ChartValue>();
+        public List<ChartValue> Tokens { get; set; } = new List<ChartValue>();
     }
 }
