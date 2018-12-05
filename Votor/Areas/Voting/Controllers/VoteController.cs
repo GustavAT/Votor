@@ -192,9 +192,10 @@ namespace Votor.Areas.Voting.Controllers
                 .Include(x => x.Choices).ThenInclude(x => x.Option)
                 .Include(x => x.Choices).ThenInclude(x => x.Question)
                 .Include(x => x.Token)
-                .Where(x => x.EventID == eventId)
+                .Where(x => x.EventID == eventId && x.IsCompleted)
                 .AsNoTracking()
                 .ToList();
+
 
             var allChoices = votes.SelectMany(x => x.Choices).ToList();
             var tokenChoices = allChoices.Where(x => x.Vote.TokenID.HasValue).ToList();
@@ -202,7 +203,7 @@ namespace Votor.Areas.Voting.Controllers
 
             model.PublicVotes = votes.Count(x => x.CookieID.HasValue);
             model.TokenVotes = votes.Count(x => x.TokenID.HasValue);
-
+            
             model.Score = new DistributionPieChartModel
             {
                 Title = _localizer["Score"],
