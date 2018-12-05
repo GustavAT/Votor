@@ -6,86 +6,80 @@
 
 @{
 	//ViewData["Title"] = Localizer["Log in"];
-	ViewBag.Title = Localizer["Log in"];
+	ViewBag.Title ="Login";
 }
 
 <div class="row">
-    <div class="col s12 m8 l8 offset-m2 offset-l2">
+    <div class="col s12 m6 l4 offset-m3 offset-l4 logo-vertical-center">
+		<div class="card card-margin-top">
+			<div class="card-content">
 
-        @if (Model.ExternalLogins.Any())
-        {
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">@Localizer["Existing account"]</span>
-                    
-                    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        @if (Model.GoogleLogin != null)
-                        {
-                            <button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
-                                <img src="~/images/google-plus-icon.svg" class="logo-button"/>
-                                <span class="logo-title">@Model.GoogleLogin.DisplayName</span>
-                            </button>
-                        }
-                    </form>
+				<span class="card-title @ViewBag.cardTextColor card-title-weight-600">Login</span>
 
-                </div>
-            </div>
-        }
-
-        <div class="card">
-            <div class="card-content">
-                
-                <span class="card-title">@Localizer["Votor account"]</span>
-
-                <form method="post" autocomplete="off">
+				<form method="post" autocomplete="off">
 
 
-                    <div asp-validation-summary="All" class="red-text text-darken-1">
-                    </div>
+					<div asp-validation-summary="All" class="red-text text-darken-1">
+					</div>
 
-                    <div class="input-field">
-                        <i class="material-icons prefix">person</i>
-                        <label asp-for="Input.UserName"></label>
-                        <input asp-for="Input.UserName"/>
-                        <span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">lock</i>
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password"/>
-                        <span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
-                    </div>
+					<div class="input-field">
+						<i class="material-icons prefix">person</i>
+						<label asp-for="Input.UserName"></label>
+						<input asp-for="Input.UserName" />
+						<span asp-validation-for="Input.UserName" class="red-text text-darken-1"></span>
+					</div>
+					<div class="input-field">
+						<i class="material-icons prefix">lock</i>
+						<label asp-for="Input.Password"></label>
+						<input asp-for="Input.Password" />
+						<span asp-validation-for="Input.Password" class="red-text text-darken-1"></span>
+					</div>
 
-                    <button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
-                        @Localizer["Log in"]
-                    </button>
-                    
-                    <br />
-                    
-                    <div class="input-field">
-                        <p>
-                            <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe" class="filled-in @ViewBag.mainColor" autocomplete="off"/>
-                                <span>@Localizer["Remember me?"]</span>
-                            </label>
-                        </p>
-                    </div>
+					<div class="input-field">
+						<p>
+							<label asp-for="Input.RememberMe">
+								<input asp-for="Input.RememberMe" class="filled-in @ViewBag.mainColor" autocomplete="off" />
+								<span>@Localizer["Remember me"]</span>
+							</label>
+							<a asp-page="./ForgotPassword" class="right font-size-12">@Localizer["Forgot your password?"]</a>
+						</p>
+						
+						
+						
+					</div>
 
-                    <div class="row input-field">
-                        <div class="col s12">
-                            <p>
-                                <a asp-page="./ForgotPassword">@Localizer["Forgot your password?"]</a>
-                            </p>
-                        </div>
-                        <div class="col s12">
-                            <p>
-                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Create a new account"]</a>
-                            </p>
-                        </div>
-                    </div>
+					<button type="submit" class="btn waves-effect waves-light @ViewBag.mainColor" style="width: 100%;">
+						@Localizer["Login"]
+					</button>
 
-                </form>
-            </div>
+						<div class="btn-margin-top-10 postition-center">
+							<p class="font-size-12">@Localizer["Not a member yet?"]
+								<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Create your Account"]</a>
+							</p>
+						</div>				
+
+
+				</form>
+			</div>
+				@if (Model.ExternalLogins.Any())
+					{
+					<div class=" card-action postition-center">
+					<span>@Localizer["Or Login with an extrenal Account"]</span>
+
+						<form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+							@if (Model.GoogleLogin != null)
+							{
+								<button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus btn-margin-top-10" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
+									<img src="~/images/google-plus-icon.svg" class="logo-button" />
+									@*<span class="logo-title">@Model.GoogleLogin.DisplayName</span>*@
+								</button>
+							}
+						</form>
+
+
+					</div>
+				}
+			
         </div>
     </div>
     

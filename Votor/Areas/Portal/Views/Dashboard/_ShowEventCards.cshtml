@@ -1,0 +1,95 @@
+﻿@model List<Votor.Areas.Portal.Controllers.DashboardEventModel>
+
+@foreach (var item in @Model)
+{
+    <div class="col s12 m6 l4">
+        <div class="card card-no-bottom-padding @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <div class="card-title">
+                    @item.Name
+                </div>
+                @if (!item.CanEdit)
+                {
+
+                    <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
+                       class="btn waves-effect waves-light btn-small @ViewBag.MainColor">
+                        <i class="material-icons left">info_outline</i>@Localizer["Details"]
+                    </a>
+                }
+                @if (item.CanEdit)
+                {
+                    <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@item.Id"
+                       class="btn waves-effect waves-light btn-small @ViewBag.mainColor">
+                        <i class="material-icons left">edit</i>@Localizer["Edit"]
+                    </a>
+                }
+
+                @if (item.CanActivate)
+                {
+                    <a asp-controller="Dashboard" asp-action="ActivateEvent" asp-route-eventId="@item.Id"
+                       class="btn waves-effect waves-light btn-small @ViewBag.secondaryColor">
+                        <i class="material-icons left">info_outline</i>@Localizer["Activate"]
+                    </a>
+                }
+                @if (item.CanFinish)
+                {
+                    <a asp-controller="Dashboard" asp-action="FinishEvent" asp-route-eventId="@item.Id"
+                       class="btn waves-effect waves-light btn-small @ViewBag.secondaryColor">
+                        <i class="material-icons left">info_outline</i>@Localizer["Finish"]
+                    </a>
+
+                    <!-- Modal reset event -->
+                    <div id="resetModal" class="modal">
+                        <div class="modal-content">
+                            <span class="card-title">@Localizer["Reset {0}?", item.Name]</span>
+                            <span class="card-content black-text">
+                                @Localizer["All votings will be deleted."]
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                                <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+                            </a>
+
+                            <a asp-controller="Dashboard" asp-action="Reset" asp-route-eventId="@item.Id"
+                               class="btn-flat waves-effect waves-light deep-orange accent-3 white-text">
+                                <i class="material-icons left">fast_rewind</i>@Localizer["Reset"]
+                            </a>
+                        </div>
+                    </div>
+
+                    <a class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#resetModal">
+                        <i class="material-icons left">fast_rewind</i>@Localizer["Reset"]
+                    </a>
+                }
+                @if (item.EndDate.HasValue)
+                {
+                    <a asp-area="Voting" asp-controller="Vote" asp-action="Result" asp-route-eventId="@item.Id" class="btn waves-effect waves-light btn-small">
+                        <i class="material-icons left">insert_chart</i>@Localizer["Results"]
+                    </a>
+                }
+
+                <!-- Modal Structure -->
+                <div id="deleteModal" class="modal">
+                    <div class="modal-content">
+                        <span class="card-title">@Localizer["Delete Event?", item.Name]</span>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn-flat waves-effect waves-light modal-close white-text grey darken-2">
+                            <i class="material-icons left">keyboard_return</i>@Localizer["Cancel"]
+                        </a>
+
+                        <a asp-controller="Event" asp-action="Delete" asp-route-eventId="@item.Id"
+                           class="btn-flat waves-effect waves-light deep-orange accent-3 white-text">
+                            <i class="material-icons left">delete_forever</i>@Localizer["Delete"]
+                        </a>
+                    </div>
+                </div>
+
+                <a class="btn modal-trigger waves-effect waves-light deep-orange accent-3 btn-small" href="#deleteModal">
+                    <i class="material-icons left">delete</i>@Localizer["Delete"]
+                </a>
+            </div>
+        </div>
+    </div>
+}

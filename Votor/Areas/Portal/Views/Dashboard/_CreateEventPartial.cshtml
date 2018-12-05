@@ -2,20 +2,10 @@
 
 @using (Html.BeginForm("Create", "Dashboard", FormMethod.Post))
 {
-    <div class="card @ViewBag.cardColor card-margin-top">
+    <div class="card @ViewBag.cardColor">
         <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
             <span class="card-title">@Localizer["Create new Event"]</span>
-            @*<div class="input-field no-margin-bottom">
-                <i class="material-icons prefix">event</i>
-
-                @Html.LabelFor(model => model.EventName)
-                @Html.TextBoxFor(model => model.EventName)
-                @Html.ValidationMessageFor(model => model.EventName, "", new
-                {
-                    @class = "red-text text-darken-1"
-                })
-            </div>*@
-
+            
             <div class="input-field no-margin-bottom">
                 <select asp-for="@Model.SelectedEvent" asp-items="@(new SelectList(Model.All, "Id", "Name"))">
                     <option value="">@Localizer["Without Template"]</option>

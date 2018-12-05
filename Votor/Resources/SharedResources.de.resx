@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create a new account" xml:space="preserve">
-    <value>Einen neuen Account erstellen</value>
+  <data name="Create Account" xml:space="preserve">
+    <value>Account erstellen</value>
   </data>
   <data name="Create Event" xml:space="preserve">
     <value>Event Erstellen</value>
@@ -132,7 +132,7 @@
   <data name="Forgot your password?" xml:space="preserve">
     <value>Passwort vergessen?</value>
   </data>
-  <data name="Log in" xml:space="preserve">
+  <data name="Login" xml:space="preserve">
     <value>Einloggen</value>
   </data>
   <data name="My Events" xml:space="preserve">
@@ -144,8 +144,8 @@
   <data name="Register" xml:space="preserve">
     <value>Registrieren</value>
   </data>
-  <data name="Remember me?" xml:space="preserve">
-    <value>Login speichern?</value>
+  <data name="Remember me" xml:space="preserve">
+    <value>Login speichern</value>
   </data>
   <data name="Manage account" xml:space="preserve">
     <value>Account verwalten</value>
@@ -382,7 +382,7 @@
     <value>Events</value>
   </data>
   <data name="Finished Events" xml:space="preserve">
-    <value>Abgeschlossene Events</value>
+    <value>Beendete Events</value>
   </data>
   <data name="No Events" xml:space="preserve">
     <value>Keine Events</value>
@@ -590,5 +590,32 @@
   </data>
   <data name="New Event" xml:space="preserve">
     <value>Neues Event</value>
+  </data>
+  <data name="Delete Event?" xml:space="preserve">
+    <value>Event löschen?</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Beendet</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
+  <data name="Already registered?" xml:space="preserve">
+    <value>Bereits registriert?</value>
+  </data>
+  <data name="Create your Account" xml:space="preserve">
+    <value>Erstelle deinen Account</value>
+  </data>
+  <data name="Not a member yet?" xml:space="preserve">
+    <value>Noch nicht registriert?</value>
+  </data>
+  <data name="Or Login with an extrenal Account" xml:space="preserve">
+    <value>Oder logge dich mit einem externen Account ein</value>
+  </data>
+  <data name="Click here to login" xml:space="preserve">
+    <value>Klicke hier um dich einzuloggen</value>
   </data>
 </root>

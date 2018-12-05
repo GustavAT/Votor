@@ -1,0 +1,108 @@
+﻿@using System.Web
+@model Votor.Areas.Portal.Controllers.EventListModel
+
+@{
+    var chartId = Guid.NewGuid();
+}
+
+    <div class="card">
+        <div class="card-content">
+            <p class="card-title">@Localizer["Overview"]</p>
+            <div id="@chartId" style="width: 100%; min-height: 300px;"></div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    
+    var chart = echarts.init(document.getElementById("@chartId"));
+
+    var data = initData();
+
+    if (chart) {
+
+        var options = {
+            tooltip: {
+                trigger: "item",
+                formatter: "{a} <br />{b} : {c}"
+            },
+            legend: {
+                data: [
+                    "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Drafts"]))",
+                    "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Active"]))",
+                    "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Finished"]))"
+                ]
+            },
+            xAxis: {
+                type: "category",
+                data: data.xAxis,
+                splitLine: { show: false },
+                axisLabel: { interval: 0 }
+            },
+            yAxis: {
+                name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Count"]))",
+                interval: 1,
+                type: "value"
+            },
+            series: [
+                {
+                    name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Drafts"]))",
+                    type: "bar",
+                    barGap: "5%",
+                    barWidth: "20%",
+                    data: data.seriesPublic,
+                    color: "#7b1fa2"
+                },
+                {
+                    name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Active"]))",
+                    type: "bar",
+                    barGap: "5%",
+                    barWidth: "20%",
+                    data: data.seriesToken,
+                    color: "#00acc1"
+                },
+                {
+                    name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Finished"]))",
+                    type: "bar",
+                    barGap: "5%",
+                    barWidth: "20%",
+                    data: data.seriesScore,
+                    color: "#ff3d00"
+                }
+            ]
+        };
+
+        chart.setOption(options);
+
+        window.votorCharts.push(chart);
+    }
+    
+    function initData() {
+        var data = {};
+        data.xAxis = [];
+        data.seriesPublic = [];
+        data.seriesToken = [];
+        data.seriesScore = [];
+
+        var name = "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Events"]))";
+
+        data.xAxis.push(name);
+
+        data.seriesPublic.push({
+            name: name,
+            value: @Model.Events.Count
+        });
+
+        data.seriesToken.push({
+            name: name,
+            value: @Model.Active.Count
+        });
+
+        data.seriesScore.push({
+            name: name,
+            value: @Model.Finished.Count
+        });
+
+        return data;
+    }
+</script>
