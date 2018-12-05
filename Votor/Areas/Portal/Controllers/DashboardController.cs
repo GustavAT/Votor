@@ -218,6 +218,7 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Questions)
                 .Include(x => x.Tokens)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
+	            .Include(x => x.Votes).ThenInclude(x => x.Token)
                 .AsNoTracking()
                 .ToList();
 
@@ -256,7 +257,7 @@ namespace Votor.Areas.Portal.Controllers
                                 chartValue.Value += choices;
                             } else if (recordVote.TokenID.HasValue)
                             {
-                                chartValue.Value += choices * recordVote.Token?.Weight ?? 1;
+                                chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
                             }
                         }
 

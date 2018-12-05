@@ -13,20 +13,19 @@
 	<div class="card-content @ViewBag.cardTextColor">
 		<span class="card-title card-title-weight-400">@Localizer["External Login"]</span>
 
-		<div class="card-internal-action card-action-overflow">
-			@if (Model.OtherLogins?.Count > 0)
-			{
-				<form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-					@if (Model.GoogleLogin != null)
-					{
-						<button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
-							<img src="~/images/google-plus-icon.svg" class="logo-button"/>
-							@*<span class="logo-title">@Model.GoogleLogin.DisplayName</span>*@
-						</button>
-					}
-				</form>
-			}
-		</div>
+
+		@if (Model.OtherLogins?.Count > 0)
+		{
+			<form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
+				@if (Model.GoogleLogin != null)
+				{
+					<button type="submit" class="btn btn-default waves-effect waves-light btn-google-plus" name="provider" value="@Model.GoogleLogin.Name" title="@Localizer["Log in using your {0} account", Model.GoogleLogin.DisplayName]">
+						<img src="~/images/google-plus-icon.svg" class="logo-button"/>
+						@*<span class="logo-title">@Model.GoogleLogin.DisplayName</span>*@
+					</button>
+				}
+			</form>
+		}
 	</div>
 </div>
 <div class="row">
@@ -36,15 +35,15 @@
 		{
 			if (Model.ShowRemoveButton)
 			{
-				<form id="remove-login" asp-page-handler="RemoveLogin" method="post">
+				<form id="remove-login-@login.ProviderKey" asp-page-handler="RemoveLogin" method="post">
 					<input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden"/>
 					<input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden"/>
-					<div class="card col s12 m6 l4">
-						<div class="card-content">
-							<span class="card-title-weight-400">@login.ProviderDisplayName</span>
-							<button type="submit" class="btn waves-effect waves-light red darken-1 right" title="@Localizer["Remove this {0} login from your account", @login.LoginProvider]">
-								<i class="material-icons">delete</i>
-							</button>
+					<div class="card @ViewBag.cardColor col s12 m6 l4">
+						<div class="card-content @ViewBag.cardTextColor">
+							<div class="card-title votor-card-title">@login.ProviderDisplayName</div>
+							<a href="#" onclick="$('#remove-login-@login.ProviderKey').submit();" class="deep-orange-text votor-card-action" title="@Localizer["Remove this {0} login from your account", @login.LoginProvider]">
+								<i class="material-icons left">delete</i>
+							</a>
 						</div>
 					</div>
 				</form>
