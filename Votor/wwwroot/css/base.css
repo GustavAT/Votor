@@ -143,8 +143,8 @@ body{
 	margin-top: 1rem !important;
 }
 
-.btn-margin-top {
-	margin-top: 5px;
+.btn-margin-top-10 {
+	margin-top: 10px;
 }
 
 .postition-center {
@@ -169,4 +169,12 @@ body{
 
 .card-title-weight-400 {
 	font-weight: 400 !important;
+}
+
+.btn-margin-top-5 {
+	margin-top: 5px;
+}
+
+.font-size-12 {
+	font-size: 12px;
 }
