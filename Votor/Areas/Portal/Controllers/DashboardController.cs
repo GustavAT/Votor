@@ -265,6 +265,25 @@ namespace Votor.Areas.Portal.Controllers
 
                     model.Votes = chartValues;
                 }
+                else
+                {
+                    model.Tokens = record.Tokens
+                        .GroupBy(x => x.Name, x => x)
+                        .Select(x => new ChartValue
+                        {
+                            Name = x.Key,
+                            Value = x.Count()
+                        }).ToList();
+
+                    if (model.Tokens.Count == 0)
+                    {
+                        model.Tokens.Add(new ChartValue
+                        {
+                            Name = _localizer["No invites"],
+                            Value = 0
+                        });
+                    }
+                }
 
                 source.Add(model);
             }
@@ -375,5 +394,6 @@ namespace Votor.Areas.Portal.Controllers
         public DateTime? EndDate { get; set; }
 
         public List<ChartValue> Votes { get; set; } = new List<ChartValue>();
+        public List<ChartValue> Tokens { get; set; } = new List<ChartValue>();
     }
 }

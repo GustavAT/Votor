@@ -27,6 +27,10 @@
                     {
                         await Html.RenderPartialAsync("_EventStatisticsPartial", item.Votes);
                     }
+                    else
+                    {
+                        await Html.RenderPartialAsync("_InvitePieChartPartial", item.Tokens);
+                    }
                 }
 
                 <div class="card-action-overflow padding-bottom-10">
