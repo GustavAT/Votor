@@ -3,27 +3,30 @@
     ViewData["Title"] = $"{Localizer["Edit"]} - {Model.EventModel.EventName}";
 }
 
-<div class="s12">
-    <ul class="tabs @ViewBag.mainColor">
-        <li class="tab col s3"><a href="#general" class="white-text">@Localizer["Event"]</a></li>
-        <li class="tab col s3"><a href="#questions" class="white-text">@Localizer["Questions"]</a></li>
-        <li class="tab col s3"><a href="#options" class="white-text">@Localizer["Choices"]</a></li>
-        <li class="tab col s3"><a href="#tokens" class="white-text">@Localizer["Invites"]</a></li>
-    </ul>
+<div class="row no-margin-bottom">
+    <div class="s12">
+        <ul class="tabs @ViewBag.mainColor">
+            <li class="tab col s3"><a href="#general" class="white-text">@Localizer["Event"]</a></li>
+            <li class="tab col s3"><a href="#questions" class="white-text">@Localizer["Questions"]</a></li>
+            <li class="tab col s3"><a href="#options" class="white-text">@Localizer["Choices"]</a></li>
+            <li class="tab col s3"><a href="#tokens" class="white-text">@Localizer["Invites"]</a></li>
+        </ul>
+    </div>
 </div>
+<div class="row no-margin-bottom">
+    <div id="general">
+        @{ await Html.RenderPartialAsync("_GeneralPartial", Model);}
+    </div>
 
-<div id="general">
-    @{ await Html.RenderPartialAsync("_GeneralPartial", Model);}
-</div>
+    <div id="questions">
+        @{ await Html.RenderPartialAsync("_QuestionsPartial", Model);}
+    </div>
 
-<div id="questions">
-    @{ await Html.RenderPartialAsync("_QuestionsPartial", Model);}
-</div>
+    <div id="options">
+        @{ await Html.RenderPartialAsync("_OptionsPartial", Model);}
+    </div>
 
-<div id="options">
-    @{ await Html.RenderPartialAsync("_OptionsPartial", Model);}
-</div>
-
-<div id="tokens">
-    @{ await Html.RenderPartialAsync("_TokensPartial", Model);}
+    <div id="tokens">
+        @{ await Html.RenderPartialAsync("_TokensPartial", Model);}
+    </div>
 </div>

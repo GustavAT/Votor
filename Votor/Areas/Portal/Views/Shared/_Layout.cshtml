@@ -16,12 +16,14 @@
 		<link rel="stylesheet" href="~/css/portal.css" />
 
 	</environment>
-	<environment exclude="Development">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
-		<link rel="stylesheet" href="~/css/base.css" />
-		<link rel="stylesheet" href="~/css/portal.css" />
-	</environment>
+    <environment exclude="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/materialize.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/base.css" />
+        <link rel="stylesheet" href="~/css/portal.css" />
+    </environment>
+
+    <script src="~/js/echarts.min.js" asp-append-version="true"></script>
 
 </head>
 <body>
@@ -35,11 +37,11 @@
         <partial name="_SideNavPartial" />
     </header>
     <main>
-        <div class="row">
-            <div class="s12">
+        @*<div class="row">
+            <div class="s12">*@
                 @RenderBody()
-            </div>
-        </div>
+            @*</div>
+        </div>*@
     </main>
 
     <partial name="_PortalFooter"/>
@@ -48,7 +50,6 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/materialize.min.js" asp-append-version="true"></script>
-        <script type="text/javascript" src="~/js/echarts.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
@@ -58,7 +59,6 @@
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/materialize.min.js" asp-append-version="true"></script>
-        <script type="text/javascript" src="~/js/echarts.min.js"></script>
     </environment>
     @RenderSection("Scripts", required: false)
 <partial name="_CookieConsentPartial" />
@@ -75,6 +75,15 @@
 
             if (section) {
                 $(".tabs").tabs("select", section);
+            }
+        });
+
+    window.votorCharts = [];
+
+    window.addEventListener("resize",
+        function () {
+            for (var i = window.votorCharts.length; i-- > 0;) {
+                votorCharts[i].resize();
             }
         });
 </script>

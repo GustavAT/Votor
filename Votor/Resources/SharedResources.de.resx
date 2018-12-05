@@ -382,7 +382,7 @@
     <value>Events</value>
   </data>
   <data name="Finished Events" xml:space="preserve">
-    <value>Abgeschlossene Events</value>
+    <value>Beendete Events</value>
   </data>
   <data name="No Events" xml:space="preserve">
     <value>Keine Events</value>
@@ -593,5 +593,14 @@
   </data>
   <data name="Delete Event?" xml:space="preserve">
     <value>Event löschen?</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Beendet</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Übersicht</value>
   </data>
 </root>
