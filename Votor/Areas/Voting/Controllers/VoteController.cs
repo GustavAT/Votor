@@ -87,7 +87,7 @@ namespace Votor.Areas.Voting.Controllers
                     targetVote = InitializeNewVote(targetEvent, tokenId: token.ID);
                 }
             }
-            else
+            else if (targetEvent.IsPublic)
             {
                 // public vote
 
@@ -293,8 +293,7 @@ namespace Votor.Areas.Voting.Controllers
         private Event GetActiveEventById(Guid eventId)
         {
             return _context.Events
-                .Where(x => x.ID == eventId && x.IsPublic
-                                            && x.StartDate.HasValue
+                .Where(x => x.ID == eventId && x.StartDate.HasValue
                                             && !x.EndDate.HasValue)
                 .Include(x => x.Questions)
                 .AsNoTracking().FirstOrDefault();
@@ -303,8 +302,7 @@ namespace Votor.Areas.Voting.Controllers
         private Event GetFinishedEventById(Guid eventId)
         {
             return _context.Events
-                .Where(x => x.ID == eventId && x.IsPublic
-                                            && x.StartDate.HasValue
+                .Where(x => x.ID == eventId && x.StartDate.HasValue
                                             && x.EndDate.HasValue)
                 .Include(x => x.Questions)
                 .Include(x => x.Options)
