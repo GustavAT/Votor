@@ -5,61 +5,65 @@
     ViewBag.Title = Localizer["Results"];
 }
 
-<div class="card">
-    <div class="card-content">
-        <p class="card-title">@Model.EventName</p>
-        <p>@Model.EventDescription</p>
-        
-        <hr/>
+<div class="row">
+    <div class="col s12">
+        <div class="card no-margin-bottom">
+            <div class="card-content">
+                <p class="card-title">@Model.EventName</p>
+                <p>@Model.EventDescription</p>
 
-        <table>
-            <tr>
-                <th>
-                    @Localizer["Category"]
-                </th>
-                <th>
-                    @Localizer["Winner"]
-                </th>
-                <th>
-                    @Localizer["Score"]
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    @Localizer["Overall"]
-                </td>
-                <td>
-                    @{
-                        var winners = Model.Overall.Score
-                            .Where(x => Math.Abs(x.Value - Model.Overall.Score.Max(y => y.Value)) < 0.000001)
-                            .ToList();
+                <hr />
+
+                <table>
+                    <tr>
+                        <th>
+                            @Localizer["Category"]
+                        </th>
+                        <th>
+                            @Localizer["Winner"]
+                        </th>
+                        <th>
+                            @Localizer["Score"]
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Localizer["Overall"]
+                        </td>
+                        <td>
+                            @{
+                                var winners = Model.Overall.Score
+                                    .Where(x => Math.Abs(x.Value - Model.Overall.Score.Max(y => y.Value)) < 0.000001)
+                                    .ToList();
+                            }
+                            @string.Join(", ", winners.Select(x => x.Name))
+                        </td>
+                        <td>
+                            @(winners.FirstOrDefault()?.Value ?? 0)
+                        </td>
+                    </tr>
+                    @foreach (var record in Model.Questions)
+                    {
+                        <tr>
+                            <td>
+                                @record.Title
+                            </td>
+                            <td>
+                                @{
+                                    var questionWinner = record.Score
+                                        .Where(x => Math.Abs(x.Value - record.Score.Max(y => y.Value)) < 0.000001)
+                                        .ToList();
+                                }
+                                @string.Join(", ", questionWinner.Select(x => x.Name))
+                            </td>
+                            <td>
+                                @(questionWinner.FirstOrDefault()?.Value ?? 0)
+                            </td>
+                        </tr>
                     }
-                    @string.Join(", ", winners.Select(x => x.Name))
-                </td>
-                <td>
-                    @(winners.FirstOrDefault()?.Value ?? 0)
-                </td>
-            </tr>
-            @foreach (var record in Model.Questions)
-            {
-                <tr>
-                    <td>
-                        @record.Title
-                    </td>
-                    <td>
-                        @{
-                            var questionWinner = record.Score
-                                .Where(x => Math.Abs(x.Value - record.Score.Max(y => y.Value)) < 0.000001)
-                                .ToList();
-                        }
-                        @string.Join(", ", questionWinner.Select(x => x.Name))
-                    </td>
-                    <td>
-                        @(questionWinner.FirstOrDefault()?.Value ?? 0)
-                    </td>
-                </tr>
-            }
-        </table>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -74,13 +78,26 @@
         });
 </script>
 
-@{ await Html.RenderPartialAsync("_PieChartPartial", Model.Distribution);}
+<div class="row">
+    <div class="col m12 l6">
+        @{ await Html.RenderPartialAsync("_PieChartPartial", Model.Distribution);}
+    </div>
+    <div class="col m12 l6">
+        @{ await Html.RenderPartialAsync("_PieChartPartial", Model.Score);}
+    </div>
+</div>
 
-@{ await Html.RenderPartialAsync("_PieChartPartial", Model.Score);}
+<div class="row">
+    <div class="col s12">
+        @{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
+    </div>
+</div>
 
-@{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
-
+<div class="row">
 @foreach (var questionChartModel in Model.Questions)
 {
-    await Html.RenderPartialAsync("_QuestionChartPartial", questionChartModel);
+    <div class="col s12">
+        @{ await Html.RenderPartialAsync("_QuestionChartPartial", questionChartModel); }
+    </div>
 }
+</div>

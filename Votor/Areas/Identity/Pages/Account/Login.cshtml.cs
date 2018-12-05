@@ -13,100 +13,104 @@ using Microsoft.Extensions.Logging;
 
 namespace Votor.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
-    public class LoginModel : PageModel
-    {
-        private readonly IStringLocalizer<SharedResources> _localizer;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+	[AllowAnonymous]
+	public class LoginModel : PageModel
+	{
+		private readonly IStringLocalizer<SharedResources> _localizer;
+		private readonly SignInManager<IdentityUser> _signInManager;
+		private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(IStringLocalizer<SharedResources> localizer, SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
-        {
-            _localizer = localizer;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+		public LoginModel(IStringLocalizer<SharedResources> localizer, SignInManager<IdentityUser> signInManager,
+			ILogger<LoginModel> logger)
+		{
+			_localizer = localizer;
+			_signInManager = signInManager;
+			_logger = logger;
+		}
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+		[BindProperty] public InputModel Input { get; set; }
 
-        [BindProperty]
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+		[BindProperty] public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public AuthenticationScheme GoogleLogin { get; set; }
+		public AuthenticationScheme GoogleLogin { get; set; }
 
-        public string ReturnUrl { get; set; }
+		public string ReturnUrl { get; set; }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+		[TempData] public string ErrorMessage { get; set; }
 
-        public class InputModel
-        {
-            [Required(ErrorMessage = "The {0} field is required.")]
-            [DataType(DataType.Text)]
-            [Display(Name = "Username")]
-            public string UserName { get; set; }
-            
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
+		public class InputModel
+		{
+			[Required(ErrorMessage = "The {0} field is required.")]
+			[DataType(DataType.Text)]
+			[Display(Name = "Username")]
+			public string UserName { get; set; }
 
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
-        }
+			[DataType(DataType.Password)]
+			[Display(Name = "Password")]
+			public string Password { get; set; }
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
-            }
+			[Display(Name = "Remember me?")] public bool RememberMe { get; set; }
+		}
 
-            returnUrl = returnUrl ?? Url.Content("~/");
+		public async Task OnGetAsync(string returnUrl = null)
+		{
+			if (!string.IsNullOrEmpty(ErrorMessage))
+			{
+				ModelState.AddModelError(string.Empty, ErrorMessage);
+			}
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+			returnUrl = returnUrl ?? Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+			// Clear the existing external cookie to ensure a clean login process
+			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            GoogleLogin = ExternalLogins.FirstOrDefault(x => x.Name == "Google");
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            ReturnUrl = returnUrl;
-        }
+			GoogleLogin = ExternalLogins.FirstOrDefault(x => x.Name == "Google");
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
-            returnUrl = returnUrl ?? Url.Content("~/");
+			ReturnUrl = returnUrl;
+		}
 
-            if (ModelState.IsValid)
-            {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.UserName ?? string.Empty,
-                    Input.Password ?? string.Empty, Input.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, _localizer["Wrong username or password!"]);
-                    return Page();
-                }
-            }
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
+			returnUrl = returnUrl ?? Url.Content("~/");
 
-            // If we got this far, something failed, redisplay form
-            return Page();
-        }
-    }
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+			GoogleLogin = ExternalLogins.FirstOrDefault(x => x.Name == "Google");
+
+			if (ModelState.IsValid)
+			{
+				// This doesn't count login failures towards account lockout
+				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
+				var result = await _signInManager.PasswordSignInAsync(Input.UserName ?? string.Empty,
+					Input.Password ?? string.Empty, Input.RememberMe, lockoutOnFailure: true);
+				if (result.Succeeded)
+				{
+					_logger.LogInformation("User logged in.");
+					return LocalRedirect(returnUrl);
+				}
+
+				if (result.RequiresTwoFactor)
+				{
+					return RedirectToPage("./LoginWith2fa", new {ReturnUrl = returnUrl, Input.RememberMe});
+				}
+
+				if (result.IsLockedOut)
+				{
+					_logger.LogWarning("User account locked out.");
+					return RedirectToPage("./Lockout");
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, _localizer["Wrong username or password!"]);
+					return Page();
+				}
+			}
+
+
+			// If we got this far, something failed, redisplay form
+			return Page();
+		}
+	}
 }

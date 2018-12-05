@@ -2,8 +2,8 @@
 
 @{
     ViewBag.Title = Localizer["Finished Events"];
-    ViewBag.CardTitle = Localizer["Finished Events"];
-    ViewBag.EmptyCardTitle = Localizer["No finished Events"];
 }
 
-@{await Html.RenderPartialAsync("_ShowEventList", @Model);}
+<div class="row no-margin-bottom">
+    @{ await Html.RenderPartialAsync("_ShowEventCards", Model);}
+</div>
