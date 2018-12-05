@@ -360,10 +360,10 @@
   <data name="Remove this {0} login from your account" xml:space="preserve">
     <value>Diesen {0} Login von Ihrem Account entfernen</value>
   </data>
-  <data name="The external login &lt;b&gt;{0}&lt;/b&gt; was added." xml:space="preserve">
+  <data name="The external login {0} was added." xml:space="preserve">
     <value>Der externe Login wurde hinzugefügt.</value>
   </data>
-  <data name="The external login &lt;b&gt;{0}&lt;/b&gt; was removed." xml:space="preserve">
+  <data name="The external login {0} was removed." xml:space="preserve">
     <value>Der externe Login wurde entfernt.</value>
   </data>
   <data name="Your password has been changed." xml:space="preserve">

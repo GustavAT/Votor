@@ -74,7 +74,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = _localizer["The external login <b>{0}</b> was removed.", loginProvider];
+            StatusMessage = _localizer["The external login {0} was removed.", loginProvider];
             return RedirectToPage();
         }
 
@@ -112,7 +112,7 @@ namespace Votor.Areas.Identity.Pages.Account.Manage
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = _localizer["The external login <b>{0}</b> was added.", info.ProviderDisplayName];
+            StatusMessage = _localizer["The external login {0} was added.", info.ProviderDisplayName];
             return RedirectToPage();
         }
     }
