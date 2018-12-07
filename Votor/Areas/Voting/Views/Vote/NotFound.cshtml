@@ -7,11 +7,16 @@
     <div class="col m12 l6 offset-l3">
         <div class="card">
             <div class="card-image">
-                <img src="~/images/vote_not_found.png" alt="@Localizer["Sad Potatoe"]" />
+                <img src="~/images/vote_not_found.png" class="not-found-image" alt="@Localizer["Sad Potatoe"]" />
             </div>
             <div class="card-content">
                 <p>@Localizer["Oops, looks like the event your are looking does not exist."]</p>
-                <a asp-controller="Home" asp-action="Index" class="btn waves-effect waves-light @ViewBag.mainColor">@Localizer["Return to startpage"]</a>
+            </div>
+            <div class="card-action">
+                <a asp-area=""asp-controller="Home" asp-action="Index"
+                   class="@ViewBag.cardTextColor">
+                    @Localizer["Return to startpage"]
+                </a>
             </div>
         </div>
     </div>

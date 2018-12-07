@@ -187,3 +187,9 @@ body{
 .padding-bottom-10 {
     padding-bottom: 10px;
 }
+
+.card .card-image .not-found-image {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+}
