@@ -1,11 +1,16 @@
 ﻿@using Votor.Areas.Portal.Controllers
-@model List<DashboardEventModel>
+@model Controllers.DraftEventModel
 
 @{
     ViewBag.Title = Localizer["Drafts"];
 }
 
+
+
 <div class="row no-margin-bottom">
-    @{ await Html.RenderPartialAsync("_ShowEventCards", Model);}
+	<div class="col s12 m6 l4">
+		@{ await Html.RenderPartialAsync("_CreateEventPartial", Model.CloneEventModel); }
+	</div>
+	@{ await Html.RenderPartialAsync("_ShowEventCards", Model.Drafts);}
 </div>
 

@@ -37,8 +37,17 @@ namespace Votor.Areas.Portal.Controllers
 
         public async Task<IActionResult> Events()
         {
-            var events = await InitEventListModel();
-            return View("Events", events.Events);
+			var events = await InitEventListModel();
+			var model = new DraftEventModel
+			{
+				Drafts = events.Events,
+				CloneEventModel = new CloneEventModel
+				{
+					All = events.Events.Concat(events.Active).Concat(events.Finished).ToList()
+				}
+
+			};
+            return View("Events", model);
         }
 
         public async Task<IActionResult> Active()
@@ -397,5 +406,11 @@ namespace Votor.Areas.Portal.Controllers
 
         public List<ChartValue> Votes { get; set; } = new List<ChartValue>();
         public List<ChartValue> Tokens { get; set; } = new List<ChartValue>();
-    }
+	}
+
+	public class DraftEventModel
+	{
+		public List<DashboardEventModel> Drafts { get; set; } = new List<DashboardEventModel>();
+		public CloneEventModel CloneEventModel { get; set; } = new CloneEventModel();
+	}
 }
