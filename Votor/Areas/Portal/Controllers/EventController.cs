@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -261,6 +262,38 @@ namespace Votor.Areas.Portal.Controllers
             return View("Edit", await InitEditEventModel(tokenModel.EventId));
         }
 
+        public async Task<IActionResult> AddTokenDetails(TokenModel tokenModel)
+        {
+            var tokenName = tokenModel.Token;
+
+            var existing = await _context.Tokens
+                .AnyAsync(x => x.EventID == tokenModel.EventId && x.Name == tokenName);
+
+            if (ModelState.IsValid && !existing)
+            {
+                for (var i = tokenModel.Count; i-- > 0;)
+                {
+                    var token = new Token
+                    {
+                        Name = tokenName,
+                        Weight = tokenModel.Weight,
+                        EventID = tokenModel.EventId,
+                        OptionID = tokenModel.RestrictionId
+                    };
+
+                    _context.Tokens.Add(token);
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Details", "Event", new
+                {
+                    eventId = tokenModel.EventId,
+                });
+            }
+            
+            return View("Details", await InitEventDetailModel(tokenModel.EventId));
+        }
+
 
         public IActionResult RemoveToken(string token, Guid eventId)
         {
@@ -284,94 +317,8 @@ namespace Votor.Areas.Portal.Controllers
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-
-            var tokens = _context.Tokens
-                .Where(x => x.EventID == targetEvent.ID)
-                .Include(x => x.Option)
-                .AsNoTracking()
-                .GroupBy(x => x.Name);
-
-            var tokenModels = new List<TokenDetailModel>();
-
-            foreach (var grouping in tokens)
-            {
-                var view = new TokenDetailModel
-                {
-                    Name = grouping.Key,
-                    Count = grouping.Count(),
-                    Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
-                    Restriction = grouping.FirstOrDefault()?.Option?.Name,
-                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID, HttpContext)).ToList()
-                };
-
-                tokenModels.Add(view);
-            }
-
-            var model = new EventDetailModel
-            {
-                Id = targetEvent.ID,
-                Name = targetEvent.Name,
-                Description = targetEvent.Description,
-                PublicUrl = targetEvent.IsPublic ? GenerateVotingUrl(targetEvent.ID, HttpContext) : string.Empty,
-                ShowOverallWinner = targetEvent.ShowOverallWinner,
-                Tokens = tokenModels,
-                StartDate = targetEvent.StartDate,
-                EndDate = targetEvent.EndDate
-            };
-
-            // calculate score if event is active
-            if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
-            {
-                var chartValues = new List<ChartValue>();
-                foreach (var option in targetEvent.Options)
-                {
-                    var chartValue = new ChartValue
-                    {
-                        Name = option.Name,
-                        Value = 0d
-                    };
-
-                    foreach (var recordVote in targetEvent.Votes)
-                    {
-                        var choices = recordVote.Choices.Count(x => x.OptionID == option.ID);
-
-                        if (recordVote.CookieID.HasValue)
-                        {
-                            chartValue.Value += choices;
-                        }
-                        else if (recordVote.TokenID.HasValue)
-                        {
-                            chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
-                        }
-                    }
-
-                    chartValues.Add(chartValue);
-                }
-
-                model.ChartValues = chartValues;
-            }
-            else
-            {
-                model.TokenValues = targetEvent.Tokens
-                    .GroupBy(x => x.Name, x => x)
-                    .Select(x => new ChartValue
-                    {
-                        Name = x.Key,
-                        Value = x.Count()
-                    }).ToList();
-
-                if (model.TokenValues.Count == 0)
-                {
-                    model.TokenValues.Add(new ChartValue
-                    {
-                        Name = _localizer["No invites"],
-                        Value = 0
-                    });
-                }
-            }
-
-
-            return View("Details", model);
+            
+            return View("Details", await InitEventDetailModel(targetEvent.ID));
         }
 
         #region helper
@@ -448,11 +395,115 @@ namespace Votor.Areas.Portal.Controllers
             return tokens;
         }
 
+        private async Task<EventDetailModel> InitEventDetailModel(Guid eventId)
+        {
+            var targetEvent = await GetEventById(eventId);
+
+            if (targetEvent == null) return null;
+
+            var options = _context.Options
+                .Where(x => x.EventID == targetEvent.ID)
+                .AsNoTracking()
+                .ToList();
+
+            var tokens = _context.Tokens
+                .Where(x => x.EventID == targetEvent.ID)
+                .Include(x => x.Option)
+                .AsNoTracking()
+                .GroupBy(x => x.Name);
+
+            var tokenModels = new List<TokenDetailModel>();
+
+            foreach (var grouping in tokens)
+            {
+                var view = new TokenDetailModel
+                {
+                    Name = grouping.Key,
+                    Count = grouping.Count(),
+                    Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
+                    Restriction = grouping.FirstOrDefault()?.Option?.Name,
+                    TokenUrls = grouping.Select(x => GenerateVotingUrl(x.ID, HttpContext)).ToList()
+                };
+
+                tokenModels.Add(view);
+            }
+
+            var model = new EventDetailModel
+            {
+                Id = targetEvent.ID,
+                Name = targetEvent.Name,
+                Description = targetEvent.Description,
+                PublicUrl = targetEvent.IsPublic ? GenerateVotingUrl(targetEvent.ID, HttpContext) : string.Empty,
+                ShowOverallWinner = targetEvent.ShowOverallWinner,
+                Tokens = tokenModels,
+                StartDate = targetEvent.StartDate,
+                EndDate = targetEvent.EndDate,
+                Options = options.Select(x => new OptionModel
+                {
+                    Id = x.ID,
+                    Option = x.Name
+                }).ToList()
+            };
+
+            // calculate score if event is active
+            if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
+            {
+                var chartValues = new List<ChartValue>();
+                foreach (var option in targetEvent.Options)
+                {
+                    var chartValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = 0d
+                    };
+
+                    foreach (var recordVote in targetEvent.Votes)
+                    {
+                        var choices = recordVote.Choices.Count(x => x.OptionID == option.ID);
+
+                        if (recordVote.CookieID.HasValue)
+                        {
+                            chartValue.Value += choices;
+                        }
+                        else if (recordVote.TokenID.HasValue)
+                        {
+                            chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
+                        }
+                    }
+
+                    chartValues.Add(chartValue);
+                }
+
+                model.ChartValues = chartValues;
+            }
+            else
+            {
+                model.TokenValues = targetEvent.Tokens
+                    .GroupBy(x => x.Name, x => x)
+                    .Select(x => new ChartValue
+                    {
+                        Name = x.Key,
+                        Value = x.Count()
+                    }).ToList();
+
+                if (model.TokenValues.Count == 0)
+                {
+                    model.TokenValues.Add(new ChartValue
+                    {
+                        Name = _localizer["No invites"],
+                        Value = 0
+                    });
+                }
+            }
+
+            return model;
+        }
+
         private async Task<EditEventModel> InitEditEventModel(Guid eventId)
         {
             var source = await GetEventById(eventId);
 
-            if (source == null) return null;
+            if (source == null || source.StartDate.HasValue || source.EndDate.HasValue) return null;
 
             var options = GetOptionsByEventId(eventId);
             var model = new EditEventModel
@@ -499,6 +550,7 @@ namespace Votor.Areas.Portal.Controllers
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public List<OptionModel> Options { get; set; } = new List<OptionModel>();
         public List<TokenDetailModel> Tokens { get; set; }
 
         public List<ChartValue> TokenValues { get; set; } = new List<ChartValue>();

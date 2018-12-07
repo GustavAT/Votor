@@ -1,4 +1,5 @@
-﻿@model Votor.Areas.Portal.Controllers.EventDetailModel
+﻿@using Votor.Areas.Portal.Controllers
+@model Votor.Areas.Portal.Controllers.EventDetailModel
 
 @{
     ViewBag.Title = Localizer["Details"];
@@ -57,20 +58,20 @@
 
                     </div>
                 }
-                
-                    <p>
-                        @if (Model.ShowOverallWinner)
-                        {
-                            @Localizer["Overall winner is shown in results."]
-                        }
-                        else
-                        {
-                            @Localizer["Overall winner is not shown in results."]
-                        }
-                    </p>
+
+                <p>
+                    @if (Model.ShowOverallWinner)
+                    {
+                        @Localizer["Overall winner is shown in results."]
+                    }
+                    else
+                    {
+                        @Localizer["Overall winner is not shown in results."]
+                    }
+                </p>
 
                 <div class="card-internal-action card-action-overflow">
-                    
+
                     @if (!string.IsNullOrEmpty(Model.PublicUrl))
                     {
                         <a class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor" onclick="copyToClipboard();">
@@ -85,13 +86,34 @@
                             <i class="material-icons left">insert_chart</i>@Localizer["Results"]
                         </a>
                     }
-                    
+
                     <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
                        class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
                         <i class="material-icons left">sync</i>
                         @Localizer["QR-Codes"]
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-margin-bottom">
+
+    <div class="col s12 m6 l4">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <span class="card-title">
+                    @Localizer["New Invite"]
+                </span>@{
+                    await Html.RenderPartialAsync("_AddTokenFromDetailsPartial", new TokenModel
+                    {
+                        EventId = Model.Id,
+                        Token = string.Empty,
+                        Count = 5,
+                        Weight = 1,
+                        Options = Model.Options
+                    });}
             </div>
         </div>
     </div>
@@ -106,13 +128,12 @@
                         @token.Count x @token.Name
                     </div>
                     <div class="black-text">
-                        @if (string.IsNullOrEmpty(token.Restriction))
+                        @if (!string.IsNullOrEmpty(token.Restriction))
                         {
                             <p>
                                 @($"{Localizer["Restriction"]}: {token.Restriction}")
                             </p>
                         }
-
                         <p>
                             @($"{Localizer["Weight"]}: {token.Weight}")
                         </p>
