@@ -584,9 +584,10 @@ namespace Votor.Areas.Portal.Controllers
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
         [Display(Name = "Name")]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
         public string EventName { get; set; }
 
-        [StringLength(200, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
+        [StringLength(400, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
         [DataType(DataType.Text)]
         [Display(Name = "Description")]
         public string Description { get; set; }
@@ -606,6 +607,7 @@ namespace Votor.Areas.Portal.Controllers
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
         [Display(Name = "Question")]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
         public string Question { get; set; }
     }
 
@@ -617,6 +619,7 @@ namespace Votor.Areas.Portal.Controllers
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
         [Display(Name = "Choice")]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
         public string Option { get; set; }
     }
 
@@ -636,6 +639,7 @@ namespace Votor.Areas.Portal.Controllers
         [Required(ErrorMessage = "The {0} field is required.")]
         [DataType(DataType.Text)]
         [Display(Name = "Invite")]
+        [StringLength(100, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
         public string Token { get; set; }
 
         [Range(0.1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
