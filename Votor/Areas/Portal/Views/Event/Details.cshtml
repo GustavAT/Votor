@@ -99,24 +99,29 @@
 </div>
 
 <div class="row no-margin-bottom">
-
-    <div class="col s12 m6 l4">
-        <div class="card @ViewBag.cardColor">
-            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-                <span class="card-title">
-                    @Localizer["New Invite"]
-                </span>@{
-                    await Html.RenderPartialAsync("_AddTokenFromDetailsPartial", new TokenModel
-                    {
-                        EventId = Model.Id,
-                        Token = string.Empty,
-                        Count = 5,
-                        Weight = 1,
-                        Options = Model.Options
-                    });}
+    
+    @if (!Model.EndDate.HasValue)
+    {
+        <div class="col s12 m6 l4">
+            <div class="card @ViewBag.cardColor">
+                <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                    <span class="card-title">
+                        @Localizer["New Invite"]
+                    </span>
+                    @{
+                        await Html.RenderPartialAsync("_AddTokenFromDetailsPartial", new TokenModel
+                        {
+                            EventId = Model.Id,
+                            Token = string.Empty,
+                            Count = 5,
+                            Weight = 1,
+                            Options = Model.Options
+                        });
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     @foreach (var token in Model.Tokens)
     {
