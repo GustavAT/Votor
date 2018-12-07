@@ -28,8 +28,8 @@
 
     <div class="col s12 m6 l8">
         <div class="card @ViewBag.cardColor">
-            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
-                <span class="card-title">@Model.Name</span>
+            <div class="card-content card-no-bottom-padding">
+                <span class="card-title @ViewBag.cardTextColor">@Model.Name</span>
                 <div id="general">
                     @Model.Description
                 </div>
@@ -57,6 +57,17 @@
 
                     </div>
                 }
+                
+                    <p>
+                        @if (Model.ShowOverallWinner)
+                        {
+                            @Localizer["Overall winner is shown in results."]
+                        }
+                        else
+                        {
+                            @Localizer["Overall winner is not shown in results."]
+                        }
+                    </p>
 
                 <div class="card-internal-action card-action-overflow">
                     
