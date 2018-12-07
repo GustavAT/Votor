@@ -1,4 +1,5 @@
-﻿using Votor.Areas.Portal.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Votor.Areas.Portal.Data;
 
 namespace Votor.Data
 {
@@ -7,7 +8,7 @@ namespace Votor.Data
         public static void Initialize(VotorContext context)
         {
             //context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
         }
     }
 }

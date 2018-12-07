@@ -627,4 +627,7 @@
   <data name="Not chosen" xml:space="preserve">
     <value>Nicht gewählt</value>
   </data>
+  <data name="Show overall winner in results" xml:space="preserve">
+    <value>Gesamt-Gewinner in den Ergebnissen anzeigen</value>
+  </data>
 </root>
