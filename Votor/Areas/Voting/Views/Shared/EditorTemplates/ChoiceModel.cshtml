@@ -9,7 +9,7 @@
 <div class="input-field">
 
     <select class="black-text" asp-for="@Model.OptionId" asp-items="@(new SelectList(Model.Options, "Id", "Option", @Model.OptionId))">
-        <option>@Localizer["Select option"]</option>
+        <option>@Localizer["Not chosen"]</option>
     </select>
 
 </div>

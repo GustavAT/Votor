@@ -30,9 +30,10 @@ namespace Votor.Areas.Voting.Controllers
         /// Id = token id of an active/inactive event or event-id (active/inactive)
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="error">Set if an error occurred during voting</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Index(Guid id)
+        public IActionResult Index(Guid id, int error)
         {
             var targetEvent = GetActiveEventById(id);
             Token token;
@@ -125,6 +126,11 @@ namespace Votor.Areas.Voting.Controllers
 
                 if (voteModel != null)
                 {
+                    if (error == 1)
+                    {
+                        ViewBag.StatusMessage = _localizer["Please vote for all questions before completing."];
+                    }
+
                     return View("Index", voteModel);
                 }
             }
@@ -132,38 +138,46 @@ namespace Votor.Areas.Voting.Controllers
             return View("NotFound");
         }
 
-        public IActionResult SaveVoting(VoteModel voteModel)
+        public IActionResult Complete(VoteModel voteModel)
         {
             var targetEvent = GetActiveEventById(voteModel.EventId);
 
             if (targetEvent == null) return View("NotFound");
 
-            var choices = _context.Choices
-                .Where(x => x.VoteID == voteModel.VoteId)
-                .ToList();
+            // get an uncompleted vote and its choices
+            var vote = _context.Votes
+                .Include(x => x.Choices)
+                .FirstOrDefault(x => x.ID == voteModel.VoteId && !x.IsCompleted);
+
+            // user has already voted, redirect to voting
+            if (vote == null)
+            {
+                return RedirectToAction("Index", new
+                {
+                    id = voteModel.PublicToken.HasValue ? voteModel.EventId : voteModel.Token
+                });
+            }
 
             foreach (var choiceModel in voteModel.Choices)
             {
-                var choice = choices.FirstOrDefault(x => x.ID == choiceModel.Id);
-
+                var choice = vote.Choices.FirstOrDefault(x => x.ID == choiceModel.Id);
                 if (choice == null) continue;
-
                 choice.OptionID = choiceModel.OptionId;
             }
-
             _context.SaveChanges();
 
-            if (voteModel.Completed && voteModel.Choices.All(x => x.OptionId.HasValue))
+            // some question was not selected
+            if (voteModel.Choices.Any(x => !x.OptionId.HasValue))
             {
-                var vote = _context.Votes
-                    .FirstOrDefault(x => x.ID == voteModel.VoteId);
-
-                if (vote != null)
+                return RedirectToAction("Index", new
                 {
-                    vote.IsCompleted = true;
-                    _context.SaveChanges();
-                }
+                    id = voteModel.PublicToken.HasValue ? voteModel.EventId : voteModel.Token,
+                    error = 1
+                });
             }
+            
+            vote.IsCompleted = true;
+            _context.SaveChanges();
             
             return RedirectToAction("Index", new
             {

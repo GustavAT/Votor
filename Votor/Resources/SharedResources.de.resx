@@ -621,4 +621,10 @@
   <data name="Drafts" xml:space="preserve">
     <value>Entwürfe</value>
   </data>
+  <data name="Please vote for all questions before completing." xml:space="preserve">
+    <value>Bitte stimme für alle Fragen ab, bevor du abschließt.</value>
+  </data>
+  <data name="Not chosen" xml:space="preserve">
+    <value>Nicht gewählt</value>
+  </data>
 </root>

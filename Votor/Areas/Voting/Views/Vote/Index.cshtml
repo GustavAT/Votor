@@ -3,6 +3,14 @@
 @{
 	ViewBag.Title = $"{Localizer["Vote"]}";
 }
+
+@if (!string.IsNullOrEmpty(ViewBag.StatusMessage))
+{
+    <div class="row row-no-margin-bottom">
+        @{ await Html.RenderPartialAsync("_StatusMessage", $"{ViewBag.StatusMessage}");}
+    </div>
+}
+
 <div class="row row-no-margin-bottom">
 	<div class="@ViewBag.VoteTopCardLayout">
 		<div class="card">
@@ -10,6 +18,7 @@
 				<span class="card-title card-title-weight-600 @ViewBag.cardTextColor">@Model.EventName</span>
 				<span class="black-text">
 					@Model.EventDescription
+                    @ViewBag.StatusMessage
 				</span>
 			</div>
 		</div>
@@ -34,11 +43,10 @@
 	}
 	else
 	{
-		using (Html.BeginForm("SaveVoting", "Vote", FormMethod.Post))
+		using (Html.BeginForm("Complete", "Vote", FormMethod.Post))
 		{
 			@Html.HiddenFor(model => model.VoteId)
 			@Html.HiddenFor(model => model.EventId)
-			@Html.HiddenFor(model => model.Completed)
 
 			@Html.HiddenFor(model => model.PublicToken)
 			@Html.HiddenFor(model => model.Token)
@@ -57,19 +65,9 @@
 			}
 
 			<div class="col s12 m12 l12 postition-center">
-				<button type="submit" class="btn-small waves-effect @ViewBag.MainColor waves-light btn-margin-top">
-				<i class="material-icons left">save</i>@Localizer["Save"]
-				</button>
-				<a class="btn-small waves-effect waves-light @ViewBag.secondaryColor white-text btn-margin-top" onclick="completeVote();">
-					<i class="material-icons left">check</i>@Localizer["Complete"]
-				</a>   			
-					
-				<script>
-					function completeVote() {
-						$("#Completed").val("True");
-						$("form").submit();
-					}
-				</script>
+			    <button type="submit" class="btn-small waves-effect @ViewBag.MainColor waves-light btn-margin-top">
+			        <i class="material-icons left">arrow_forward</i>@Localizer["Complete"]
+			    </button>
 			</div>
 
 		}
