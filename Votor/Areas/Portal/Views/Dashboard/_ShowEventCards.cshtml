@@ -19,7 +19,20 @@
         <div class="card card-no-bottom-padding @ViewBag.cardColor">
             <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
                 <div class="card-title">
-                    @item.Name
+                    @if (item.CanEdit)
+                    {
+                        <a asp-controller="Event" asp-action="Edit" asp-route-eventId="@item.Id"
+                           class="@ViewBag.cardTextColor" title="@Localizer["Edit"]">
+                            @item.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Event" asp-action="Details" asp-route-eventId="@item.Id"
+                           class="@ViewBag.cardTextColor" title="@Localizer["Details"]">
+                            @item.Name
+                        </a>
+                    }
                 </div>
                 
                 @{
@@ -54,7 +67,7 @@
                     {
                         <a asp-controller="Dashboard" asp-action="ActivateEvent" asp-route-eventId="@item.Id"
                            class="@ViewBag.cardTextColor" title="@Localizer["Activate"]">
-                            <i class="material-icons left">arrow_forward</i>
+                            <i class="material-icons left">power_settings_new</i>
                         </a>
                     }
 
@@ -64,8 +77,13 @@
                            class="@ViewBag.cardTextColor" title="@Localizer["Results"]" target="_blank">
                             <i class="material-icons left">insert_chart</i>
                         </a>
+
+                        <a asp-controller="Dashboard" asp-action="ActivateEvent" asp-route-eventId="@item.Id"
+                           class="@ViewBag.cardTextColor" title="@Localizer["Activate"]">
+                            <i class="material-icons left">fast_rewind</i>
+                        </a>
                     }
-                
+
 
                     @if (item.CanFinish)
                     {

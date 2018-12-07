@@ -50,6 +50,9 @@
     <Content Update="Areas\Portal\Views\Event\_AddOptionPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Portal\Views\Event\_AddTokenFromDetailsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Portal\Views\Event\_OptionsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

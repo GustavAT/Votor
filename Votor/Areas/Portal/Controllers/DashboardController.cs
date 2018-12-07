@@ -69,10 +69,14 @@ namespace Votor.Areas.Portal.Controllers
             if (CanActivate(target))
             {
                 target.StartDate = DateTime.UtcNow;
+                target.EndDate = null;
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Details", "Event", new
+            {
+                eventId = target.ID
+            });
         }
 
         public async Task<IActionResult> FinishEvent(Guid eventId)
@@ -327,8 +331,9 @@ namespace Votor.Areas.Portal.Controllers
             // event started
             if (e.StartDate.HasValue) return false;
 
-            // event finished
-            if (e.EndDate.HasValue) return false;
+            // event finished (NOTE: issue#8 on github)
+            // finished events may be re-activated
+            //if (e.EndDate.HasValue) return false;
 
             // no questions
             if (!e.Questions.Any()) return false;
