@@ -636,4 +636,10 @@
   <data name="Overall winner is shown in results." xml:space="preserve">
     <value>Gesamt-Sieger wird in den Ergebnissen angezeigt.</value>
   </data>
+  <data name="Got it!" xml:space="preserve">
+    <value>Akzeptieren</value>
+  </data>
+  <data name="Learn more" xml:space="preserve">
+    <value>Mehr erfahren</value>
+  </data>
 </root>
