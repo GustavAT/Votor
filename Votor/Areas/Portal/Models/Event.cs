@@ -16,6 +16,9 @@ namespace Votor.Areas.Portal.Models
         [DefaultValue(false)]
         public bool IsPublic { get; set; }
 
+        [DefaultValue(false)]
+        public bool ShowOverallWinner { get; set; }
+
         public string Password { get; set; }
 
         [DataType(DataType.DateTime)]

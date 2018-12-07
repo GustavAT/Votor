@@ -112,6 +112,7 @@ namespace Votor.Areas.Portal.Controllers
                 {
                     Name = _localizer["New Event"],
                     IsPublic = true,
+                    ShowOverallWinner = true,
                     UserID = userId.Value
                 };
 
@@ -139,6 +140,7 @@ namespace Votor.Areas.Portal.Controllers
                     Name = $"{_localizer["Copy"]} - {targetEvent.Name}",
                     Description = targetEvent.Description,
                     IsPublic = targetEvent.IsPublic,
+                    ShowOverallWinner = targetEvent.ShowOverallWinner,
                     UserID = userId.Value,
                     Questions = new List<Question>(),
                     Options = new List<Option>(),

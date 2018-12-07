@@ -199,7 +199,8 @@ namespace Votor.Areas.Voting.Controllers
             {
                 EventId = targetEvent.ID,
                 EventName = targetEvent.Name,
-                EventDescription = targetEvent.Description
+                EventDescription = targetEvent.Description,
+                EventShowOverallWinner = targetEvent.ShowOverallWinner
             };
             
             var votes = _context.Votes
@@ -270,36 +271,39 @@ namespace Votor.Areas.Voting.Controllers
 
                 model.Questions.Add(questionModel);
             }
-            
-            model.Overall = new QuestionBarChartModel
+
+            if (targetEvent.ShowOverallWinner)
             {
-                Title = _localizer["Overall"],
-                PublicValues = new List<ChartValue>(),
-                TokenValues = new List<ChartValue>(),
-                Score = new List<ChartValue>()
-            };
-
-            foreach (var option in targetEvent.Options)
-            {
-                var tokenValue = new ChartValue
+                model.Overall = new QuestionBarChartModel
                 {
-                    Name = option.Name,
-                    Value = tokenChoices.Where(x => x.OptionID == option.ID).Sum(x => x.Vote.Token?.Weight ?? 0)
+                    Title = _localizer["Overall"],
+                    PublicValues = new List<ChartValue>(),
+                    TokenValues = new List<ChartValue>(),
+                    Score = new List<ChartValue>()
                 };
-                model.Overall.TokenValues.Add(tokenValue);
 
-                var publicValue = new ChartValue
+                foreach (var option in targetEvent.Options)
                 {
-                    Name = option.Name,
-                    Value = publicChoices.Count(x => x.OptionID == option.ID)
-                };
-                model.Overall.PublicValues.Add(publicValue);
+                    var tokenValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = tokenChoices.Where(x => x.OptionID == option.ID).Sum(x => x.Vote.Token?.Weight ?? 0)
+                    };
+                    model.Overall.TokenValues.Add(tokenValue);
 
-                model.Overall.Score.Add(new ChartValue
-                {
-                    Name = option.Name,
-                    Value = tokenValue.Value + publicValue.Value
-                });
+                    var publicValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = publicChoices.Count(x => x.OptionID == option.ID)
+                    };
+                    model.Overall.PublicValues.Add(publicValue);
+
+                    model.Overall.Score.Add(new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = tokenValue.Value + publicValue.Value
+                    });
+                }
             }
 
             return View("Result", model);
@@ -496,6 +500,7 @@ namespace Votor.Areas.Voting.Controllers
         public Guid EventId { get; set; }
         public string EventName { get; set; }
         public string EventDescription { get; set; }
+        public bool EventShowOverallWinner { get; set; }
 
         public int PublicVotes { get; set; }
         public int TokenVotes { get; set; }

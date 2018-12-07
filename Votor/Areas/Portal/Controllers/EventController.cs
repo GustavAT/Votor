@@ -62,6 +62,11 @@ namespace Votor.Areas.Portal.Controllers
                     target.IsPublic = eventModel.IsPublic;
                 }
 
+                if (target.ShowOverallWinner != eventModel.ShowOverallWinner)
+                {
+                    target.ShowOverallWinner = eventModel.ShowOverallWinner;
+                }
+
                 if (target.Description != eventModel.Description)
                 {
                     target.Description = eventModel.Description;
@@ -308,6 +313,7 @@ namespace Votor.Areas.Portal.Controllers
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
                 PublicUrl = targetEvent.IsPublic ? GenerateVotingUrl(targetEvent.ID, HttpContext) : string.Empty,
+                ShowOverallWinner = targetEvent.ShowOverallWinner,
                 Tokens = tokenModels,
                 StartDate = targetEvent.StartDate,
                 EndDate = targetEvent.EndDate
@@ -456,7 +462,8 @@ namespace Votor.Areas.Portal.Controllers
                     EventId = source.ID,
                     EventName = source.Name,
                     Description = source.Description,
-                    IsPublic = source.IsPublic
+                    IsPublic = source.IsPublic,
+                    ShowOverallWinner = source.ShowOverallWinner
                 },
                 Questions = GetQuestionsByEventId(eventId),
                 Options = options,
@@ -488,6 +495,7 @@ namespace Votor.Areas.Portal.Controllers
         public string Description { get; set; }
         [Display(Name = "Public")]
         public string PublicUrl { get; set; }
+        public bool ShowOverallWinner { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
@@ -533,6 +541,9 @@ namespace Votor.Areas.Portal.Controllers
 
         [Display(Name = "Public")]
         public bool IsPublic { get; set; }
+
+        [Display(Name = "Show overall winner in results")]
+        public bool ShowOverallWinner { get; set; }
     }
 
     public class QuestionModel

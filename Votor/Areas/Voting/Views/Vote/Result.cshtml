@@ -26,22 +26,25 @@
                             @Localizer["Score"]
                         </th>
                     </tr>
-                    <tr>
-                        <td>
-                            @Localizer["Overall"]
-                        </td>
-                        <td>
-                            @{
-                                var winners = Model.Overall.Score
-                                    .Where(x => Math.Abs(x.Value - Model.Overall.Score.Max(y => y.Value)) < 0.000001)
-                                    .ToList();
-                            }
-                            @string.Join(", ", winners.Select(x => x.Name))
-                        </td>
-                        <td>
-                            @(winners.FirstOrDefault()?.Value ?? 0)
-                        </td>
-                    </tr>
+                    @if (Model.EventShowOverallWinner && Model.Overall != null)
+                    {
+                        <tr>
+                            <td>
+                                @Localizer["Overall"]
+                            </td>
+                            <td>
+                                @{
+                                    var winners = Model.Overall.Score
+                                        .Where(x => Math.Abs(x.Value - Model.Overall.Score.Max(y => y.Value)) < 0.000001)
+                                        .ToList();
+                                }
+                                @string.Join(", ", winners.Select(x => x.Name))
+                            </td>
+                            <td>
+                                @(winners.FirstOrDefault()?.Value ?? 0)
+                            </td>
+                        </tr>
+                    }
                     @foreach (var record in Model.Questions)
                     {
                         <tr>
@@ -87,11 +90,14 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col s12">
-        @{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall);}
+@if (Model.EventShowOverallWinner && Model.Overall != null)
+{
+    <div class="row">
+        <div class="col s12">
+            @{ await Html.RenderPartialAsync("_QuestionChartPartial", Model.Overall); }
+        </div>
     </div>
-</div>
+}
 
 <div class="row">
 @foreach (var questionChartModel in Model.Questions)
