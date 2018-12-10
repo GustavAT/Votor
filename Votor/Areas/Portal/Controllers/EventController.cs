@@ -411,14 +411,17 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Option)
                 .AsNoTracking()
                 .GroupBy(x => x.Name);
-
+            
             var tokenModels = new List<TokenDetailModel>();
 
             foreach (var grouping in tokens)
             {
+                var completed = targetEvent.Votes.Count(x => x.Token?.Name == grouping.Key && x.IsCompleted);
+
                 var view = new TokenDetailModel
                 {
                     Name = grouping.Key,
+                    Completed = completed,
                     Count = grouping.Count(),
                     Weight = grouping.FirstOrDefault()?.Weight ?? 1d,
                     Restriction = grouping.FirstOrDefault()?.Option?.Name,
@@ -560,10 +563,12 @@ namespace Votor.Areas.Portal.Controllers
     public class TokenDetailModel
     {
         public string Name { get; set; }
+        public int Completed { get; set; } = 0;
         public int Count { get; set; }
         public double Weight { get; set; }
         public string Restriction { get; set; }
         public List<string> TokenUrls { get; set; }
+
     }
 
     public class EditEventModel
