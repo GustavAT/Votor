@@ -645,4 +645,10 @@
   <data name="{0} of {1}" xml:space="preserve">
     <value>{0} von {1}</value>
   </data>
+  <data name="API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Url to public voting" xml:space="preserve">
+    <value>Url zur öffentlichen Abstimmung</value>
+  </data>
 </root>
