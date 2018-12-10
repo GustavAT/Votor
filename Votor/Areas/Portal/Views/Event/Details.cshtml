@@ -37,22 +37,20 @@
 
                 @if (!string.IsNullOrEmpty(Model.PublicUrl))
                 {
-                    <div class="input-field">
-                        @Html.LabelFor(model => model.PublicUrl)
-                        @Html.TextBoxFor(model => model.PublicUrl, new
-                        {
-                            @readonly = true
-                        })
-                    </div>
+                    <p>
+                        @Html.LabelFor(model => model.PublicUrl):<br />
+                        <a target="_blank" href="@Model.PublicUrl">@Model.PublicUrl</a>
+                    </p>
                 }
                 
-                <div class="input-field">
-                    @Html.LabelFor(model => model.ApiUrl)
-                    @Html.TextBoxFor(model => model.ApiUrl, new
-                    {
-                        @readonly = true
-                    })
-                </div>
+                <br />
+                
+                <p>
+                    @Html.LabelFor(model => model.ApiUrl):<br />
+                    <a target="_blank" href="@Model.ApiUrl">@Model.ApiUrl</a>
+                </p>
+                
+                <br />
 
                 <p>
                     @if (Model.ShowOverallWinner)
