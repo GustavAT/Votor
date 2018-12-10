@@ -642,4 +642,7 @@
   <data name="Learn more" xml:space="preserve">
     <value>Mehr erfahren</value>
   </data>
+  <data name="{0} of {1}" xml:space="preserve">
+    <value>{0} von {1}</value>
+  </data>
 </root>
