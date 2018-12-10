@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -437,6 +436,7 @@ namespace Votor.Areas.Portal.Controllers
                 Name = targetEvent.Name,
                 Description = targetEvent.Description,
                 PublicUrl = targetEvent.IsPublic ? GenerateVotingUrl(targetEvent.ID, HttpContext) : string.Empty,
+                ApiUrl = GenerateApiUrl(targetEvent.ID, targetEvent.UserID, HttpContext),
                 ShowOverallWinner = targetEvent.ShowOverallWinner,
                 Tokens = tokenModels,
                 StartDate = targetEvent.StartDate,
@@ -539,6 +539,18 @@ namespace Votor.Areas.Portal.Controllers
             return uriBuilder.ToString();
         }
 
+        public static string GenerateApiUrl(Guid eventId, Guid userId, HttpContext context)
+        {
+            var request = context.Request;
+            var uriBuilder = new UriBuilder { Scheme = request.Scheme, Host = request.Host.Host };
+            if (request.Host.Port.HasValue)
+            {
+                uriBuilder.Port = request.Host.Port.Value;
+            }
+            uriBuilder.Path = $"/api/Votor/{eventId}/{userId}";
+            return uriBuilder.ToString();
+        }
+
         #endregion
     }
 
@@ -547,8 +559,10 @@ namespace Votor.Areas.Portal.Controllers
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [Display(Name = "Public")]
+        [Display(Name = "Url to public voting")]
         public string PublicUrl { get; set; }
+        [Display(Name = "API")]
+        public string ApiUrl { get; set; }
         public bool ShowOverallWinner { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

@@ -45,6 +45,14 @@
                         })
                     </div>
                 }
+                
+                <div class="input-field">
+                    @Html.LabelFor(model => model.ApiUrl)
+                    @Html.TextBoxFor(model => model.ApiUrl, new
+                    {
+                        @readonly = true
+                    })
+                </div>
 
                 <p>
                     @if (Model.ShowOverallWinner)
