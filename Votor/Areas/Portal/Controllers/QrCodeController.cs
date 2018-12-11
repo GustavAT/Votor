@@ -30,7 +30,7 @@ namespace Votor.Areas.Portal.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index(Guid eventId)
+        public async Task<IActionResult> Index(Guid eventId, string groupName)
         {
             var targetEvent = await GetEventById(eventId);
 
@@ -41,10 +41,11 @@ namespace Votor.Areas.Portal.Controllers
 
             var model = new QrCodeModel
             {
-                EventName = targetEvent.Name
+                EventName = targetEvent.Name,
+                Tokens = new List<QrCodeTokenModel>()
             };
 
-            if (targetEvent.IsPublic)
+            if (targetEvent.IsPublic && string.IsNullOrEmpty(groupName))
             {
                 var url = EventController.GenerateVotingUrl(targetEvent.ID, HttpContext);
                 var qrCode = Util.ToImageSourceString(Util.GenerateQrCode(url));
@@ -55,7 +56,14 @@ namespace Votor.Areas.Portal.Controllers
                 };
             }
 
-            foreach (var token in targetEvent.Tokens)
+            var targetTokens = targetEvent.Tokens;
+
+            if (!string.IsNullOrEmpty(groupName))
+            {
+                targetTokens = targetEvent.Tokens.Where(x => x.Name == groupName).ToList();
+            }
+
+            foreach (var token in targetTokens)
             {
                 var url = EventController.GenerateVotingUrl(token.ID, HttpContext);
                 var qrCode = Util.ToImageSourceString(Util.GenerateQrCode(url));
