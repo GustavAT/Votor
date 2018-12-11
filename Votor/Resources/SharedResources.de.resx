@@ -651,4 +651,7 @@
   <data name="Url to public voting" xml:space="preserve">
     <value>Url zur öffentlichen Abstimmung</value>
   </data>
+  <data name="Use this code to vote for &lt;b&gt;{0}&lt;/b&gt;" xml:space="preserve">
+    <value>Nutze diesen Code, um für &lt;b&gt;{0}&lt;/b&gt; abzustimmen</value>
+  </data>
 </root>
