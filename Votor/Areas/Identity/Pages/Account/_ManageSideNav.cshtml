@@ -23,7 +23,7 @@
             </a>
         </li>
         <li>
-            <a class="waves-effect" asp-page="./Index">
+            <a class="waves-effect" href="/Identity/Account/Manage/Index">
                 <i class="material-icons">person</i> @Localizer["Profile"]
                 @if (isEmailConfirmed)
                 {
@@ -40,20 +40,20 @@
             </a>
         </li>
         <li>
-            <a class="waves-effect" asp-page="./ChangePassword">
+            <a class="waves-effect" href="/Identity/Account/Manage/ChangePassword">
                 <i class="material-icons">lock_outline</i> @Localizer["Password"]
             </a>
         </li>
         <li>
             @if (hasExternalLogins)
             {
-                <a class="waves-effect" asp-page="./ExternalLogins">
+                <a class="waves-effect" href="/Identity/Account/Manage/ExternalLogins">
                     <i class="material-icons">cloud_queue</i> @Localizer["External Login"]
                 </a>
             }
         </li>
         <li>
-            <a class="waves-effect" asp-page="./PersonalData">
+            <a class="waves-effect" href="/Identity/Account/Manage/PersonalData">
                 <i class="material-icons">data_usage</i> @Localizer["Personal data"]
             </a>
         </li>

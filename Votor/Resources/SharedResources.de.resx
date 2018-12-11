@@ -651,4 +651,7 @@
   <data name="Url to public voting" xml:space="preserve">
     <value>Url zur öffentlichen Abstimmung</value>
   </data>
+  <data name="This website uses cookies to ensure you get the best experience on our website." xml:space="preserve">
+    <value>Diese Internetseite benutzt sog. Cookies (kleine Textdateien) für die korrekte Darstellung von Inhalten.</value>
+  </data>
 </root>
