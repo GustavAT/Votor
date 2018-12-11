@@ -29,7 +29,7 @@
 
     <div class="col s12 m6 l8">
         <div class="card @ViewBag.cardColor">
-            <div class="card-content card-no-bottom-padding">
+            <div class="card-content">
                 <span class="card-title @ViewBag.cardTextColor">@Model.Name</span>
                 <div id="general">
                     @Model.Description
@@ -38,7 +38,7 @@
                 @if (!string.IsNullOrEmpty(Model.PublicUrl))
                 {
                     <p>
-                        @Html.LabelFor(model => model.PublicUrl):<br />
+                        @Html.LabelFor(model => model.PublicUrl)<br />
                         <a target="_blank" href="@Model.PublicUrl">@Model.PublicUrl</a>
                     </p>
                 }
@@ -46,7 +46,7 @@
                 <br />
                 
                 <p>
-                    @Html.LabelFor(model => model.ApiUrl):<br />
+                    @Html.LabelFor(model => model.ApiUrl)<br />
                     <a target="_blank" href="@Model.ApiUrl">@Model.ApiUrl</a>
                 </p>
                 
@@ -73,9 +73,9 @@
                         </a>
                     }
 
-                    <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
+                    <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id" asp-route-groupName=""
                        class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
-                        <i class="material-icons left">sync</i>
+                        <i class="material-icons left">border_outer</i>
                         @Localizer["QR-Codes"]
                     </a>
                 </div>
@@ -133,6 +133,12 @@
                             @($"{Localizer["Weight"]}: {token.Weight}")
                         </p>
                     </div>
+                    
+                    <a target="_blank" asp-controller="QrCode" asp-action="Index" asp-route-eventId="@Model.Id"
+                       asp-route-groupName="@token.Name" title="@Localizer["QR-Codes"]"
+                       class="@ViewBag.cardTextColor votor-card-action">
+                        <i class="material-icons left">border_outer</i>
+                    </a>
                 </div>
             </div>
         </div>
