@@ -1,13 +1,14 @@
-﻿@model Votor.Areas.Portal.Controllers.QrCodeModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Votor.Areas.Portal.Controllers.QrCodeModel
 @{
     Layout = "_LayoutQrCodes";
     ViewBag.Title = Localizer["QR-Codes"];
+
+    @inject IHtmlLocalizer<SharedResources> HtmlLocalizer
 }
 
 @if (Model.PublicQrCode != null)
 {
-    <h4>@Localizer["Public"]</h4>
-
     for (var i = 9; i-- > 0;)
      {
          <div class="card">
@@ -15,7 +16,7 @@
                  <img src="@Model.PublicQrCode.QrCode" alt="" aria-hidden="True"/>
              </div>
              <div class="card-content">
-                 <p>@Model.EventName</p>
+                 <p class="invite-text">@HtmlLocalizer["Use this code to vote for <b>{0}</b>", Model.EventName]</p>
              </div>
          </div>
      }
@@ -36,7 +37,6 @@
             {
                 <hr/>
                 <div class="page-break"></div>
-                <h4>@Localizer["Invite"] @group.Key</h4>
             }
 
             <div class="card">
@@ -45,7 +45,8 @@
 
                 </div>
                 <div class="card-content">
-                    <p>@token.Name</p>
+                    <p class="invite-text">@HtmlLocalizer["Use this code to vote for <b>{0}</b>", $"{Model.EventName}"]</p>
+                    <p><b>@token.Name</b></p>
                 </div>
             </div>
 
