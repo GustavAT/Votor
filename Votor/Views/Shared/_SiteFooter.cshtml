@@ -1,6 +1,10 @@
 <footer class="page-footer @ViewBag.secondaryColor">
 	<div class="container">
-		<span class="chno-footer"></span>
+		<div class="row">
+			<div class="col s12">
+				<span class="chno-footer"></span>
+			</div>			
+		</div>
 	</div>
 	<div class="footer-copyright center">
 		<div class="container">
@@ -17,9 +21,11 @@
 			</div>
 		</div>
 	</div>
-
 	<script>
-
+		window.addEventListener("load", function () {
+			$.get("https://api.chucknorris.io/jokes/random", function (data) {
+				$(".chno-footer").text(data["value"]);
+			})
+		});
 	</script>
-
 </footer>
