@@ -64,9 +64,6 @@
     <Content Update="Areas\Voting\Views\Shared\_StatusMessage.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Voting\Views\Shared\_VoteFooter.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Areas\Voting\Views\Vote\_QuestionChartPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
