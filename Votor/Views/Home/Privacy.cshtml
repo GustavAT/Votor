@@ -1,11 +1,14 @@
-﻿@{
-	ViewData["Title"] = "Privacy Policy";
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer;
+
+@{
+		ViewData["Title"] = Localizer["Privacy Policy"];
 }
 
 <div class="card col s12">
 	<div class="card-content">
 		<h1 class="btn-margin-top-5">Privacy Policy</h1>
-		
+
 		<p>Effective date: December 03, 2018</p>
 
 

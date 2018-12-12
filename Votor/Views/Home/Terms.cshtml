@@ -1,5 +1,9 @@
-﻿@{
-	ViewData["Title"] = "Privacy Policy";
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer;
+
+@{
+
+	ViewData["Title"] = Localizer["Terms of Use"];
 }
 
 <div class="card col s12">

@@ -67,8 +67,12 @@ namespace Votor.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-            if (remoteError != null)
+			returnUrl = returnUrl ?? Url.Action("Index", "Dashboard", new
+			{
+				Area = "Portal"
+			});		
+
+			if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
@@ -111,9 +115,13 @@ namespace Votor.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-            // Get the information about the user from the external login provider
-            var info = await _signInManager.GetExternalLoginInfoAsync();
+			returnUrl = returnUrl ?? Url.Action("Index", "Dashboard", new
+			{
+				Area = "Portal"
+			});
+
+			// Get the information about the user from the external login provider
+			var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information during confirmation.";

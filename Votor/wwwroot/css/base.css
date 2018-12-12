@@ -194,3 +194,7 @@ body{
     display: block;
     margin: 0 auto;
 }
+
+.margin-top-20 {
+	margin-top: 20px;
+}
