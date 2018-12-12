@@ -323,6 +323,23 @@ namespace Votor.Areas.Portal.Controllers
             return View("Details", await InitEventDetailModel(tokenModel.EventId));
         }
 
+        public async Task<IActionResult> RemoveBonusPoints(Guid bonusPointsId, Guid eventId)
+        {
+            var targetEvent = await GetEventById(eventId);
+
+            var bonusPoints = targetEvent?.BonusPoints.FirstOrDefault(x => x.ID == bonusPointsId);
+
+            if (bonusPoints != null)
+            {
+                _context.BonusPoints.Remove(bonusPoints);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Event", new
+            {
+                eventId
+            });
+        }
 
         public IActionResult RemoveToken(string token, Guid eventId)
         {
@@ -488,12 +505,16 @@ namespace Votor.Areas.Portal.Controllers
 
             var points = targetEvent.BonusPoints;
 
+            model.BonusPoints = new List<BonusPointsModel>();
             foreach (var bonusPoints in points)
             {
                 model.BonusPoints.Add(new BonusPointsModel
                 {
+                    BId = bonusPoints.ID,
                     BPoints = bonusPoints.Points,
                     BReason = bonusPoints.Reason,
+                    BQuestionId = bonusPoints.QuestionID,
+                    BOptionId = bonusPoints.OptionID,
                     BQuestion = bonusPoints.Question?.Text,
                     BOption = bonusPoints.Option?.Name
                 });
@@ -523,6 +544,12 @@ namespace Votor.Areas.Portal.Controllers
                         {
                             chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
                         }
+                    }
+
+                    var bonusPoints = model.BonusPoints.Where(x => x.BOptionId == option.ID);
+                    foreach (var record in bonusPoints)
+                    {
+                        chartValue.Value += record.BPoints;
                     }
 
                     chartValues.Add(chartValue);
@@ -634,8 +661,8 @@ namespace Votor.Areas.Portal.Controllers
         public Guid BEventId { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [Range(0.1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
-        [Display(Name = "Punkte")]
+        [Range(-100, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Display(Name = "Points")]
         public double BPoints { get; set; }
 
         [StringLength(400, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
@@ -656,7 +683,7 @@ namespace Votor.Areas.Portal.Controllers
     public class TokenDetailModel
     {
         public string Name { get; set; }
-        public int Completed { get; set; } = 0;
+        public int Completed { get; set; }
         public int Count { get; set; }
         public double Weight { get; set; }
         public string Restriction { get; set; }

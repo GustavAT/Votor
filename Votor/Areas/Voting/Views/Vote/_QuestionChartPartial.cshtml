@@ -32,13 +32,14 @@
                     data: [
                         "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))",
                         "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
+                        "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Bonus Points"]))",
                         "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Score"]))"
                     ]
                 },
                 xAxis: {
                     type: "category",
                     data: data.xAxis,
-                    splitLine: { show: false },
+                    splitLine: { show: true },
                     axisLabel: { interval: 0 }
                 },
                 yAxis: {
@@ -50,7 +51,7 @@
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Public"]))",
                         type: "bar",
                         barGap: "5%",
-                        barWidth:"20%",
+                        barWidth:"15%",
                         data: data.seriesPublic,
                         color: "#7b1fa2"
                     },
@@ -58,15 +59,23 @@
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
                         type: "bar",
                         barGap: "5%",
-                        barWidth: "20%",
+                        barWidth: "15%",
                         data: data.seriesToken,
                         color: "#00acc1"
+                    },
+                    {
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Bonus Points"]))",
+                        type: "bar",
+                        barGap: "5%",
+                        barWidth: "15%",
+                        data: data.seriesBonusPoints,
+                        color: "#03a9f4"
                     },
                     {
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Score"]))",
                         type: "bar",
                         barGap: "5%",
-                        barWidth: "20%",
+                        barWidth: "15%",
                         data: data.seriesScore,
                         color: "#ff3d00"
                     }
@@ -84,6 +93,7 @@
             data.seriesPublic = [];
             data.seriesToken = [];
             data.seriesScore = [];
+            data.seriesBonusPoints = [];
 
             @{
                 var i = 0;
@@ -106,6 +116,17 @@
             {
                 <text>
                     data.seriesToken.push({
+                        name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
+                        value: @value.Value.ToString(CultureInfo.InvariantCulture)
+                    });
+
+                </text>
+            }
+
+            @foreach (var value in Model.BonusPointsValues)
+            {
+                <text>
+                    data.seriesBonusPoints.push({
                         name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(value.Name))",
                         value: @value.Value.ToString(CultureInfo.InvariantCulture)
                     });

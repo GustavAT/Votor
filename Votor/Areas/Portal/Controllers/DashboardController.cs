@@ -66,7 +66,9 @@ namespace Votor.Areas.Portal.Controllers
         {
             var target = await GetEventById(eventId);
 
-            if (CanActivate(target))
+            // NOTE: issue#8 on github
+            // finished events may be re-activated
+            if (CanActivate(target) || target.EndDate.HasValue)
             {
                 target.StartDate = DateTime.UtcNow;
                 target.EndDate = null;
@@ -233,6 +235,7 @@ namespace Votor.Areas.Portal.Controllers
                 .Include(x => x.Tokens)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
 	            .Include(x => x.Votes).ThenInclude(x => x.Token)
+                .Include(x => x.BonusPoints)
                 .AsNoTracking()
                 .ToList();
 
@@ -274,6 +277,9 @@ namespace Votor.Areas.Portal.Controllers
                                 chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
                             }
                         }
+
+                        chartValue.Value += record.BonusPoints.Where(x => x.OptionID == option.ID)
+                            .Sum(x => x.Points);
 
                         chartValues.Add(chartValue);
                     }
@@ -331,9 +337,8 @@ namespace Votor.Areas.Portal.Controllers
             // event started
             if (e.StartDate.HasValue) return false;
 
-            // event finished (NOTE: issue#8 on github)
-            // finished events may be re-activated
-            //if (e.EndDate.HasValue) return false;
+            // event finished
+            if (e.EndDate.HasValue) return false;
 
             // no questions
             if (!e.Questions.Any()) return false;
