@@ -25,12 +25,19 @@ namespace Votor.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+		[Route("/Home/Privacy", Name = "Privacy")]
+		public IActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		[Route("/Home/Terms", Name = "Terms")]
+		public IActionResult Terms()
+		{
+			return View();
+		}
+
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

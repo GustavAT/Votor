@@ -1,7 +1,16 @@
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer;
+
 <footer class="page-footer @ViewBag.secondaryColor">
-	<div class="container">
-		
+	<div class="center">
+		<div class="container">
+			<a asp-route="Privacy" class="white-text">@Localizer["Privacy Policy"]</a>
+			<span>|</span>
+			<a asp-route="Terms" class="white-text">@Localizer["Terms of Use"]</a>
+			<div class="margin-top-20"></div>
+		</div>
 	</div>
+	
 	<div class="footer-copyright center">
 		<div class="container">
 			&copy; @DateTime.Now.Year Votor
