@@ -1,9 +1,8 @@
 ﻿@page
 @inject IStringLocalizer<SharedResources> Localizer
-@using Microsoft.Extensions.Localization
 @model IndexModel
 @{
-	ViewData["Title"] = Localizer["Profile"];
+	ViewBag.Title = Localizer["Profile"];
 }
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 
