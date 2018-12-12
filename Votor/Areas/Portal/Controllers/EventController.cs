@@ -332,7 +332,9 @@ namespace Votor.Areas.Portal.Controllers
         {
             var userId = await GetUserId();
             return _context.Events
+                .Include(x => x.Questions)
                 .Include(x => x.Options)
+                .Include(x => x.BonusPoints)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .Include(x => x.Votes).ThenInclude(x => x.Token)
                 .FirstOrDefault(x => x.ID == id && x.UserID == userId);
@@ -445,7 +447,13 @@ namespace Votor.Areas.Portal.Controllers
                 {
                     Id = x.ID,
                     Option = x.Name
-                }).ToList()
+                }).ToList(),
+                BonusPoints = targetEvent.BonusPoints
+                    .Select(x => new BonusPointsModel
+                    {
+                        ID = x.ID,
+                        Points = x.Points
+                    }).ToList()
             };
 
             // calculate score if event is active
@@ -570,8 +578,17 @@ namespace Votor.Areas.Portal.Controllers
         public List<OptionModel> Options { get; set; } = new List<OptionModel>();
         public List<TokenDetailModel> Tokens { get; set; }
 
+        public List<BonusPointsModel> BonusPoints { get; set; }
+
         public List<ChartValue> TokenValues { get; set; } = new List<ChartValue>();
         public List<ChartValue> ChartValues { get; set; } = new List<ChartValue>();
+    }
+
+    // TODO
+    public class BonusPointsModel
+    {
+        public Guid ID { get; set; }
+        public double Points { get; set; }
     }
 
     public class TokenDetailModel

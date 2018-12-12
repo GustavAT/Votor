@@ -13,6 +13,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20181207150108_AddOverallWinner.cs" />
     <Compile Remove="Migrations\20181207150108_AddOverallWinner.Designer.cs" />
+    <Compile Remove="Migrations\20181212140155_Add-Bonus-Points.cs" />
+    <Compile Remove="Migrations\20181212140155_Add-Bonus-Points.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

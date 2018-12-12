@@ -16,6 +16,7 @@ namespace Votor.Areas.Portal.Data
         public DbSet<Token> Tokens { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Choice> Choices { get; set; }
+        public DbSet<BonusPoints> BonusPoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace Votor.Areas.Portal.Data
             modelBuilder.Entity<Token>().ToTable("Token");
             modelBuilder.Entity<Vote>().ToTable("Vote");
             modelBuilder.Entity<Choice>().ToTable("Choice");
+            modelBuilder.Entity<BonusPoints>().ToTable("BonusPoints");
         }
     }
 }
