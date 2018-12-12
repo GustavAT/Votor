@@ -216,6 +216,9 @@ namespace Votor.Areas.Portal.Controllers
 
                 var questions = _context.Questions.Where(x => x.EventID == eventId);
                 _context.RemoveRange(questions);
+
+                var bonusPoints = _context.BonusPoints.Where(x => x.EventID == eventId);
+                _context.RemoveRange(bonusPoints);
                 
                 _context.Remove(target);
 
@@ -226,6 +229,33 @@ namespace Votor.Areas.Portal.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+        public async Task<IActionResult> AddBonusPoints(BonusPointsModel bonusPointsModel)
+        {
+            var targetEvent = await GetEventById(bonusPointsModel.BEventId);
+
+            if (ModelState.IsValid && targetEvent != null)
+            {
+                var entity = new BonusPoints
+                {
+                    EventID = bonusPointsModel.BEventId,
+                    OptionID = bonusPointsModel.BOptionId,
+                    QuestionID = bonusPointsModel.BQuestionId,
+                    Points = bonusPointsModel.BPoints,
+                    Reason = bonusPointsModel.BReason,
+                };
+
+                _context.BonusPoints.Add(entity);
+                _context.SaveChanges();
+
+                return RedirectToAction("Details", "Event", new
+                {
+                    eventId = bonusPointsModel.BEventId,
+                });
+            }
+
+            return View("Details", await InitEventDetailModel(bonusPointsModel.BEventId));
+        } 
 
         public async Task<IActionResult> AddToken(TokenModel tokenModel)
         {
@@ -334,7 +364,8 @@ namespace Votor.Areas.Portal.Controllers
             return _context.Events
                 .Include(x => x.Questions)
                 .Include(x => x.Options)
-                .Include(x => x.BonusPoints)
+                .Include(x => x.BonusPoints).ThenInclude(x => x.Option)
+                .Include(x => x.BonusPoints).ThenInclude(x => x.Question)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .Include(x => x.Votes).ThenInclude(x => x.Token)
                 .FirstOrDefault(x => x.ID == id && x.UserID == userId);
@@ -455,6 +486,18 @@ namespace Votor.Areas.Portal.Controllers
                 }).ToList()
             };
 
+            var points = targetEvent.BonusPoints;
+
+            foreach (var bonusPoints in points)
+            {
+                model.BonusPoints.Add(new BonusPointsModel
+                {
+                    BPoints = bonusPoints.Points,
+                    BReason = bonusPoints.Reason,
+                    BQuestion = bonusPoints.Question?.Text,
+                    BOption = bonusPoints.Option?.Name
+                });
+            }
             
             // calculate score if event is active
             if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
