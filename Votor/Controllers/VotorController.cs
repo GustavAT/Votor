@@ -30,6 +30,7 @@ namespace Votor.Controllers
                 .Include(x => x.Tokens)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .Include(x => x.Votes).ThenInclude(x => x.Token)
+                .Include(x => x.BonusPoints)
                 .Where(x => x.ID == eventId && x.UserID == userId/* && x.EndDate.HasValue*/)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
@@ -40,6 +41,7 @@ namespace Votor.Controllers
                 .SelectMany(x => x.Choices).ToList();
             var inviteChoices = targetEvent.Votes.Where(x => x.TokenID.HasValue && x.IsCompleted)
                 .SelectMany(x => x.Choices).ToList();
+            var bonusPoints = targetEvent.BonusPoints;
 
             var apiVotes = new List<ApiVote>();
             foreach (var question in targetEvent.Questions)
@@ -56,12 +58,14 @@ namespace Votor.Controllers
                     var publicScore = publicChoices.Count(x => x.OptionID == option.ID && x.QuestionID == question.ID);
                     var inviteScore = inviteChoices.Where(x => x.OptionID == option.ID && x.QuestionID == question.ID)
                         .Sum(x => x.Vote.Token.Weight);
+                    var bonusScore = bonusPoints.Where(x => x.OptionID == option.ID && x.QuestionID == question.ID)
+                        .Sum(x => x.Points);
 
                     vote.Choices.Add(new ApiChoice
                     {
                         ChoiceId = option.ID,
                         Choice = option.Name,
-                        Score = publicScore + inviteScore
+                        Score = publicScore + inviteScore + bonusScore
                     });
                 }
 

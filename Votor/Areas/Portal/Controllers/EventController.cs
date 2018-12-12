@@ -216,6 +216,9 @@ namespace Votor.Areas.Portal.Controllers
 
                 var questions = _context.Questions.Where(x => x.EventID == eventId);
                 _context.RemoveRange(questions);
+
+                var bonusPoints = _context.BonusPoints.Where(x => x.EventID == eventId);
+                _context.RemoveRange(bonusPoints);
                 
                 _context.Remove(target);
 
@@ -226,6 +229,33 @@ namespace Votor.Areas.Portal.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+        public async Task<IActionResult> AddBonusPoints(BonusPointsModel bonusPointsModel)
+        {
+            var targetEvent = await GetEventById(bonusPointsModel.BEventId);
+
+            if (ModelState.IsValid && targetEvent != null)
+            {
+                var entity = new BonusPoints
+                {
+                    EventID = bonusPointsModel.BEventId,
+                    OptionID = bonusPointsModel.BOptionId,
+                    QuestionID = bonusPointsModel.BQuestionId,
+                    Points = bonusPointsModel.BPoints,
+                    Reason = bonusPointsModel.BReason,
+                };
+
+                _context.BonusPoints.Add(entity);
+                _context.SaveChanges();
+
+                return RedirectToAction("Details", "Event", new
+                {
+                    eventId = bonusPointsModel.BEventId,
+                });
+            }
+
+            return View("Details", await InitEventDetailModel(bonusPointsModel.BEventId));
+        } 
 
         public async Task<IActionResult> AddToken(TokenModel tokenModel)
         {
@@ -293,6 +323,23 @@ namespace Votor.Areas.Portal.Controllers
             return View("Details", await InitEventDetailModel(tokenModel.EventId));
         }
 
+        public async Task<IActionResult> RemoveBonusPoints(Guid bonusPointsId, Guid eventId)
+        {
+            var targetEvent = await GetEventById(eventId);
+
+            var bonusPoints = targetEvent?.BonusPoints.FirstOrDefault(x => x.ID == bonusPointsId);
+
+            if (bonusPoints != null)
+            {
+                _context.BonusPoints.Remove(bonusPoints);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Event", new
+            {
+                eventId
+            });
+        }
 
         public IActionResult RemoveToken(string token, Guid eventId)
         {
@@ -332,7 +379,10 @@ namespace Votor.Areas.Portal.Controllers
         {
             var userId = await GetUserId();
             return _context.Events
+                .Include(x => x.Questions)
                 .Include(x => x.Options)
+                .Include(x => x.BonusPoints).ThenInclude(x => x.Option)
+                .Include(x => x.BonusPoints).ThenInclude(x => x.Question)
                 .Include(x => x.Votes).ThenInclude(x => x.Choices)
                 .Include(x => x.Votes).ThenInclude(x => x.Token)
                 .FirstOrDefault(x => x.ID == id && x.UserID == userId);
@@ -445,9 +495,31 @@ namespace Votor.Areas.Portal.Controllers
                 {
                     Id = x.ID,
                     Option = x.Name
+                }).ToList(),
+                Questions = targetEvent.Questions.Select(x => new QuestionModel
+                {
+                    Id = x.ID,
+                    Question = x.Text
                 }).ToList()
             };
 
+            var points = targetEvent.BonusPoints;
+
+            model.BonusPoints = new List<BonusPointsModel>();
+            foreach (var bonusPoints in points)
+            {
+                model.BonusPoints.Add(new BonusPointsModel
+                {
+                    BId = bonusPoints.ID,
+                    BPoints = bonusPoints.Points,
+                    BReason = bonusPoints.Reason,
+                    BQuestionId = bonusPoints.QuestionID,
+                    BOptionId = bonusPoints.OptionID,
+                    BQuestion = bonusPoints.Question?.Text,
+                    BOption = bonusPoints.Option?.Name
+                });
+            }
+            
             // calculate score if event is active
             if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
             {
@@ -472,6 +544,12 @@ namespace Votor.Areas.Portal.Controllers
                         {
                             chartValue.Value += choices * (recordVote.Token?.Weight ?? 0);
                         }
+                    }
+
+                    var bonusPoints = model.BonusPoints.Where(x => x.BOptionId == option.ID);
+                    foreach (var record in bonusPoints)
+                    {
+                        chartValue.Value += record.BPoints;
                     }
 
                     chartValues.Add(chartValue);
@@ -568,16 +646,44 @@ namespace Votor.Areas.Portal.Controllers
         public DateTime? EndDate { get; set; }
 
         public List<OptionModel> Options { get; set; } = new List<OptionModel>();
+        public List<QuestionModel> Questions { get; set; } = new List<QuestionModel>();
         public List<TokenDetailModel> Tokens { get; set; }
+
+        public List<BonusPointsModel> BonusPoints { get; set; }
 
         public List<ChartValue> TokenValues { get; set; } = new List<ChartValue>();
         public List<ChartValue> ChartValues { get; set; } = new List<ChartValue>();
     }
 
+    public class BonusPointsModel
+    {
+        public Guid BId { get; set; }
+        public Guid BEventId { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [Range(-100, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Display(Name = "Points")]
+        public double BPoints { get; set; }
+
+        [StringLength(400, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
+        [Display(Name = "Reason")]
+        public string BReason { get; set; }
+
+        public Guid? BOptionId { get; set; }
+        [Display(Name = "Choice")]
+        public string BOption { get; set; }
+        public Guid? BQuestionId { get; set; }
+        [Display(Name = "Question")]
+        public string BQuestion { get; set; }
+
+        public List<OptionModel> Options { get; set; }
+        public List<QuestionModel> Questions { get; set; }
+    }
+
     public class TokenDetailModel
     {
         public string Name { get; set; }
-        public int Completed { get; set; } = 0;
+        public int Completed { get; set; }
         public int Count { get; set; }
         public double Weight { get; set; }
         public string Restriction { get; set; }

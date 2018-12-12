@@ -211,6 +211,7 @@ namespace Votor.Areas.Voting.Controllers
                 .AsNoTracking()
                 .ToList();
 
+            var bonusPoints = targetEvent.BonusPoints;
 
             var allChoices = votes.SelectMany(x => x.Choices).ToList();
             var tokenChoices = allChoices.Where(x => x.Vote.TokenID.HasValue).ToList();
@@ -218,19 +219,22 @@ namespace Votor.Areas.Voting.Controllers
 
             model.PublicVotes = votes.Count(x => x.CookieID.HasValue);
             model.TokenVotes = votes.Count(x => x.TokenID.HasValue);
+            model.BonusPoints = bonusPoints.Count;
             
             model.Score = new DistributionPieChartModel
             {
                 Title = _localizer["Score"],
                 PublicVotes = publicChoices.Count,
-                TokenVotes = tokenChoices.Sum(x => x.Vote.Token?.Weight ?? 0)
+                TokenVotes = tokenChoices.Sum(x => x.Vote.Token?.Weight ?? 0),
+                BonusPoints = Math.Abs(bonusPoints.Sum(x => x.Points))
             };
 
             model.Distribution = new DistributionPieChartModel
             {
                 Title = _localizer["Votes"],
                 PublicVotes = model.PublicVotes,
-                TokenVotes = model.TokenVotes
+                TokenVotes = model.TokenVotes,
+                BonusPoints = model.BonusPoints
             };
 
             model.Questions = new List<QuestionBarChartModel>();
@@ -242,6 +246,7 @@ namespace Votor.Areas.Voting.Controllers
                     Title = question.Text,
                     PublicValues = new List<ChartValue>(),
                     TokenValues = new List<ChartValue>(),
+                    BonusPointsValues = new List<ChartValue>(),
                     Score = new List<ChartValue>()
                 };
 
@@ -262,10 +267,18 @@ namespace Votor.Areas.Voting.Controllers
                     };
                     questionModel.PublicValues.Add(publicValue);
 
+                    var bonusPointValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = bonusPoints.Where(x => x.QuestionID == question.ID && x.OptionID == option.ID)
+                            .Sum(x => x.Points)
+                    };
+                    questionModel.BonusPointsValues.Add(bonusPointValue);
+
                     questionModel.Score.Add(new ChartValue
                     {
                         Name = option.Name,
-                        Value = tokenValue.Value + publicValue.Value
+                        Value = tokenValue.Value + publicValue.Value + bonusPointValue.Value
                     });
                 }
 
@@ -279,6 +292,7 @@ namespace Votor.Areas.Voting.Controllers
                     Title = _localizer["Overall"],
                     PublicValues = new List<ChartValue>(),
                     TokenValues = new List<ChartValue>(),
+                    BonusPointsValues = new List<ChartValue>(),
                     Score = new List<ChartValue>()
                 };
 
@@ -297,6 +311,14 @@ namespace Votor.Areas.Voting.Controllers
                         Value = publicChoices.Count(x => x.OptionID == option.ID)
                     };
                     model.Overall.PublicValues.Add(publicValue);
+
+                    var bonusPointValue = new ChartValue
+                    {
+                        Name = option.Name,
+                        Value = bonusPoints.Where(x => x.OptionID == option.ID)
+                            .Sum(x => x.Points)
+                    };
+                    model.Overall.BonusPointsValues.Add(bonusPointValue);
 
                     model.Overall.Score.Add(new ChartValue
                     {
@@ -326,6 +348,7 @@ namespace Votor.Areas.Voting.Controllers
                 .Include(x => x.Questions)
                 .Include(x => x.Options)
                 .Include(x => x.Tokens)
+                .Include(x => x.BonusPoints)
                 .AsNoTracking().FirstOrDefault();
         }
 
@@ -504,6 +527,7 @@ namespace Votor.Areas.Voting.Controllers
 
         public int PublicVotes { get; set; }
         public int TokenVotes { get; set; }
+        public int BonusPoints { get; set; }
 
         public DistributionPieChartModel Score { get; set; }
         public DistributionPieChartModel Distribution { get; set; }
@@ -518,6 +542,7 @@ namespace Votor.Areas.Voting.Controllers
         public string Title { get; set; }
         public double PublicVotes { get; set; }
         public double TokenVotes { get; set; }
+        public double BonusPoints { get; set; }
     }
 
     
@@ -526,6 +551,7 @@ namespace Votor.Areas.Voting.Controllers
         public string Title { get; set; }
         public List<ChartValue> PublicValues { get; set; }
         public List<ChartValue> TokenValues { get; set; }
+        public List<ChartValue> BonusPointsValues { get; set; }
         public List<ChartValue> Score { get; set; }
     }
 

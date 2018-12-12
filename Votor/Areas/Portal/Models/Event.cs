@@ -32,5 +32,6 @@ namespace Votor.Areas.Portal.Models
         public ICollection<Question> Questions { get; set; }
         public ICollection<Token> Tokens { get; set; }
         public ICollection<Vote> Votes { get; set; }
+        public ICollection<BonusPoints> BonusPoints { get; set; }
     }
 }

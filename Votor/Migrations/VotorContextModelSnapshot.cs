@@ -19,6 +19,32 @@ namespace Votor.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Votor.Areas.Portal.Models.BonusPoints", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("EventID");
+
+                    b.Property<Guid?>("OptionID");
+
+                    b.Property<double>("Points");
+
+                    b.Property<Guid?>("QuestionID");
+
+                    b.Property<string>("Reason");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EventID");
+
+                    b.HasIndex("OptionID");
+
+                    b.HasIndex("QuestionID");
+
+                    b.ToTable("BonusPoints");
+                });
+
             modelBuilder.Entity("Votor.Areas.Portal.Models.Choice", b =>
                 {
                     b.Property<Guid>("ID")
@@ -141,6 +167,22 @@ namespace Votor.Migrations
                     b.HasIndex("TokenID");
 
                     b.ToTable("Vote");
+                });
+
+            modelBuilder.Entity("Votor.Areas.Portal.Models.BonusPoints", b =>
+                {
+                    b.HasOne("Votor.Areas.Portal.Models.Event", "Event")
+                        .WithMany("BonusPoints")
+                        .HasForeignKey("EventID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Votor.Areas.Portal.Models.Option", "Option")
+                        .WithMany()
+                        .HasForeignKey("OptionID");
+
+                    b.HasOne("Votor.Areas.Portal.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionID");
                 });
 
             modelBuilder.Entity("Votor.Areas.Portal.Models.Choice", b =>

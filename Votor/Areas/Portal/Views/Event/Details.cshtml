@@ -11,7 +11,9 @@
         <div class="card card-no-bottom-padding @ViewBag.cardColor">
             <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
                 <div class="card-title">
-                    @Model.Name
+                    @(Model.StartDate.HasValue || Model.EndDate.HasValue
+                          ? Localizer["Overall Winner"]
+                          : Localizer["Invites"])
                 </div>
                 @{
                     if (Model.StartDate.HasValue || Model.EndDate.HasValue)
@@ -82,6 +84,64 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row no-margin-bottom">
+    <div class="col s12 m6 l4">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <span class="card-title">
+                    @Localizer["Bonus Points"]
+                </span>
+                @{
+                    await Html.RenderPartialAsync("_AddBonusPointsPartial", new BonusPointsModel
+                    {
+                        BEventId = Model.Id,
+                        BPoints = 0,
+                        BReason = string.Empty,
+                        Options = Model.Options,
+                        Questions = Model.Questions
+                    });
+                }
+            </div>
+        </div>
+    </div>
+
+    @foreach (var record in Model.BonusPoints)
+    {
+        <div class="col s12 m6 l4">
+            <div class="card @ViewBag.cardColor">
+                <div class="card-content @ViewBag.cardTextColor">
+
+                    <div class="card-title">
+                        @record.BQuestion: @record.BOption
+                    </div>
+                    <div class="black-text">
+                        <p class="@ViewBag.cardTextColor">
+                            @record.BPoints @(Math.Abs(record.BPoints - 1) < 0.000001 || Math.Abs(record.BPoints - (-1)) < 0.000001
+                                                  ? Localizer["Bonus Point"]
+                                                  : Localizer["Bonus Points"])
+                        </p>
+                        
+                        @if (!string.IsNullOrEmpty(record.BReason))
+                        {
+                            <div class="btn-margin-top-5"></div>
+                            <p>@Localizer["Reason"]:</p>
+                            <p>
+                                @record.BReason
+                            </p>
+                        }
+                    </div>
+
+                    <a target="_blank" asp-controller="Event" asp-action="RemoveBonusPoints" asp-route-eventId="@Model.Id"
+                       asp-route-bonusPointsId="@record.BId" title="@Localizer["Delete"]"
+                       class="deep-orange-text accent-3 votor-card-action">
+                        <i class="material-icons left">delete</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 <div class="row no-margin-bottom">
