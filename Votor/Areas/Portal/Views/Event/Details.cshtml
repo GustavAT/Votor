@@ -85,6 +85,28 @@
 </div>
 
 <div class="row no-margin-bottom">
+    <div class="col s12 m6 l4">
+        <div class="card @ViewBag.cardColor">
+            <div class="card-content card-no-bottom-padding @ViewBag.cardTextColor">
+                <span class="card-title">
+                    @Localizer["Bonus Points"]
+                </span>
+                @{
+                    await Html.RenderPartialAsync("_AddBonusPointsPartial", new BonusPointsModel
+                    {
+                        BEventId = Model.Id,
+                        BPoints = 0,
+                        BReason = string.Empty,
+                        Options = Model.Options,
+                        Questions = Model.Questions
+                    });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-margin-bottom">
     
     @if (!Model.EndDate.HasValue)
     {

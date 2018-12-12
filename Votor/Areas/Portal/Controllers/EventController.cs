@@ -448,14 +448,14 @@ namespace Votor.Areas.Portal.Controllers
                     Id = x.ID,
                     Option = x.Name
                 }).ToList(),
-                BonusPoints = targetEvent.BonusPoints
-                    .Select(x => new BonusPointsModel
-                    {
-                        ID = x.ID,
-                        Points = x.Points
-                    }).ToList()
+                Questions = targetEvent.Questions.Select(x => new QuestionModel
+                {
+                    Id = x.ID,
+                    Question = x.Text
+                }).ToList()
             };
 
+            
             // calculate score if event is active
             if (targetEvent.StartDate.HasValue || targetEvent.EndDate.HasValue)
             {
@@ -576,6 +576,7 @@ namespace Votor.Areas.Portal.Controllers
         public DateTime? EndDate { get; set; }
 
         public List<OptionModel> Options { get; set; } = new List<OptionModel>();
+        public List<QuestionModel> Questions { get; set; } = new List<QuestionModel>();
         public List<TokenDetailModel> Tokens { get; set; }
 
         public List<BonusPointsModel> BonusPoints { get; set; }
@@ -584,11 +585,29 @@ namespace Votor.Areas.Portal.Controllers
         public List<ChartValue> ChartValues { get; set; } = new List<ChartValue>();
     }
 
-    // TODO
     public class BonusPointsModel
     {
-        public Guid ID { get; set; }
-        public double Points { get; set; }
+        public Guid BId { get; set; }
+        public Guid BEventId { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [Range(0.1, 100, ErrorMessage = "The {0} field must be between {1} and  {2}.")]
+        [Display(Name = "Punkte")]
+        public double BPoints { get; set; }
+
+        [StringLength(400, ErrorMessage = "The {0} field must be at least {2} and at max {1} characters long.", MinimumLength = 0)]
+        [Display(Name = "Reason")]
+        public string BReason { get; set; }
+
+        public Guid? BOptionId { get; set; }
+        [Display(Name = "Choice")]
+        public string BOption { get; set; }
+        public Guid? BQuestionId { get; set; }
+        [Display(Name = "Question")]
+        public string BQuestion { get; set; }
+
+        public List<OptionModel> Options { get; set; }
+        public List<QuestionModel> Questions { get; set; }
     }
 
     public class TokenDetailModel

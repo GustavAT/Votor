@@ -1,0 +1,54 @@
+﻿@model Votor.Areas.Portal.Controllers.BonusPointsModel
+
+@using (Html.BeginForm("AddBonusPoints", "Event", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.BEventId)
+
+    <div class="input-field">
+        <i class="material-icons prefix">exposure_plus_1</i>
+
+        @Html.LabelFor(model => model.BPoints)
+        @Html.TextBoxFor(model => model.BPoints)
+        @Html.ValidationMessageFor(model => model.BPoints, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+    <div class="input-field">
+        @Html.LabelFor(model => model.BReason)
+        @Html.TextAreaFor(model => model.BReason, new
+        {
+            @class = "materialize-textarea"
+        })
+        @Html.ValidationMessageFor(model => model.BReason, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+    <div class="input-field">
+
+        <select asp-for="@Model.BQuestionId" asp-items="@(new SelectList(Model.Questions, "Id", "Question"))"></select>
+        @Html.LabelFor(model => model.BQuestion)
+
+        @Html.ValidationMessageFor(model => model.BQuestion, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <div class="input-field">
+
+        <select asp-for="@Model.BOptionId" asp-items="@(new SelectList(Model.Options, "Id", "Option"))"></select>
+        @Html.LabelFor(model => model.BOption)
+
+        @Html.ValidationMessageFor(model => model.BOption, "", new
+        {
+            @class = "red-text text-darken-1"
+        })
+    </div>
+
+    <div class="card-internal-action card-action-overflow">
+        <button type="submit" class="btn waves-effect waves-light right @ViewBag.mainColor">@Localizer["Add"]</button>
+    </div>
+
+}
