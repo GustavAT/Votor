@@ -4,7 +4,17 @@
 	</div>
 	<div class="footer-copyright center">
 		<div class="container">
-			&copy; @DateTime.Now.Year Votor
+			<div class="row">
+				<div class="col s4">
+					<a asp-route="Privacy" class="white-text">Privacy Policy</a>
+				</div>
+				<div class="col s4">
+					&copy; @DateTime.Now.Year Votor
+				</div>
+				<div class="col s4">
+					<a asp-route="Terms" class="white-text">Terms of Use</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </footer>
