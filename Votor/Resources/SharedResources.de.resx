@@ -657,4 +657,19 @@
   <data name="This website uses cookies to ensure you get the best experience on our website." xml:space="preserve">
     <value>Diese Internetseite benutzt sog. Cookies (kleine Textdateien) für die korrekte Darstellung von Inhalten.</value>
   </data>
+  <data name="Bonus Points" xml:space="preserve">
+    <value>Bonus Punkte</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Begründung</value>
+  </data>
+  <data name="Bonus Point" xml:space="preserve">
+    <value>Bonus Punkt</value>
+  </data>
+  <data name="Overall Winner" xml:space="preserve">
+    <value>Gesamt-Sieger</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Punkte</value>
+  </data>
 </root>

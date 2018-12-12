@@ -47,7 +47,7 @@
                         },
                         center: ["50%", "60%"],
                         data: data.series,
-                        color: ["#7b1fa2", "#00acc1"]
+                        color: ["#7b1fa2", "#00acc1", "#03a9f4"]
 
                     }
                 ]
@@ -73,6 +73,12 @@
             data.series.push({
                 name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Invites"]))",
                 value: @Model.TokenVotes.ToString(CultureInfo.InvariantCulture)
+            });
+
+            data.legend.push("@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Bonus Points"]))");
+            data.series.push({
+                name: "@Html.Raw(HttpUtility.JavaScriptStringEncode(Localizer["Bonus Points"]))",
+                value: @Model.BonusPoints.ToString(CultureInfo.InvariantCulture)
             });
             
             return data;
