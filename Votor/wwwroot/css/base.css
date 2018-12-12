@@ -198,3 +198,19 @@ body{
 .margin-top-20 {
 	margin-top: 20px;
 }
+
+.heroshot-background {
+	background-color: slategray;
+}
+.feature-background {
+	background-color: slategrey;
+}
+
+.no-margin-top {
+	margin-top: 0;
+}
+
+.margin-bottom-25 {
+	margin-bottom: 25px;
+}
+
