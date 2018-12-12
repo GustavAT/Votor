@@ -657,4 +657,10 @@
   <data name="This website uses cookies to ensure you get the best experience on our website." xml:space="preserve">
     <value>Diese Internetseite benutzt sog. Cookies (kleine Textdateien) für die korrekte Darstellung von Inhalten.</value>
   </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Datenschutzvereinbarung</value>
+  </data>
+  <data name="Terms of Use" xml:space="preserve">
+    <value>Geschäftsbedingungen</value>
+  </data>
 </root>
