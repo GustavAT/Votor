@@ -69,7 +69,7 @@
 
                     @if (Model.EndDate.HasValue)
                     {
-                        <a target="_blank" asp-area="" asp-controller="Vote" asp-action="Result" asp-route-eventId="@Model.Id"
+                        <a target="_blank" asp-area="Voting" asp-controller="Vote" asp-action="Result" asp-route-eventId="@Model.Id"
                            class="btn waves-effect waves-light button-seperator right @ViewBag.MainColor">
                             <i class="material-icons left">insert_chart</i>@Localizer["Results"]
                         </a>
@@ -194,7 +194,7 @@
                         }
                     </div>
 
-                    <a target="_blank" asp-controller="Event" asp-action="RemoveBonusPoints" asp-route-eventId="@Model.Id"
+                    <a asp-controller="Event" asp-action="RemoveBonusPoints" asp-route-eventId="@Model.Id"
                        asp-route-bonusPointsId="@record.BId" title="@Localizer["Delete"]"
                        class="deep-orange-text accent-3 votor-card-action">
                         <i class="material-icons left">delete</i>
