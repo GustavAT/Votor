@@ -1,20 +1,18 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /app
-EXPOSE 51031
-EXPOSE 44337
+EXPOSE 44358 
+EXPOSE 64913
 
-FROM microsoft/dotnet:2.1-sdk AS build
-WORKDIR /src
-COPY Votor/Votor.csproj Votor/
-RUN dotnet restore Votor/Votor.csproj
-COPY . .
-WORKDIR /src/Votor
-RUN dotnet build Votor.csproj -c Release -o /app
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish Votor.csproj -c Release -o /app
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "Votor.dll"]
