@@ -12,7 +12,8 @@ namespace Votor
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+
+			var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -21,6 +22,9 @@ namespace Votor
                 {
                     var context = services.GetRequiredService<VotorContext>();
                     DbInitializer.Initialize(context);
+					var identiyContext = services.GetRequiredService<ApplicationDbContext>();
+					DbInitializer.Initialize(identiyContext);
+
                 }
                 catch (Exception ex)
                 {

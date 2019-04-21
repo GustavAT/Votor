@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Votor.Areas.Portal.Models;
 
 namespace Votor.Areas.Portal.Data
 {
     public class VotorContext : DbContext
-    {
-        public VotorContext(DbContextOptions options) : base(options)
+
+	{
+		public VotorContext(DbContextOptions options) : base(options)
         {
 
         }

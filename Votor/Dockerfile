@@ -11,6 +11,10 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
+# Set secrets
+COPY secrets.json ./
+RUN cat ./secrets.json | dotnet user-secrets set
+
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 WORKDIR /app
